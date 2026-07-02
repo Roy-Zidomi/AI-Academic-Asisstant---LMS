@@ -103,7 +103,7 @@ services:
     entrypoint: [
       "/bin/bash",
       "-c",
-      "mkdir -p /opt/bitnami/moodle/local/aiacademic && cp -r /tmp/aiacademic/. /opt/bitnami/moodle/local/aiacademic/ && exec /opt/bitnami/scripts/moodle/entrypoint.sh /opt/bitnami/scripts/moodle/run.sh"
+      "mkdir -p /opt/bitnami/moodle/local/aiacademic && cp -r /tmp/aiacademic/. /opt/bitnami/moodle/local/aiacademic/ && chown -R daemon:daemon /opt/bitnami/moodle/local/aiacademic && chown -R daemon:daemon /bitnami/moodledata && exec /opt/bitnami/scripts/moodle/entrypoint.sh /opt/bitnami/scripts/moodle/run.sh"
     ]
     volumes:
       - moodledata:/bitnami/moodle
