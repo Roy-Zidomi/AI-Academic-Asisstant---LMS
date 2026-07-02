@@ -1,0 +1,300 @@
+# ============================================================================
+# AI-AA LMS — Docker Compose
+# AI Academic Assistant Learning Management System
+#
+# Services: Nginx, Moodle, PostgreSQL, Redis, Ollama, AI Service, pgAdmin
+# Network:  ai-aa-lms-network (bridge)
+# Volumes:  Named volumes for persistent data
+# ============================================================================
+
+services:
+
+  # ==========================================================================
+  # PostgreSQL 17 — Primary Database
+  # ==========================================================================
+  postgres:
+    image: postgres:17-alpine
+    container_name: aaalms-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-moodle}
+      POSTGRES_USER: ${POSTGRES_USER:-moodle}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-moodle_secret_change_me}
+      POSTGRES_INITDB_ARGS: "--encoding=UTF8 --locale=en_US.UTF-8"
+      TZ: ${TZ:-Asia/Jakarta}
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+      - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
+    ports:
+      - "5432:5432"   # Exposed for development; remove in production
+    networks:
+      - ai-aa-lms-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-moodle} -d ${POSTGRES_DB:-moodle}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  # ==========================================================================
+  # Redis 7 — Session Store, Cache, Rate Limiting
+  # ==========================================================================
+  redis:
+    image: redis:7-alpine
+    container_name: aaalms-redis
+    restart: unless-stopped
+    command: >
+      redis-server
+      --maxmemory 256mb
+      --maxmemory-policy allkeys-lru
+      --appendonly yes
+      --appendfsync everysec
+      --requirepass ${REDIS_PASSWORD:-redis_secret_change_me}
+    volumes:
+      - redisdata:/data
+    ports:
+      - "6379:6379"   # Exposed for development; remove in production
+    networks:
+      - ai-aa-lms-network
+    healthcheck:
+      test: ["CMD", "redis-cli", "-a", "${REDIS_PASSWORD:-redis_secret_change_me}", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # ==========================================================================
+  # Moodle 5.x — Core LMS Application
+  # ==========================================================================
+  moodle:
+    image: bitnamilegacy/moodle:4
+    container_name: aaalms-moodle
+    restart: unless-stopped
+    environment:
+      # Database
+      MOODLE_DATABASE_TYPE: pgsql
+      MOODLE_DATABASE_HOST: ${MOODLE_DATABASE_HOST:-postgres}
+      MOODLE_DATABASE_PORT_NUMBER: ${MOODLE_DATABASE_PORT_NUMBER:-5432}
+      MOODLE_DATABASE_NAME: ${MOODLE_DATABASE_NAME:-moodle}
+      MOODLE_DATABASE_USER: ${MOODLE_DATABASE_USER:-moodle}
+      MOODLE_DATABASE_PASSWORD: ${MOODLE_DATABASE_PASSWORD:-moodle_secret_change_me}
+      # Admin
+      MOODLE_USERNAME: ${MOODLE_USERNAME:-admin}
+      MOODLE_PASSWORD: ${MOODLE_PASSWORD:-Admin@12345}
+      MOODLE_EMAIL: ${MOODLE_EMAIL:-admin@lms.local}
+      MOODLE_SITE_NAME: ${MOODLE_SITE_NAME:-AI Academic Assistant LMS}
+      MOODLE_LANG: ${MOODLE_LANG:-en}
+      MOODLE_SKIP_BOOTSTRAP: ${MOODLE_SKIP_BOOTSTRAP:-no}
+      # PHP
+      PHP_MEMORY_LIMIT: 512M
+      PHP_MAX_EXECUTION_TIME: 300
+      PHP_UPLOAD_MAX_FILESIZE: 100M
+      PHP_POST_MAX_SIZE: 100M
+      # Timezone
+      TZ: ${TZ:-Asia/Jakarta}
+    entrypoint: [
+      "/bin/bash",
+      "-c",
+      "mkdir -p /opt/bitnami/moodle/local/aiacademic && cp -r /tmp/aiacademic/. /opt/bitnami/moodle/local/aiacademic/ && exec /opt/bitnami/scripts/moodle/entrypoint.sh /opt/bitnami/scripts/moodle/run.sh"
+    ]
+    volumes:
+      - moodledata:/bitnami/moodle
+      - moodledata_data:/bitnami/moodledata
+      # Mount custom plugin to temp directory for startup copy
+      - ./moodle/local/aiacademic:/tmp/aiacademic:ro
+
+    ports:
+      - "8080:8080"   # Exposed for development; Nginx proxies in production
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    networks:
+      - ai-aa-lms-network
+    healthcheck:
+      test: ["CMD-SHELL", "php -r 'file_get_contents(\"http://localhost:8080/login/index.php\") ?: exit(1);'"]
+      interval: 30s
+      timeout: 15s
+      retries: 3
+      start_period: 180s
+    deploy:
+      resources:
+        limits:
+          memory: 1G
+
+  # ==========================================================================
+  # Ollama — Local LLM Runtime
+  # ==========================================================================
+  ollama:
+    image: ollama/ollama:latest
+    container_name: aaalms-ollama
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Jakarta}
+    volumes:
+      - ollama_models:/root/.ollama
+    ports:
+      - "11434:11434"   # Exposed for development
+    networks:
+      - ai-aa-lms-network
+    healthcheck:
+      test: ["CMD-SHELL", "ollama list || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    deploy:
+      resources:
+        limits:
+          memory: 8G
+
+  # ==========================================================================
+  # AI Service — AI Middleware (Python/FastAPI)
+  # ==========================================================================
+  ai-service:
+    build:
+      context: ./ai-service
+      dockerfile: Dockerfile
+    container_name: aaalms-ai-service
+    restart: unless-stopped
+    environment:
+      # AI Service Config
+      ENVIRONMENT: ${ENVIRONMENT:-development}
+      AI_API_KEY: ${AI_API_KEY:-ai_api_key_change_me_in_production}
+      AI_LOG_LEVEL: ${AI_LOG_LEVEL:-INFO}
+      # Ollama
+      OLLAMA_BASE_URL: http://${OLLAMA_HOST:-ollama}:${OLLAMA_PORT:-11434}
+      AI_DEFAULT_MODEL_CHAT: ${AI_DEFAULT_MODEL_CHAT:-llama3}
+      AI_DEFAULT_MODEL_SUMMARY: ${AI_DEFAULT_MODEL_SUMMARY:-llama3}
+      AI_DEFAULT_MODEL_QUIZ: ${AI_DEFAULT_MODEL_QUIZ:-llama3}
+      # PostgreSQL
+      DATABASE_URL: postgresql://${POSTGRES_USER:-moodle}:${POSTGRES_PASSWORD:-moodle_secret_change_me}@${MOODLE_DATABASE_HOST:-postgres}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-moodle}
+      # Redis
+      REDIS_URL: redis://:${REDIS_PASSWORD:-redis_secret_change_me}@${REDIS_HOST:-redis}:${REDIS_PORT:-6379}/0
+      # Rate Limits
+      AI_RATE_LIMIT_CHAT: ${AI_RATE_LIMIT_CHAT:-20}
+      AI_RATE_LIMIT_SUMMARY: ${AI_RATE_LIMIT_SUMMARY:-10}
+      AI_RATE_LIMIT_QUIZ: ${AI_RATE_LIMIT_QUIZ:-5}
+      AI_MAX_INPUT_LENGTH: ${AI_MAX_INPUT_LENGTH:-2000}
+      AI_CHAT_HISTORY_LIMIT: ${AI_CHAT_HISTORY_LIMIT:-5}
+      TZ: ${TZ:-Asia/Jakarta}
+    ports:
+      - "8000:8000"   # Exposed for development
+    depends_on:
+      postgres:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+      ollama:
+        condition: service_healthy
+    networks:
+      - ai-aa-lms-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:8000/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 30s
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+  # ==========================================================================
+  # Nginx — Reverse Proxy & SSL Termination
+  # ==========================================================================
+  nginx:
+    image: nginx:1.25-alpine
+    container_name: aaalms-nginx
+    restart: unless-stopped
+    environment:
+      TZ: ${TZ:-Asia/Jakarta}
+    volumes:
+      - ./docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./docker/nginx/ssl:/etc/nginx/ssl:ro
+    ports:
+      - "${NGINX_HTTP_PORT:-80}:80"
+      - "${NGINX_HTTPS_PORT:-443}:443"
+    depends_on:
+      moodle:
+        condition: service_started
+    networks:
+      - ai-aa-lms-network
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://localhost:80/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    deploy:
+      resources:
+        limits:
+          memory: 128M
+
+  # ==========================================================================
+  # pgAdmin 4 — Database Administration
+  # ==========================================================================
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: aaalms-pgadmin
+    restart: unless-stopped
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-admin@lms.local}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-pgadmin_secret_change_me}
+      PGADMIN_LISTEN_PORT: ${PGADMIN_LISTEN_PORT:-5050}
+      TZ: ${TZ:-Asia/Jakarta}
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+      - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
+    ports:
+      - "8081:5050"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks:
+      - ai-aa-lms-network
+    deploy:
+      resources:
+        limits:
+          memory: 512M
+
+# ==============================================================================
+# Networks
+# ==============================================================================
+networks:
+  ai-aa-lms-network:
+    name: ai-aa-lms-network
+    driver: bridge
+
+# ==============================================================================
+# Volumes — Persistent Data Storage
+# ==============================================================================
+volumes:
+  pgdata:
+    name: aaalms-pgdata
+    driver: local
+  moodledata:
+    name: aaalms-moodledata
+    driver: local
+  moodledata_data:
+    name: aaalms-moodledata-data
+    driver: local
+  redisdata:
+    name: aaalms-redisdata
+    driver: local
+  ollama_models:
+    name: aaalms-ollama-models
+    driver: local
+  pgadmin_data:
+    name: aaalms-pgadmin-data
+    driver: local

@@ -1,0 +1,915 @@
+// AI-AA LMS home/course landing page only.
+
+body.telu-page-home {
+  --telu-primary: #ED1C24;
+  --telu-primary-dark: #B01116;
+  --telu-primary-soft: #FDE7E8;
+  --telu-bg: #F8FAFC;
+  --telu-surface: #FFFFFF;
+  --telu-border: #E5E7EB;
+  --telu-text-primary: #111827;
+  --telu-text-secondary: #6B7280;
+  --telu-text-muted: #9CA3AF;
+  --telu-success: #16A34A;
+  --telu-warning: #F59E0B;
+  --telu-info: #2563EB;
+
+  min-height: 100vh;
+  background: var(--telu-bg);
+  color: var(--telu-text-primary);
+  font-family: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+
+  #page-wrapper {
+    min-height: 100vh;
+    background: var(--telu-bg);
+    padding: 0;
+  }
+
+  .navbar,
+  #page-header,
+  #page-footer,
+  .breadcrumb,
+  .activity-header {
+    display: none !important;
+  }
+
+  a {
+    color: var(--telu-primary);
+
+    &:hover {
+      color: var(--telu-primary-dark);
+    }
+  }
+}
+
+body.telu-page-home .telu-home-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  background: rgba(255, 255, 255, 0.92);
+  border-bottom: 1px solid rgba(229, 231, 235, 0.9);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  backdrop-filter: blur(14px);
+}
+
+body.telu-page-home .telu-home-navbar__inner {
+  display: grid;
+  grid-template-columns: auto auto minmax(220px, 1fr) auto;
+  align-items: center;
+  gap: 18px;
+  width: 100%;
+  max-width: 1280px;
+  min-height: 72px;
+  margin: 0 auto;
+  padding: 0 32px;
+}
+
+body.telu-page-home .telu-home-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  min-width: 0;
+  color: var(--telu-text-primary);
+  text-decoration: none;
+}
+
+body.telu-page-home .telu-home-brand__mark {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 14px;
+  background: linear-gradient(135deg, var(--telu-primary), var(--telu-primary-dark));
+  color: #FFFFFF;
+  box-shadow: 0 12px 24px rgba(237, 28, 36, 0.25);
+  font-size: 0.875rem;
+  font-weight: 800;
+}
+
+body.telu-page-home .telu-home-brand__text {
+  display: grid;
+  gap: 1px;
+
+  strong {
+    color: var(--telu-text-primary);
+    font-size: 0.9375rem;
+    font-weight: 800;
+    line-height: 1.15;
+    white-space: nowrap;
+  }
+
+  small {
+    color: var(--telu-text-secondary);
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1.25;
+  }
+}
+
+body.telu-page-home .telu-home-nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  min-width: 0;
+}
+
+body.telu-page-home .telu-home-nav__link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 12px;
+  border-radius: 12px;
+  color: var(--telu-text-secondary);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: color 160ms ease, background 160ms ease;
+
+  &:hover,
+  &.is-active {
+    background: var(--telu-primary-soft);
+    color: var(--telu-primary-dark);
+  }
+}
+
+body.telu-page-home .telu-home-search,
+body.telu-page-home .telu-home-course-filter {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  height: 44px;
+  padding: 0 14px;
+  border: 1px solid var(--telu-border);
+  border-radius: 999px;
+  background: #F8FAFC;
+  color: var(--telu-text-muted);
+
+  input {
+    width: 100%;
+    min-width: 0;
+    border: 0;
+    outline: 0;
+    background: transparent;
+    color: var(--telu-text-primary);
+    font-size: 0.875rem;
+
+    &::placeholder {
+      color: var(--telu-text-muted);
+    }
+  }
+
+  &:focus-within {
+    border-color: var(--telu-primary);
+    box-shadow: 0 0 0 4px rgba(237, 28, 36, 0.12);
+    background: #FFFFFF;
+  }
+}
+
+body.telu-page-home .telu-home-actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 8px;
+  min-width: 0;
+}
+
+body.telu-page-home .telu-home-iconbtn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--telu-border);
+  border-radius: 999px;
+  background: #FFFFFF;
+  color: var(--telu-text-secondary);
+  transition: color 160ms ease, border-color 160ms ease, background 160ms ease;
+
+  &:hover,
+  &:focus {
+    border-color: rgba(237, 28, 36, 0.35);
+    background: var(--telu-primary-soft);
+    color: var(--telu-primary-dark);
+  }
+}
+
+body.telu-page-home .telu-home-user {
+  .usermenu .dropdown-toggle,
+  .usermenu .login {
+    border-radius: 999px;
+  }
+}
+
+body.telu-page-home .telu-home-actions .custom-control,
+body.telu-page-home .telu-home-actions .form-check,
+body.telu-page-home .telu-home-actions form {
+  margin: 0;
+}
+
+body.telu-page-home .telu-home {
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 32px;
+}
+
+body.telu-page-home .telu-home-hero {
+  position: relative;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 340px;
+  gap: 32px;
+  overflow: hidden;
+  min-height: 360px;
+  padding: 48px;
+  border-radius: 28px;
+  background:
+    radial-gradient(circle at 86% 18%, rgba(255, 255, 255, 0.22) 0 0, transparent 28%),
+    linear-gradient(135deg, var(--telu-primary) 0%, var(--telu-primary-dark) 100%);
+  box-shadow: 0 28px 70px rgba(176, 17, 22, 0.22);
+  color: #FFFFFF;
+}
+
+body.telu-page-home .telu-home-hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 64px 64px;
+  opacity: 0.22;
+}
+
+body.telu-page-home .telu-home-hero__content,
+body.telu-page-home .telu-home-hero__visual,
+body.telu-page-home .telu-home-stats {
+  position: relative;
+  z-index: 1;
+}
+
+body.telu-page-home .telu-home-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  width: fit-content;
+  margin-bottom: 22px;
+  padding: 8px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.14);
+  color: #FFFFFF;
+  font-size: 0.8125rem;
+  font-weight: 800;
+}
+
+body.telu-page-home .telu-home-hero h1 {
+  max-width: 720px;
+  margin: 0;
+  color: #FFFFFF;
+  font-size: 3rem;
+  font-weight: 800;
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+body.telu-page-home .telu-home-hero p {
+  max-width: 660px;
+  margin: 18px 0 0;
+  color: rgba(255, 255, 255, 0.86);
+  font-size: 1.0625rem;
+  line-height: 1.7;
+}
+
+body.telu-page-home .telu-home-hero__cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 30px;
+}
+
+body.telu-page-home .telu-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  min-height: 46px;
+  padding: 0 18px;
+  border-radius: 12px;
+  font-size: 0.9375rem;
+  font-weight: 800;
+  text-decoration: none;
+  transition: transform 160ms ease, background 160ms ease, box-shadow 160ms ease;
+
+  &:hover {
+    transform: translateY(-1px);
+    text-decoration: none;
+  }
+}
+
+body.telu-page-home .telu-btn--primary {
+  background: #FFFFFF;
+  color: var(--telu-primary-dark);
+  box-shadow: 0 16px 30px rgba(17, 24, 39, 0.18);
+
+  &:hover {
+    color: var(--telu-primary-dark);
+    background: #FFF5F5;
+  }
+}
+
+body.telu-page-home .telu-btn--secondary {
+  border: 1px solid rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.12);
+  color: #FFFFFF;
+
+  &:hover {
+    background: rgba(255, 255, 255, 0.18);
+    color: #FFFFFF;
+  }
+}
+
+body.telu-page-home .telu-home-hero__visual {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+body.telu-page-home .telu-home-hero__glasscard {
+  display: grid;
+  gap: 8px;
+  width: 260px;
+  padding: 24px;
+  border: 1px solid rgba(255, 255, 255, 0.24);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.14);
+  box-shadow: 0 24px 60px rgba(17, 24, 39, 0.18);
+  backdrop-filter: blur(14px);
+
+  span {
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+
+  strong {
+    color: #FFFFFF;
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1;
+  }
+
+  small {
+    color: rgba(255, 255, 255, 0.82);
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+}
+
+body.telu-page-home .telu-home-hero__nodes {
+  position: absolute;
+  inset: 0;
+
+  span {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.10);
+  }
+
+  span:nth-child(1) { top: 18%; right: 16%; }
+  span:nth-child(2) { top: 32%; right: 42%; }
+  span:nth-child(3) { bottom: 22%; right: 12%; }
+  span:nth-child(4) { bottom: 16%; right: 46%; }
+}
+
+body.telu-page-home .telu-home-stats {
+  grid-column: 1 / -1;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 10px;
+
+  div {
+    padding: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.12);
+  }
+
+  strong {
+    display: block;
+    color: #FFFFFF;
+    font-size: 1.35rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  span {
+    display: block;
+    margin-top: 4px;
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 0.8125rem;
+    font-weight: 700;
+  }
+}
+
+body.telu-page-home .telu-home-section {
+  margin-top: 36px;
+}
+
+body.telu-page-home .telu-home-section__header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 18px;
+  margin-bottom: 18px;
+
+  h2 {
+    margin: 0;
+    color: var(--telu-text-primary);
+    font-size: 1.55rem;
+    font-weight: 800;
+    line-height: 1.2;
+  }
+
+  p {
+    margin: 7px 0 0;
+    color: var(--telu-text-secondary);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+}
+
+body.telu-page-home .telu-home-section__eyebrow {
+  display: block;
+  margin-bottom: 7px;
+  color: var(--telu-primary);
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0;
+}
+
+body.telu-page-home .telu-ai-tools {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+body.telu-page-home .telu-ai-card,
+body.telu-page-home .telu-side-card {
+  border: 1px solid var(--telu-border);
+  border-radius: 22px;
+  background: var(--telu-surface);
+  box-shadow: 0 16px 38px rgba(15, 23, 42, 0.06);
+}
+
+body.telu-page-home .telu-ai-card {
+  padding: 24px;
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+
+  &:hover {
+    border-color: rgba(237, 28, 36, 0.24);
+    box-shadow: 0 24px 52px rgba(15, 23, 42, 0.10);
+    transform: translateY(-3px);
+  }
+
+  h3 {
+    margin: 18px 0 8px;
+    color: var(--telu-text-primary);
+    font-size: 1.0625rem;
+    font-weight: 800;
+  }
+
+  p {
+    min-height: 46px;
+    margin: 0;
+    color: var(--telu-text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.55;
+  }
+
+  a {
+    display: inline-flex;
+    margin-top: 18px;
+    color: var(--telu-primary);
+    font-size: 0.875rem;
+    font-weight: 800;
+    text-decoration: none;
+
+    &:hover {
+      color: var(--telu-primary-dark);
+      text-decoration: underline;
+    }
+  }
+}
+
+body.telu-page-home .telu-ai-card__icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 16px;
+  background: var(--telu-primary-soft);
+  color: var(--telu-primary);
+  font-size: 1.1rem;
+}
+
+body.telu-page-home .telu-home-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 320px;
+  gap: 24px;
+  align-items: start;
+}
+
+body.telu-page-home .telu-home-course-filter {
+  flex: 0 1 270px;
+  height: 42px;
+  border-radius: 14px;
+  background: #FFFFFF;
+}
+
+body.telu-page-home .telu-moodle-content {
+  .secondary-navigation,
+  .moremenu {
+    margin: 0 0 22px;
+    overflow-x: auto;
+    border: 1px solid var(--telu-border);
+    border-radius: 18px;
+    background: #FFFFFF;
+    box-shadow: 0 12px 28px rgba(15, 23, 42, 0.04);
+  }
+
+  .moremenu .nav-tabs,
+  .nav-tabs {
+    flex-wrap: nowrap;
+    min-width: max-content;
+    border-bottom: 0;
+    padding: 0 12px;
+  }
+
+  .moremenu .nav-link,
+  .nav-tabs .nav-link {
+    position: relative;
+    min-height: 52px;
+    border: 0 !important;
+    color: var(--telu-text-secondary);
+    font-size: 0.9rem;
+    font-weight: 700;
+
+    &::after {
+      content: "";
+      position: absolute;
+      right: 12px;
+      bottom: 0;
+      left: 12px;
+      height: 3px;
+      border-radius: 999px 999px 0 0;
+      background: transparent;
+    }
+
+    &:hover {
+      color: var(--telu-primary-dark);
+      background: var(--telu-primary-soft);
+    }
+
+    &.active,
+    &[aria-current="true"] {
+      color: var(--telu-primary-dark) !important;
+      background: transparent !important;
+
+      &::after {
+        background: var(--telu-primary);
+      }
+    }
+  }
+
+  #region-main,
+  [role="main"] {
+    padding: 0;
+    border: 0;
+    background: transparent;
+  }
+
+  h2,
+  .course_category_tree .category > .info > .categoryname {
+    color: var(--telu-text-primary);
+    font-size: 1.25rem;
+    font-weight: 800;
+  }
+
+  .courses,
+  .frontpage-course-list-all,
+  .course_category_tree .courses {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 20px;
+  }
+
+  .coursebox,
+  .course_category_tree .coursebox {
+    position: relative;
+    overflow: hidden;
+    margin: 0;
+    padding: 0 !important;
+    border: 1px solid var(--telu-border) !important;
+    border-radius: 24px !important;
+    background: #FFFFFF;
+    box-shadow: 0 18px 44px rgba(15, 23, 42, 0.07);
+    transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+
+    &:hover {
+      border-color: rgba(237, 28, 36, 0.25) !important;
+      box-shadow: 0 26px 60px rgba(15, 23, 42, 0.12);
+      transform: translateY(-3px);
+    }
+
+    &::before {
+      content: "Active Course";
+      display: flex;
+      align-items: flex-start;
+      justify-content: flex-end;
+      min-height: 128px;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 18% 20%, rgba(255, 255, 255, 0.36), transparent 30%),
+        linear-gradient(135deg, var(--telu-primary), var(--telu-primary-dark));
+      color: #FFFFFF;
+      font-size: 0.75rem;
+      font-weight: 800;
+    }
+
+    &::after {
+      content: "0% completed";
+      display: block;
+      margin: 0 24px 24px;
+      padding-top: 14px;
+      border-top: 8px solid var(--telu-primary-soft);
+      color: var(--telu-text-secondary);
+      font-size: 0.8125rem;
+      font-weight: 700;
+    }
+  }
+
+  .coursebox > .info,
+  .coursebox .content {
+    padding-right: 24px !important;
+    padding-left: 24px !important;
+  }
+
+  .coursebox > .info {
+    padding-top: 22px !important;
+  }
+
+  .coursebox .content {
+    padding-bottom: 18px !important;
+  }
+
+  .coursebox .coursename {
+    margin: 0 0 10px;
+
+    a {
+      color: var(--telu-text-primary) !important;
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.25;
+      text-decoration: none !important;
+
+      &:hover {
+        color: var(--telu-primary-dark) !important;
+      }
+    }
+  }
+
+  .coursebox .summary,
+  .coursebox .teachers,
+  .coursebox .coursecat,
+  .coursebox .content {
+    color: var(--telu-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  .coursebox .teachers {
+    margin-top: 12px;
+
+    &::before {
+      content: "Lecturers";
+      display: block;
+      margin-bottom: 6px;
+      color: var(--telu-text-primary);
+      font-size: 0.8125rem;
+      font-weight: 800;
+    }
+  }
+
+  .coursebox .teachers li,
+  .coursebox .teachers a {
+    color: var(--telu-text-secondary);
+  }
+
+  .coursebox .moreinfo {
+    position: absolute;
+    right: 18px;
+    top: 18px;
+    z-index: 1;
+  }
+
+  .coursebox .activityicons,
+  .coursebox .courseimage,
+  .coursebox .enrolmenticons {
+    display: none;
+  }
+}
+
+body.telu-page-home .telu-home-sidebar {
+  display: grid;
+  gap: 16px;
+  margin-top: 36px;
+}
+
+body.telu-page-home .telu-side-card {
+  padding: 22px;
+
+  h3 {
+    margin: 0 0 10px;
+    color: var(--telu-text-primary);
+    font-size: 1rem;
+    font-weight: 800;
+  }
+
+  p,
+  li {
+    color: var(--telu-text-secondary);
+    font-size: 0.875rem;
+    line-height: 1.55;
+  }
+
+  p {
+    margin: 0;
+  }
+
+  ul {
+    margin: 0;
+    padding-left: 18px;
+  }
+}
+
+body.telu-page-home .telu-side-card--tip {
+  border-color: rgba(237, 28, 36, 0.18);
+  background: linear-gradient(180deg, #FFFFFF, #FFF7F7);
+}
+
+body.telu-page-home .telu-help-button {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1032;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 52px;
+  padding: 0 18px;
+  border-radius: 999px;
+  background: var(--telu-primary);
+  box-shadow: 0 18px 38px rgba(237, 28, 36, 0.28);
+  color: #FFFFFF;
+  font-size: 0.875rem;
+  font-weight: 800;
+  text-decoration: none;
+
+  i {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.18);
+  }
+
+  &:hover,
+  &:focus {
+    background: var(--telu-primary-dark);
+    color: #FFFFFF;
+    text-decoration: none;
+  }
+}
+
+@media (max-width: 1199px) {
+  body.telu-page-home .telu-home-navbar__inner {
+    grid-template-columns: auto minmax(0, 1fr) auto;
+  }
+
+  body.telu-page-home .telu-home-nav {
+    display: none;
+  }
+
+  body.telu-page-home .telu-home-hero {
+    grid-template-columns: 1fr;
+    padding: 40px;
+  }
+
+  body.telu-page-home .telu-home-hero__visual {
+    display: none;
+  }
+
+  body.telu-page-home .telu-ai-tools {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  body.telu-page-home .telu-home-grid {
+    grid-template-columns: 1fr;
+  }
+
+  body.telu-page-home .telu-home-sidebar {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 767px) {
+  body.telu-page-home .telu-home-navbar__inner {
+    grid-template-columns: auto 1fr auto;
+    gap: 10px;
+    min-height: 64px;
+    padding: 0 16px;
+  }
+
+  body.telu-page-home .telu-home-brand__text small,
+  body.telu-page-home .telu-home-search,
+  body.telu-page-home .telu-home-iconbtn,
+  body.telu-page-home .telu-home-actions .editmode-switch-form {
+    display: none;
+  }
+
+  body.telu-page-home .telu-home-brand__text strong {
+    max-width: 170px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  body.telu-page-home .telu-home {
+    padding: 20px 14px 92px;
+  }
+
+  body.telu-page-home .telu-home-hero {
+    min-height: 0;
+    padding: 28px 22px;
+    border-radius: 22px;
+  }
+
+  body.telu-page-home .telu-home-hero h1 {
+    font-size: 2rem;
+  }
+
+  body.telu-page-home .telu-home-hero p {
+    font-size: 0.95rem;
+  }
+
+  body.telu-page-home .telu-home-hero__cta {
+    flex-direction: column;
+  }
+
+  body.telu-page-home .telu-btn {
+    width: 100%;
+  }
+
+  body.telu-page-home .telu-home-stats,
+  body.telu-page-home .telu-ai-tools,
+  body.telu-page-home .telu-moodle-content .courses,
+  body.telu-page-home .telu-moodle-content .frontpage-course-list-all,
+  body.telu-page-home .telu-moodle-content .course_category_tree .courses,
+  body.telu-page-home .telu-home-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  body.telu-page-home .telu-home-section__header,
+  body.telu-page-home .telu-home-section__header--courses {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  body.telu-page-home .telu-home-course-filter {
+    flex-basis: auto;
+    width: 100%;
+  }
+
+  body.telu-page-home .telu-help-button {
+    right: 16px;
+    bottom: 16px;
+    width: 52px;
+    padding: 0;
+    justify-content: center;
+
+    span {
+      display: none;
+    }
+  }
+}

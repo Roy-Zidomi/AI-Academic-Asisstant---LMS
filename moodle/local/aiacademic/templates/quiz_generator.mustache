@@ -1,0 +1,129 @@
+<div class="local_aiacademic_quiz_container">
+    <div class="row">
+        <!-- Left Side: Control Panel Form -->
+        <div class="col-md-5">
+            <div class="card p-4 mb-4 select_material_card">
+                <h3>{{quiz_generator_title}}</h3>
+                <p class="text-muted">Configure prompt options and select material to generate draft questions.</p>
+                
+                <form id="quiz-gen-form" class="mt-4">
+                    <input type="hidden" name="sesskey" value="{{sesskey}}">
+
+                    <!-- Material -->
+                    <div class="form-group mb-3">
+                        <label for="material-select" class="font-weight-bold">Source Material</label>
+                        <select id="material-select" class="form-control" required>
+                            <option value="" disabled selected>-- Select Material --</option>
+                            {{#materials}}
+                                <option value="{{cmid}}" {{#selected}}selected{{/selected}}>{{name}}</option>
+                            {{/materials}}
+                        </select>
+                    </div>
+
+                    <!-- Question Types -->
+                    <div class="form-group mb-3">
+                        <label class="font-weight-bold">{{types_label}}</label>
+                        <div class="checkbox_group mt-1">
+                            <div class="form-check form-check-inline mr-3">
+                                <input class="form-check-input qtype-checkbox" type="checkbox" id="qtype-mcq" value="multichoice" checked>
+                                <label class="form-check-label" for="qtype-mcq">{{type_mcq}}</label>
+                            </div>
+                            <div class="form-check form-check-inline mr-3">
+                                <input class="form-check-input qtype-checkbox" type="checkbox" id="qtype-tf" value="truefalse" checked>
+                                <label class="form-check-label" for="qtype-tf">{{type_tf}}</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input qtype-checkbox" type="checkbox" id="qtype-essay" value="essay">
+                                <label class="form-check-label" for="qtype-essay">{{type_essay}}</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Number of Questions -->
+                    <div class="form-group mb-3">
+                        <label for="num-questions" class="font-weight-bold">{{num_questions_label}}</label>
+                        <input type="number" id="num-questions" class="form-control" min="1" max="50" value="10" required>
+                    </div>
+
+                    <!-- Difficulty -->
+                    <div class="form-group mb-4">
+                        <label for="difficulty-select" class="font-weight-bold">{{quiz_difficulty}}</label>
+                        <select id="difficulty-select" class="form-control">
+                            <option value="easy">{{difficulty_easy}}</option>
+                            <option value="medium" selected>{{difficulty_medium}}</option>
+                            <option value="hard">{{difficulty_hard}}</option>
+                            <option value="mixed">{{difficulty_mixed}}</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" id="btn-generate-quiz" class="btn btn-primary btn-block" {{^has_materials}}disabled{{/has_materials}}>
+                        <i class="fa fa-cogs"></i> {{generate_label}}
+                    </button>
+                </form>
+            </div>
+
+            <!-- Existing Drafts History -->
+            <div class="card p-4">
+                <h4>Quiz Generation History</h4>
+                <div class="drafts_list mt-3">
+                    {{#has_drafts}}
+                        <div class="list-group">
+                            {{#drafts}}
+                                <a href="#" class="list-group-item list-group-item-action draft-item" data-id="{{id}}">
+                                    <div class="d-flex w-100 justify-content-between">
+                                        <h6 class="mb-1 text-truncate" style="max-width: 75%;">{{filename}}</h6>
+                                        <small class="text-primary">{{status}}</small>
+                                    </div>
+                                    <p class="mb-1 text-muted" style="font-size: 0.85rem;">
+                                        {{count}} questions | {{difficulty}} difficulty
+                                    </p>
+                                    <small class="text-muted">{{timecreated}}</small>
+                                </a>
+                            {{/drafts}}
+                        </div>
+                    {{/has_drafts}}
+                    {{^has_drafts}}
+                        <p class="text-muted">No quiz drafts generated yet.</p>
+                    {{/has_drafts}}
+                </div>
+            </div>
+        </div>
+
+        <!-- Right Side: Action Review Panel -->
+        <div class="col-md-7">
+            <!-- Initial Info Screen -->
+            <div id="quiz-empty-state" class="card p-5 text-center justify-content-center align-items-center h-100 min-vh-50">
+                <i class="fa fa-file-text fa-4x text-muted mb-3"></i>
+                <h3>No Draft Loaded</h3>
+                <p class="text-muted">Select an existing draft from the history panel or configure the settings to generate a new quiz draft.</p>
+            </div>
+
+            <!-- Loading Spinner -->
+            <div id="quiz-loading-state" class="card p-5 text-center justify-content-center align-items-center h-100 min-vh-50" style="display: none;">
+                <div class="spinner_container mb-3">
+                    <i class="fa fa-spinner fa-spin fa-3x text-primary"></i>
+                </div>
+                <h3>{{generating_label}}</h3>
+                <p class="text-muted">Analyzing document text and formatting JSON output per question type. This might take up to 60 seconds.</p>
+            </div>
+
+            <!-- Active Draft Review Form -->
+            <div id="quiz-active-review" class="card p-4" style="display: none;">
+                <div class="review_header border-bottom pb-3 mb-4 d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 id="review-material-title">Draft Questions</h3>
+                        <span id="review-meta-subtitle" class="text-muted">Batch ID: # | 10 Questions</span>
+                    </div>
+                    <button id="btn-publish-all" class="btn btn-success">
+                        <i class="fa fa-cloud-upload"></i> {{quiz_publish_btn}}
+                    </button>
+                </div>
+
+                <!-- Questions List Accordion -->
+                <div id="questions-accordion" class="accordion mb-4">
+                    <!-- Questions injected by JS -->
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

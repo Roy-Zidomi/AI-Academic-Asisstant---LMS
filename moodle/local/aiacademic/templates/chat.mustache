@@ -1,0 +1,49 @@
+<div class="local_aiacademic_chat_container chat_layout">
+    <!-- Left Pane: Chat Sessions History -->
+    <div class="chat_sidebar">
+        <button id="btn-new-session" class="btn btn-primary btn-block">
+            <i class="fa fa-plus"></i> {{new_session_label}}
+        </button>
+        <div class="sidebar_title mt-3 mb-2">{{chat_history_label}}</div>
+        <div id="session-list" class="session_list">
+            <!-- Sessions injected by JS -->
+            <div class="loading_placeholder text-center py-3">
+                <i class="fa fa-spinner fa-spin"></i> Loading...
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Pane: Active Conversation -->
+    <div class="chat_main">
+        <div class="chat_header">
+            <h4 id="active-session-title">{{chat_title}}</h4>
+            <button id="btn-delete-session" class="btn btn-outline-danger btn-sm" style="display: none;">
+                <i class="fa fa-trash"></i>
+            </button>
+        </div>
+
+        <div id="chat-messages" class="chat_messages">
+            <div class="message assistant welcome_msg">
+                <div class="avatar">🤖</div>
+                <div class="msg_content">
+                    <p>{{welcome_message}}</p>
+                </div>
+            </div>
+            <!-- Messages dynamically loaded here -->
+        </div>
+
+        <div class="chat_input_area">
+            <div id="chat-typing-indicator" class="typing_indicator" style="display: none;">
+                <span></span><span></span><span></span> Academic assistant is thinking...
+            </div>
+            <form id="chat-form" class="chat_form">
+                <input type="hidden" name="sesskey" value="{{sesskey}}">
+                <input type="text" id="chat-input" class="form-control" placeholder="{{placeholder}}" autocomplete="off" required>
+                <button type="submit" id="btn-send" class="btn btn-primary">
+                    {{send_label}} <i class="fa fa-paper-plane"></i>
+                </button>
+            </form>
+            <div class="disclaimer_text text-center mt-2">{{disclaimer}}</div>
+        </div>
+    </div>
+</div>

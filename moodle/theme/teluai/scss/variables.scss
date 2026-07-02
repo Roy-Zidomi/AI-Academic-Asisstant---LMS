@@ -1,0 +1,60 @@
+// ============================================================================
+// Tel-U AI LMS Theme — Design Variables
+// Contains design tokens, colors, typography, borders, and animations.
+// ============================================================================
+
+// 1. BRAND COLORS (AI-AA LMS Visual Identity)
+$primary:            #ED1C24 !default; // Tel-U Red
+$primary-dark:       #B01116 !default; // Dark Red
+$primary-soft:       #FDE7E8 !default; // Soft Red background
+$primary-softer:     #FFF5F5 !default; // Extra light red for hover states
+$gray-dark:          #58595B !default; // Charcoal
+$gray-medium:        #808285 !default; // Medium Gray
+$gray-light:         #A7A9AC !default; // Light Gray
+
+// 2. NEUTRAL PALETTE (Inter / Tailwind-like Grayscale)
+$gray-900:           #111827 !default;
+$gray-800:           #1F2937 !default;
+$gray-700:           #374151 !default;
+$gray-600:           #4B5563 !default;
+$gray-500:           #6B7280 !default;
+$gray-400:           #9CA3AF !default;
+$gray-300:           #D1D5DB !default;
+$gray-200:           #E5E7EB !default;
+$gray-100:           #F3F4F6 !default;
+$gray-50:            #F9FAFB !default;
+
+// 3. SEMANTIC COLORS
+$success:            #16A34A !default;
+$success-soft:       #F0FDF4 !default;
+$warning:            #F59E0B !default;
+$warning-soft:       #FFFBEB !default;
+$danger:             #DC2626 !default;
+$danger-soft:        #FEF2F2 !default;
+$info:               #2563EB !default;
+$info-soft:          #EFF6FF !default;
+
+// 4. BODY & SURFACES
+$body-bg:            #F8FAFC !default; // Soft slate white
+$body-color:         #1F2937 !default; // Slate gray
+$card-bg:            #FFFFFF !default;
+$card-border-color:  #E5E7EB !default;
+
+// 5. TYPOGRAPHY
+$font-family-sans-serif: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, system-ui, sans-serif !default;
+$headings-font-weight:   700 !default;
+$font-size-base:         0.875rem !default; // 14px default
+
+// 6. LAYOUTS & COMPONENT BORDERS
+$card-border-radius:          1.5rem !default;   // 24px rounded corners
+$btn-border-radius:           0.75rem !default;  // 12px rounded buttons
+$btn-border-radius-lg:        0.75rem !default;
+$btn-border-radius-sm:        0.5rem !default;
+$input-border-radius:         0.75rem !default;  // 12px inputs
+$modal-content-border-radius: 1.5rem !default;   // 24px modals
+
+// 7. TRANSITIONS & SHADOWS
+$transition-base:             all 200ms cubic-bezier(0.4, 0, 0.2, 1) !default;
+$box-shadow-sm:               0 1px 2px rgba(15, 23, 42, 0.05) !default;
+$box-shadow-md:               0 4px 12px rgba(15, 23, 42, 0.05), 0 1px 3px rgba(15, 23, 42, 0.03) !default;
+$box-shadow-lg:               0 12px 32px rgba(15, 23, 42, 0.08), 0 2px 8px rgba(15, 23, 42, 0.04) !default;

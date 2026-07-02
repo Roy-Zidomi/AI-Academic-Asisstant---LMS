@@ -1,0 +1,115 @@
+{{!
+    @template theme_teluai/login
+
+    Split-screen login page for theme_teluai.
+}}
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper" class="telu-login-wrapper">
+    {{{ output.standard_top_of_body_html }}}
+
+    <main class="telu-login" aria-label="{{sitename}}">
+        <section class="telu-login__hero" aria-labelledby="telu-login-title">
+            <div class="telu-login__hero-inner">
+                <div class="telu-login__brand">
+                    <span class="telu-login__brand-mark" aria-hidden="true">
+                        <svg viewBox="0 0 48 48" width="48" height="48" focusable="false" role="img">
+                            <rect width="48" height="48" rx="14" fill="rgba(255,255,255,0.14)"/>
+                            <path d="M13 18L24 12L35 18V31L24 37L13 31V18Z" fill="none" stroke="#FFFFFF" stroke-width="2" stroke-linejoin="round"/>
+                            <circle cx="24" cy="23" r="5" fill="rgba(255,255,255,0.18)" stroke="#FFFFFF" stroke-width="1.6"/>
+                            <path d="M19 30C20.6 32 22.3 33 24 33C25.7 33 27.4 32 29 30" fill="none" stroke="#FFFFFF" stroke-width="1.8" stroke-linecap="round"/>
+                        </svg>
+                    </span>
+                    <span class="telu-login__brand-copy">
+                        <span class="telu-login__brand-name">AI-AA LMS</span>
+                        <span class="telu-login__brand-org">AI-Powered Learning</span>
+                    </span>
+                </div>
+
+                <div class="telu-login__hero-copy">
+                    <p class="telu-login__eyebrow">AI Academic Assistant LMS</p>
+                    <h1 id="telu-login-title" class="telu-login__title">Smart Learning, Powered by AI</h1>
+                    <p class="telu-login__lead">
+                        Platform pembelajaran cerdas berbasis Moodle dan Artificial Intelligence
+                        untuk pengalaman belajar yang lebih personal, efektif, dan interaktif.
+                    </p>
+                </div>
+
+                <div class="telu-login__feature-list" aria-label="AI learning features">
+                    <div class="telu-login__feature">
+                        <span class="telu-login__feature-icon" aria-hidden="true">
+                            <i class="fa fa-comments"></i>
+                        </span>
+                        <span>
+                            <strong>AI Academic Assistant</strong>
+                            <small>Asisten belajar cerdas 24/7</small>
+                        </span>
+                    </div>
+                    <div class="telu-login__feature">
+                        <span class="telu-login__feature-icon" aria-hidden="true">
+                            <i class="fa fa-file-text-o"></i>
+                        </span>
+                        <span>
+                            <strong>AI Material Summarizer</strong>
+                            <small>Ringkas materi dalam hitungan detik</small>
+                        </span>
+                    </div>
+                    <div class="telu-login__feature">
+                        <span class="telu-login__feature-icon" aria-hidden="true">
+                            <i class="fa fa-check-square-o"></i>
+                        </span>
+                        <span>
+                            <strong>AI Quiz Generator</strong>
+                            <small>Buat soal otomatis dari materi</small>
+                        </span>
+                    </div>
+                </div>
+
+                <p class="telu-login__copyright">
+                    &copy; 2026 AI-AA LMS. AI-powered learning environment.
+                </p>
+            </div>
+        </section>
+
+        <section class="telu-login__panel" aria-label="Login form">
+            <div class="telu-login__panel-inner">
+                <div class="telu-login__mobile-brand" aria-hidden="true">
+                    <span class="telu-login__mobile-mark">AI</span>
+                    <span>
+                        <strong>AI-AA LMS</strong>
+                        <small>AI-Powered Learning</small>
+                    </span>
+                </div>
+
+                <div class="telu-login__card">
+                    <header class="telu-login__card-header">
+                        <p class="telu-login__card-kicker">AI-AA LMS</p>
+                        <h2 class="telu-login__card-title">Welcome Back</h2>
+                        <p class="telu-login__card-subtitle">Sign in to continue your learning journey</p>
+                    </header>
+
+                    <div class="telu-login__card-body">
+                        {{{ output.main_content }}}
+                    </div>
+                </div>
+
+                <p class="telu-login__trust">
+                    <i class="fa fa-shield" aria-hidden="true"></i>
+                    Secured by LMS IT Infrastructure
+                </p>
+            </div>
+        </section>
+    </main>
+</div>
+
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}

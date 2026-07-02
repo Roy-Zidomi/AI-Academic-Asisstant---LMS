@@ -1,0 +1,655 @@
+// Tel-U AI LMS login page only.
+
+body.telu-page-login {
+  --telu-primary: #ED1C24;
+  --telu-primary-dark: #B01116;
+  --telu-primary-soft: #FDE7E8;
+  --telu-bg: #F8FAFC;
+  --telu-surface: #FFFFFF;
+  --telu-text: #111827;
+  --telu-muted: #64748B;
+  --telu-border: #E2E8F0;
+  --telu-border-strong: #CBD5E1;
+
+  min-height: 100vh;
+  margin: 0;
+  overflow-x: hidden;
+  overflow-y: auto;
+  background: var(--telu-bg);
+  color: var(--telu-text);
+  font-family: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  #page-wrapper {
+    min-height: 100vh;
+    margin: 0;
+    padding: 0;
+    background: var(--telu-bg);
+  }
+
+  .navbar,
+  #page-header,
+  #page-footer,
+  .header-maxwidth {
+    display: none !important;
+  }
+
+  .telu-login {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(420px, 0.92fr);
+    min-height: 100vh;
+    background: var(--telu-bg);
+  }
+
+  .telu-login__hero {
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    min-height: 100vh;
+    padding: 32px 64px 36px;
+    color: #FFFFFF;
+    overflow: hidden;
+    background:
+      linear-gradient(145deg, rgba(176, 17, 22, 0.96), rgba(237, 28, 36, 0.92)),
+      repeating-linear-gradient(90deg, rgba(255, 255, 255, 0.08) 0 1px, transparent 1px 72px),
+      repeating-linear-gradient(0deg, rgba(255, 255, 255, 0.06) 0 1px, transparent 1px 72px);
+
+    &::after {
+      content: "";
+      position: absolute;
+      inset: auto -20% -34% 18%;
+      height: 46%;
+      background: rgba(255, 255, 255, 0.10);
+      transform: rotate(-8deg);
+      border-radius: 48px;
+    }
+  }
+
+  .telu-login__hero-inner {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 560px;
+  }
+
+  .telu-login__brand,
+  .telu-login__feature,
+  .telu-login__mobile-brand,
+  .telu-login-form__row,
+  .telu-login-form__meta,
+  .telu-login__trust {
+    display: flex;
+    align-items: center;
+  }
+
+  .telu-login__brand {
+    gap: 14px;
+    margin-bottom: 36px;
+  }
+
+  .telu-login__brand-mark {
+    display: inline-flex;
+    flex: 0 0 auto;
+  }
+
+  .telu-login__brand-copy,
+  .telu-login__mobile-brand span,
+  .telu-login__feature span {
+    display: grid;
+    gap: 2px;
+  }
+
+  .telu-login__brand-name {
+    font-size: 1.25rem;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+
+  .telu-login__brand-org {
+    color: rgba(255, 255, 255, 0.76);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    letter-spacing: 0;
+  }
+
+  .telu-login__eyebrow,
+  .telu-login__card-kicker {
+    margin: 0 0 12px;
+    font-size: 0.75rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .telu-login__eyebrow {
+    color: rgba(255, 255, 255, 0.74);
+  }
+
+  .telu-login__title {
+    max-width: 520px;
+    margin: 0;
+    color: #FFFFFF;
+    font-size: 2.65rem;
+    font-weight: 800;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .telu-login__lead {
+    max-width: 500px;
+    margin: 16px 0 0;
+    color: rgba(255, 255, 255, 0.86);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+
+  .telu-login__feature-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .telu-login__feature {
+    width: 100%;
+    max-width: 440px;
+    gap: 14px;
+    padding: 12px 16px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+    border-radius: 16px;
+    background: rgba(255, 255, 255, 0.10);
+  }
+
+  .telu-login__feature-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 40px;
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    color: var(--telu-primary-dark);
+    background: #FFFFFF;
+  }
+
+  .telu-login__feature strong {
+    color: #FFFFFF;
+    font-size: 0.9375rem;
+    font-weight: 800;
+    line-height: 1.25;
+  }
+
+  .telu-login__feature small {
+    color: rgba(255, 255, 255, 0.74);
+    font-size: 0.8125rem;
+    line-height: 1.35;
+  }
+
+  .telu-login__copyright {
+    margin: 24px 0 0;
+    color: rgba(255, 255, 255, 0.62);
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+
+  .telu-login__panel {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    min-height: 100vh;
+    padding: 32px 56px;
+    background:
+      linear-gradient(180deg, rgba(253, 231, 232, 0.42), rgba(248, 250, 252, 0) 34%),
+      var(--telu-bg);
+  }
+
+  .telu-login__panel-inner {
+    width: 100%;
+    max-width: 440px;
+  }
+
+  .telu-login__mobile-brand {
+    display: none;
+  }
+
+  .telu-login__card {
+    width: 100%;
+    padding: 34px;
+    border: 1px solid rgba(226, 232, 240, 0.92);
+    border-radius: 24px;
+    background: var(--telu-surface);
+    box-shadow: 0 24px 60px rgba(15, 23, 42, 0.10), 0 2px 8px rgba(15, 23, 42, 0.04);
+  }
+
+  .telu-login__card-header {
+    margin-bottom: 24px;
+  }
+
+  .telu-login__card-kicker {
+    color: var(--telu-primary);
+  }
+
+  .telu-login__card-title {
+    margin: 0;
+    color: var(--telu-text);
+    font-size: 1.875rem;
+    font-weight: 800;
+    line-height: 1.16;
+    letter-spacing: 0;
+  }
+
+  .telu-login__card-subtitle {
+    margin: 8px 0 0;
+    color: var(--telu-muted);
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  .login-logo,
+  .login-heading,
+  .loginform > h1,
+  .loginform > h2 {
+    display: none !important;
+  }
+
+  .telu-login-form .alert {
+    margin: 0 0 18px;
+    padding: 12px 14px;
+    border: 1px solid rgba(237, 28, 36, 0.18);
+    border-radius: 14px;
+    background: var(--telu-primary-soft);
+    color: var(--telu-primary-dark);
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .login-form-username,
+  .login-form-password {
+    margin-bottom: 18px;
+  }
+
+  .login-form-username label,
+  .login-form-password label {
+    display: block !important;
+    position: static !important;
+    width: auto !important;
+    height: auto !important;
+    margin: 0 0 7px;
+    clip: auto !important;
+    overflow: visible !important;
+    color: #334155;
+    font-size: 0.875rem;
+    font-weight: 700;
+    letter-spacing: 0;
+  }
+
+  .telu-login-form input.form-control,
+  .telu-login-form input[type="text"],
+  .telu-login-form input[type="password"] {
+    width: 100% !important;
+    height: 48px;
+    min-height: 48px;
+    padding: 0 15px !important;
+    border: 1.5px solid var(--telu-border-strong) !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    box-shadow: none !important;
+    color: var(--telu-text) !important;
+    font-size: 0.9375rem !important;
+    line-height: 48px;
+    transition: border-color 160ms ease, box-shadow 160ms ease;
+
+    &::placeholder {
+      color: #94A3B8;
+    }
+
+    &:hover {
+      border-color: #94A3B8 !important;
+    }
+
+    &:focus {
+      border-color: var(--telu-primary) !important;
+      box-shadow: 0 0 0 4px rgba(237, 28, 36, 0.13) !important;
+      outline: 0 !important;
+    }
+  }
+
+  .telu-login-form__row {
+    justify-content: space-between;
+    gap: 16px;
+    margin: 0 0 22px;
+  }
+
+  .login-form-username-remember {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    min-width: 0;
+  }
+
+  .login-form-username-remember input {
+    flex: 0 0 auto;
+    width: 16px;
+    height: 16px;
+    margin: 0;
+    accent-color: var(--telu-primary);
+  }
+
+  .login-form-username-remember label,
+  .login-form-forgotpassword a {
+    margin: 0;
+    color: var(--telu-muted);
+    font-size: 0.8125rem;
+    font-weight: 600;
+    line-height: 1.35;
+  }
+
+  .login-form-forgotpassword {
+    flex: 0 0 auto;
+    margin: 0;
+  }
+
+  .login-form-forgotpassword a {
+    color: var(--telu-primary);
+    text-decoration: none;
+
+    &:hover {
+      color: var(--telu-primary-dark);
+      text-decoration: underline;
+    }
+  }
+
+  .login-form-submit {
+    margin: 0;
+  }
+
+  #loginbtn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100% !important;
+    height: 48px;
+    border: 0 !important;
+    border-radius: 12px !important;
+    background: var(--telu-primary) !important;
+    box-shadow: 0 12px 24px rgba(237, 28, 36, 0.20);
+    color: #FFFFFF !important;
+    font-size: 0.9375rem !important;
+    font-weight: 800 !important;
+    letter-spacing: 0;
+    transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+
+    &:hover,
+    &:focus {
+      background: var(--telu-primary-dark) !important;
+      box-shadow: 0 16px 28px rgba(176, 17, 22, 0.26);
+      color: #FFFFFF !important;
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  .telu-login-form__divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 22px 0;
+    color: #94A3B8;
+    font-size: 0.75rem;
+    font-weight: 700;
+
+    &::before,
+    &::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: var(--telu-border);
+    }
+
+    &:empty::after {
+      display: none;
+    }
+  }
+
+  .login-identityprovider-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    width: 100%;
+    min-height: 42px;
+    margin-bottom: 8px;
+    border: 1px solid var(--telu-border) !important;
+    border-radius: 12px !important;
+    background: #FFFFFF !important;
+    color: #334155 !important;
+    font-size: 0.875rem;
+    font-weight: 700;
+  }
+
+  .telu-login-form__guest {
+    margin-top: 18px;
+    padding: 12px;
+    border: 1px dashed var(--telu-border-strong);
+    border-radius: 14px;
+    background: #F8FAFC;
+    text-align: center;
+
+    p {
+      margin: 0 0 8px;
+      color: var(--telu-muted);
+      font-size: 0.75rem;
+      font-weight: 600;
+      line-height: 1.4;
+    }
+  }
+
+  #loginguestbtn {
+    width: auto;
+    min-height: 34px;
+    padding: 0 14px;
+    border: 1px solid var(--telu-border) !important;
+    border-radius: 999px !important;
+    background: #FFFFFF !important;
+    color: #475569 !important;
+    box-shadow: none !important;
+    font-size: 0.8125rem !important;
+    font-weight: 700 !important;
+
+    &:hover,
+    &:focus {
+      border-color: var(--telu-primary) !important;
+      color: var(--telu-primary-dark) !important;
+      background: var(--telu-primary-soft) !important;
+    }
+  }
+
+  .login-instructions {
+    color: var(--telu-muted);
+    font-size: 0.8125rem;
+    line-height: 1.55;
+
+    h3 {
+      margin: 0 0 8px;
+      color: var(--telu-text);
+      font-size: 0.9375rem;
+      font-weight: 800;
+    }
+  }
+
+  .login-signup {
+    margin-top: 12px;
+    text-align: center;
+
+    .btn {
+      border-radius: 12px;
+      border-color: var(--telu-primary);
+      color: var(--telu-primary);
+      font-weight: 700;
+    }
+  }
+
+  .telu-login-form__meta {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 22px;
+    color: #94A3B8;
+    font-size: 0.75rem;
+  }
+
+  .login-languagemenu .dropdown-toggle,
+  .telu-login-form__cookies {
+    min-height: auto;
+    padding: 0 !important;
+    border: 0 !important;
+    background: transparent !important;
+    box-shadow: none !important;
+    color: #64748B !important;
+    font-size: 0.75rem !important;
+    font-weight: 600 !important;
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+      color: var(--telu-primary-dark) !important;
+      text-decoration: underline;
+    }
+  }
+
+  .telu-login__trust {
+    justify-content: center;
+    gap: 8px;
+    margin: 18px 0 0;
+    color: #64748B;
+    font-size: 0.75rem;
+    line-height: 1.4;
+    text-align: center;
+  }
+
+  .telu-login__trust i {
+    color: var(--telu-primary);
+  }
+
+  input:focus-visible,
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--telu-primary) !important;
+    outline-offset: 2px;
+  }
+}
+
+@media (max-width: 1180px) {
+  body.telu-page-login {
+    .telu-login {
+      grid-template-columns: minmax(0, 0.9fr) minmax(400px, 1fr);
+    }
+
+    .telu-login__hero {
+      padding: 48px 36px;
+    }
+
+    .telu-login__title {
+      font-size: 2.5rem;
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  body.telu-page-login {
+    .telu-login {
+      grid-template-columns: 1fr;
+    }
+
+    .telu-login__hero {
+      display: none;
+    }
+
+    .telu-login__panel {
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 28px 18px;
+    }
+
+    .telu-login__panel-inner {
+      max-width: 520px;
+      margin: 0 auto;
+    }
+
+    .telu-login__mobile-brand {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      margin: 8px 0 24px;
+      color: var(--telu-text);
+    }
+
+    .telu-login__mobile-mark {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 42px;
+      height: 42px;
+      border-radius: 14px;
+      background: var(--telu-primary);
+      color: #FFFFFF;
+      font-weight: 800;
+    }
+
+    .telu-login__mobile-brand strong {
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .telu-login__mobile-brand small {
+      color: var(--telu-muted);
+      font-size: 0.8125rem;
+      font-weight: 600;
+    }
+
+    .telu-login__card {
+      padding: 28px;
+      border-radius: 24px;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  body.telu-page-login {
+    .telu-login__panel {
+      padding: 22px 14px;
+    }
+
+    .telu-login__card {
+      padding: 22px;
+      border-radius: 20px;
+    }
+
+    .telu-login__card-title {
+      font-size: 1.625rem;
+    }
+
+    .telu-login-form__row {
+      align-items: flex-start;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .login-form-forgotpassword {
+      width: 100%;
+    }
+
+    .telu-login-form input.form-control,
+    .telu-login-form input[type="text"],
+    .telu-login-form input[type="password"],
+    #loginbtn {
+      height: 48px;
+      min-height: 48px;
+    }
+  }
+}

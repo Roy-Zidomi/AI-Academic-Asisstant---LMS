@@ -1,0 +1,9 @@
+// ============================================================================
+// Tel-U AI LMS Theme — Main Preset
+// This file replaces Boost's default.scss preset.
+// It imports Bootstrap and Moodle core SCSS, then layers our customizations.
+// ============================================================================
+
+// Import Boost's default preset via its preset subfolder.
+// This resolves import path lookup limitations in Moodle's child theme compiler.
+@import "preset/default";

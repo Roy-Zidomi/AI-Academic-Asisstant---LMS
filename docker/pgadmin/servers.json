@@ -1,0 +1,15 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "AI-AA LMS PostgreSQL",
+            "Group": "AI-AA LMS",
+            "Host": "postgres",
+            "Port": 5432,
+            "MaintenanceDB": "moodle",
+            "Username": "moodle",
+            "PassFile": "/pgadmin4/pgpass",
+            "SSLMode": "prefer",
+            "Comment": "AI Academic Assistant LMS — Primary Database"
+        }
+    }
+}

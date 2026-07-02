@@ -1,0 +1,628 @@
+/* ==========================================================================
+   AI Academic Assistant — Premium Enterprise Design System (styles.css)
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
+
+:root {
+    /* Color Palette */
+    --ai-primary: #6366f1; /* Indigo */
+    --ai-primary-hover: #4f46e5;
+    --ai-primary-light: #e0e7ff;
+    --ai-secondary: #a855f7; /* Purple */
+    --ai-secondary-light: #f3e8ff;
+    
+    /* Neutral Tones */
+    --ai-bg-dark: #0f172a;
+    --ai-text-main: #1e293b;
+    --ai-text-muted: #64748b;
+    
+    /* Glassmorphism Tokens */
+    --ai-bg-glass: rgba(255, 255, 255, 0.75);
+    --ai-bg-glass-dark: rgba(15, 23, 42, 0.03);
+    --ai-border-glass: rgba(99, 102, 241, 0.08);
+    --ai-border-glass-hover: rgba(99, 102, 241, 0.2);
+    
+    /* Decorative & Shadows */
+    --ai-shadow: 0 10px 30px -10px rgba(99, 102, 241, 0.08), 0 1px 3px 0 rgba(0, 0, 0, 0.02);
+    --ai-shadow-hover: 0 20px 40px -15px rgba(99, 102, 241, 0.15), 0 2px 8px 0 rgba(99, 102, 241, 0.05);
+    --ai-shadow-active: 0 5px 15px -5px rgba(99, 102, 241, 0.1);
+    --ai-gradient-primary: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
+    --ai-gradient-glass: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(255, 255, 255, 0.6) 100%);
+    
+    /* Layout */
+    --ai-radius-lg: 20px;
+    --ai-radius-md: 12px;
+    --ai-radius-sm: 8px;
+    --ai-transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Base Wrapper & Scope Styles */
+.local_aiacademic_chat_container,
+.local_aiacademic_summarizer_container,
+.local_aiacademic_quiz_container {
+    font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: var(--ai-text-main);
+    background: var(--ai-gradient-glass);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--ai-border-glass);
+    border-radius: var(--ai-radius-lg);
+    box-shadow: var(--ai-shadow);
+    padding: 24px;
+    margin-bottom: 35px;
+    transition: var(--ai-transition);
+}
+
+.local_aiacademic_chat_container:hover,
+.local_aiacademic_summarizer_container:hover,
+.local_aiacademic_quiz_container:hover {
+    box-shadow: var(--ai-shadow-hover);
+    border-color: rgba(99, 102, 241, 0.15);
+}
+
+/* Form Controls & Styling */
+.local_aiacademic_chat_container input,
+.local_aiacademic_chat_container select,
+.local_aiacademic_chat_container textarea,
+.local_aiacademic_summarizer_container select,
+.local_aiacademic_quiz_container input,
+.local_aiacademic_quiz_container select {
+    border-radius: var(--ai-radius-md) !important;
+    border: 1px solid rgba(0, 0, 0, 0.08) !important;
+    padding: 12px 16px !important;
+    background: rgba(255, 255, 255, 0.9) !important;
+    transition: var(--ai-transition) !important;
+    font-size: 0.95rem !important;
+}
+
+.local_aiacademic_chat_container input:focus,
+.local_aiacademic_chat_container select:focus,
+.local_aiacademic_summarizer_container select:focus,
+.local_aiacademic_quiz_container select:focus {
+    outline: none !important;
+    border-color: var(--ai-primary) !important;
+    box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15) !important;
+}
+
+/* Custom Buttons Styling */
+.local_aiacademic_chat_container .btn-primary,
+.local_aiacademic_summarizer_container .btn-primary,
+.local_aiacademic_quiz_container .btn-primary {
+    background: var(--ai-gradient-primary) !important;
+    border: none !important;
+    padding: 12px 24px !important;
+    border-radius: var(--ai-radius-md) !important;
+    font-weight: 600 !important;
+    letter-spacing: -0.01em !important;
+    color: #ffffff !important;
+    box-shadow: 0 4px 14px 0 rgba(99, 102, 241, 0.3) !important;
+    transition: var(--ai-transition) !important;
+    cursor: pointer !important;
+}
+
+.local_aiacademic_chat_container .btn-primary:hover,
+.local_aiacademic_summarizer_container .btn-primary:hover,
+.local_aiacademic_quiz_container .btn-primary:hover {
+    transform: translateY(-2px) !important;
+    box-shadow: 0 6px 20px 0 rgba(99, 102, 241, 0.4) !important;
+}
+
+.local_aiacademic_chat_container .btn-primary:active,
+.local_aiacademic_summarizer_container .btn-primary:active,
+.local_aiacademic_quiz_container .btn-primary:active {
+    transform: translateY(0) !important;
+    box-shadow: 0 4px 10px 0 rgba(99, 102, 241, 0.2) !important;
+}
+
+/* ==========================================================================
+   1. Chat Assistant UI (Premium Glassmorphism View)
+   ========================================================================== */
+.local_aiacademic_chat_container.chat_layout {
+    display: flex;
+    gap: 0;
+    height: 700px;
+    padding: 0;
+    overflow: hidden;
+    border-radius: var(--ai-radius-lg);
+    background: rgba(255, 255, 255, 0.45);
+}
+
+/* Sidebar Styling */
+.chat_sidebar {
+    width: 320px;
+    border-right: 1px solid var(--ai-border-glass);
+    padding: 24px;
+    display: flex;
+    flex-direction: column;
+    background: rgba(255, 255, 255, 0.4);
+    backdrop-filter: blur(10px);
+}
+
+.chat_sidebar h4 {
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
+    color: var(--ai-text-main);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.session_list {
+    flex-grow: 1;
+    overflow-y: auto;
+    margin-top: 10px;
+    padding-right: 4px;
+}
+
+/* Scrollbar customization */
+.session_list::-webkit-scrollbar,
+.chat_messages::-webkit-scrollbar {
+    width: 6px;
+}
+.session_list::-webkit-scrollbar-thumb,
+.chat_messages::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.15);
+    border-radius: 10px;
+}
+.session_list::-webkit-scrollbar-track,
+.chat_messages::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.session-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    margin-bottom: 10px;
+    border-radius: var(--ai-radius-md);
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    color: var(--ai-text-main);
+    font-size: 0.9rem;
+    font-weight: 500;
+    text-decoration: none !important;
+    transition: var(--ai-transition);
+    cursor: pointer;
+    box-shadow: var(--ai-shadow-active);
+}
+
+.session-item:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--ai-border-glass-hover);
+    transform: translateY(-1px);
+    box-shadow: var(--ai-shadow);
+}
+
+.session-item.active {
+    background: var(--ai-gradient-primary);
+    color: #ffffff !important;
+    border-color: transparent;
+    box-shadow: 0 8px 16px 0 rgba(99, 102, 241, 0.2);
+}
+
+.session-item.active .session-title {
+    color: #ffffff;
+}
+
+.session-title {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    max-width: 80%;
+}
+
+.delete-session-btn {
+    opacity: 0;
+    background: transparent;
+    border: none;
+    color: inherit;
+    padding: 4px;
+    border-radius: var(--ai-radius-sm);
+    transition: var(--ai-transition);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.session-item:hover .delete-session-btn {
+    opacity: 0.7;
+}
+
+.session-item:hover .delete-session-btn:hover {
+    opacity: 1;
+    background: rgba(239, 68, 68, 0.15);
+    color: #ef4444;
+}
+
+/* Chat Main Workspace */
+.chat_main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 24px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.25);
+}
+
+.chat_header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    padding-bottom: 18px;
+    margin-bottom: 18px;
+}
+
+.chat_header h3 {
+    font-weight: 700;
+    font-size: 1.3rem;
+    letter-spacing: -0.02em;
+    color: var(--ai-text-main);
+}
+
+.chat_messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding-right: 12px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* Message Bubble Enhancements */
+.message {
+    display: flex;
+    gap: 16px;
+    max-width: 80%;
+    align-self: flex-start;
+    animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.message.user {
+    align-self: flex-end;
+    flex-direction: row-reverse;
+}
+
+.message .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 0 4px 10px rgba(99, 102, 241, 0.15);
+    flex-shrink: 0;
+}
+
+.message.assistant .avatar {
+    background: var(--ai-gradient-primary);
+    color: #ffffff;
+}
+
+.message.user .avatar {
+    background: #10b981;
+    color: #ffffff;
+    box-shadow: 0 4px 10px rgba(16, 185, 129, 0.15);
+}
+
+.message .msg_content {
+    background: rgba(255, 255, 255, 0.85);
+    padding: 16px 20px;
+    border-radius: var(--ai-radius-lg);
+    border-top-left-radius: 4px;
+    font-size: 0.98rem;
+    line-height: 1.6;
+    color: var(--ai-text-main);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+}
+
+.message.user .msg_content {
+    background: var(--ai-primary-light);
+    color: var(--ai-primary-hover);
+    border-radius: var(--ai-radius-lg);
+    border-top-right-radius: 4px;
+    border-top-left-radius: var(--ai-radius-lg);
+    border: 1px solid rgba(99, 102, 241, 0.08);
+}
+
+.message .msg_content p:last-child {
+    margin-bottom: 0;
+}
+
+/* Chat Input Bar */
+.chat_input_area {
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    padding-top: 18px;
+}
+
+.chat_form {
+    display: flex;
+    gap: 12px;
+}
+
+.chat_form input {
+    flex-grow: 1;
+}
+
+.disclaimer_text {
+    font-size: 0.78rem;
+    color: var(--ai-text-muted);
+    text-align: center;
+    margin-top: 8px;
+}
+
+/* Typing Indicator Styling */
+.typing_indicator {
+    padding: 12px 18px;
+    font-size: 0.88rem;
+    color: var(--ai-text-muted);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    align-self: flex-start;
+}
+
+.typing_indicator span {
+    width: 7px;
+    height: 7px;
+    background: var(--ai-primary);
+    border-radius: 50%;
+    display: inline-block;
+    opacity: 0.6;
+}
+
+.typing_indicator span:nth-child(1) { animation: bounce 1s infinite alternate; }
+.typing_indicator span:nth-child(2) { animation: bounce 1s infinite alternate 0.2s; }
+.typing_indicator span:nth-child(3) { animation: bounce 1s infinite alternate 0.4s; }
+
+/* ==========================================================================
+   2. Summarizer UI (Material Document Dashboard)
+   ========================================================================== */
+.select_material_card {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(99, 102, 241, 0.08) !important;
+    border-radius: var(--ai-radius-md) !important;
+    box-shadow: var(--ai-shadow) !important;
+    padding: 24px !important;
+}
+
+.summary_results_container {
+    background: rgba(255, 255, 255, 0.8) !important;
+    border: 1px solid rgba(99, 102, 241, 0.08) !important;
+    border-radius: var(--ai-radius-lg) !important;
+    box-shadow: var(--ai-shadow-hover) !important;
+    padding: 24px !important;
+    margin-top: 24px;
+    animation: fadeInUp 0.5s ease;
+}
+
+/* Premium Tabs styling */
+.nav-tabs {
+    border-bottom: 2px solid rgba(99, 102, 241, 0.08) !important;
+    gap: 8px;
+    margin-bottom: 20px;
+}
+
+.nav-tabs .nav-link {
+    border: none !important;
+    border-bottom: 2px solid transparent !important;
+    color: var(--ai-text-muted) !important;
+    font-weight: 600 !important;
+    padding: 12px 18px !important;
+    transition: var(--ai-transition) !important;
+    background: transparent !important;
+}
+
+.nav-tabs .nav-link:hover {
+    color: var(--ai-primary) !important;
+}
+
+.nav-tabs .nav-link.active {
+    color: var(--ai-primary) !important;
+    border-bottom-color: var(--ai-primary) !important;
+    background: transparent !important;
+}
+
+.summary_paragraph {
+    font-size: 1.05rem;
+    line-height: 1.7;
+    color: #334155;
+    white-space: pre-wrap;
+    padding: 12px 0;
+}
+
+.summary_list .list-group-item {
+    font-size: 0.98rem;
+    padding: 16px 20px;
+    border: none;
+    border-left: 4px solid var(--ai-primary);
+    margin-bottom: 12px;
+    border-radius: var(--ai-radius-sm);
+    background: rgba(255, 255, 255, 0.7);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.01);
+    transition: var(--ai-transition);
+}
+
+.summary_list .list-group-item:hover {
+    transform: translateX(4px);
+    background: #ffffff;
+    box-shadow: 0 4px 12px rgba(99, 102, 241, 0.05);
+}
+
+/* Grid of Key Concepts */
+.concepts_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 24px;
+    padding: 12px 0;
+}
+
+.concept_card {
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    border-radius: var(--ai-radius-md);
+    padding: 20px;
+    background: rgba(255, 255, 255, 0.9);
+    box-shadow: var(--ai-shadow);
+    transition: var(--ai-transition);
+}
+
+.concept_card:hover {
+    transform: translateY(-4px);
+    box-shadow: var(--ai-shadow-hover);
+    border-color: rgba(99, 102, 241, 0.2);
+}
+
+.concept_card h5 {
+    color: var(--ai-primary);
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.concept_card p {
+    font-size: 0.94rem;
+    color: #475569;
+    line-height: 1.5;
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   3. Quiz Generator UI (Clean Review Panel)
+   ========================================================================== */
+.draft-item {
+    border-left: 4px solid var(--ai-primary) !important;
+    background: rgba(255, 255, 255, 0.6) !important;
+    border-radius: var(--ai-radius-md) !important;
+    margin-bottom: 12px !important;
+    box-shadow: var(--ai-shadow-active) !important;
+    transition: var(--ai-transition) !important;
+}
+
+.draft-item:hover {
+    border-left-width: 6px !important;
+    background: #ffffff !important;
+    box-shadow: var(--ai-shadow) !important;
+}
+
+.question_review_card {
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    border-radius: var(--ai-radius-md);
+    margin-bottom: 20px;
+    background: rgba(255, 255, 255, 0.85);
+    box-shadow: var(--ai-shadow);
+    overflow: hidden;
+    transition: var(--ai-transition);
+}
+
+.question_review_card:hover {
+    box-shadow: var(--ai-shadow-hover);
+    border-color: rgba(99, 102, 241, 0.15);
+}
+
+.question_review_header {
+    background: rgba(15, 23, 42, 0.02);
+    padding: 16px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+
+.question_review_header h5 {
+    font-weight: 600;
+    font-size: 1rem;
+    margin-bottom: 0;
+}
+
+.question_review_body {
+    padding: 24px;
+    border-top: 1px solid rgba(0, 0, 0, 0.04);
+}
+
+.option_row {
+    padding: 12px 16px;
+    border-radius: var(--ai-radius-sm);
+    border: 1px solid rgba(0, 0, 0, 0.04);
+    background: rgba(255, 255, 255, 0.6);
+    margin-bottom: 10px;
+    transition: var(--ai-transition);
+    font-size: 0.95rem;
+}
+
+.option_row:hover {
+    background: rgba(255, 255, 255, 0.95);
+    border-color: var(--ai-border-glass-hover);
+}
+
+.option_row.correct {
+    background: #ecfdf5;
+    border-color: #a7f3d0;
+    color: #065f46;
+    font-weight: 600;
+    box-shadow: 0 4px 10px 0 rgba(16, 185, 129, 0.05);
+}
+
+/* ==========================================================================
+   4. Animations
+   ========================================================================== */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(16px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes bounce {
+    from { transform: translateY(0); }
+    to { transform: translateY(-5px); }
+}
+
+/* ==========================================================================
+   5. Responsive / Tablet layouts
+   ========================================================================== */
+@media (max-width: 992px) {
+    .local_aiacademic_chat_container.chat_layout {
+        flex-direction: column;
+        height: auto;
+    }
+    .chat_sidebar {
+        width: 100%;
+        height: 250px;
+        border-right: none;
+        border-bottom: 1px solid var(--ai-border-glass);
+    }
+    .chat_messages {
+        max-height: 450px;
+    }
+}
+
+@media (max-width: 576px) {
+    .local_aiacademic_chat_container,
+    .local_aiacademic_summarizer_container,
+    .local_aiacademic_quiz_container {
+        padding: 16px;
+    }
+    .chat_sidebar {
+        padding: 16px;
+    }
+    .chat_main {
+        padding: 16px;
+    }
+    .concepts_grid {
+        grid-template-columns: 1fr;
+    }
+}

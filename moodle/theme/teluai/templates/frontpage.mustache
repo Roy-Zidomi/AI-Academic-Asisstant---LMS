@@ -1,0 +1,180 @@
+{{!
+    @template theme_teluai/frontpage
+
+    Modern home/course landing page for theme_teluai.
+}}
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper" class="telu-home-wrapper">
+    {{{ output.standard_top_of_body_html }}}
+
+    <header class="telu-home-navbar">
+        <div class="telu-home-navbar__inner">
+            <a class="telu-home-brand" href="{{{ coursesurl }}}" aria-label="{{sitename}}">
+                <span class="telu-home-brand__mark" aria-hidden="true">AI</span>
+                <span class="telu-home-brand__text">
+                    <strong>AI Academic Assistant LMS</strong>
+                    <small>AI-powered learning</small>
+                </span>
+            </a>
+
+            <nav class="telu-home-nav" aria-label="Primary navigation">
+                {{#navitems}}
+                    <a class="telu-home-nav__link {{#active}}is-active{{/active}}" href="{{{ url }}}">
+                        {{label}}
+                    </a>
+                {{/navitems}}
+            </nav>
+
+            <form class="telu-home-search" action="{{{ searchurl }}}" method="get" role="search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <label class="sr-only" for="telu-home-search-input">Search courses, materials, assignments</label>
+                <input id="telu-home-search-input" type="search" name="search" placeholder="Search courses, materials, assignments...">
+            </form>
+
+            <div class="telu-home-actions">
+                <button class="telu-home-iconbtn" type="button" aria-label="Notifications">
+                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                </button>
+                <button class="telu-home-iconbtn" type="button" aria-label="Messages">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                </button>
+                {{{ editswitch }}}
+                <div class="telu-home-user">{{{ usermenu }}}</div>
+            </div>
+        </div>
+    </header>
+
+    <main id="page" class="telu-home">
+        <section class="telu-home-hero">
+            <div class="telu-home-hero__content">
+                <span class="telu-home-badge">
+                    <i class="fa fa-bolt" aria-hidden="true"></i>
+                    AI-Powered Learning Platform
+                </span>
+                <h1>AI Academic Assistant LMS</h1>
+                <p>
+                    Kelola pembelajaran, materi, kuis, dan bantuan akademik berbasis AI
+                    dalam satu platform modern.
+                </p>
+                <div class="telu-home-hero__cta">
+                    <a class="telu-btn telu-btn--primary" href="{{{ chaturl }}}">
+                        <i class="fa fa-comments" aria-hidden="true"></i>
+                        Ask AI Assistant
+                    </a>
+                    <a class="telu-btn telu-btn--secondary" href="{{{ coursesurl }}}">
+                        Explore Courses
+                    </a>
+                </div>
+            </div>
+
+            <div class="telu-home-hero__visual" aria-hidden="true">
+                <div class="telu-home-hero__glasscard">
+                    <span>Learning Intelligence</span>
+                    <strong>24/7</strong>
+                    <small>AI Support Active</small>
+                </div>
+                <div class="telu-home-hero__nodes">
+                    <span></span><span></span><span></span><span></span>
+                </div>
+            </div>
+
+            <div class="telu-home-stats" aria-label="Learning platform stats">
+                <div><strong>1</strong><span>Active Course</span></div>
+                <div><strong>2</strong><span>Lecturers</span></div>
+                <div><strong>3</strong><span>AI Features</span></div>
+                <div><strong>24/7</strong><span>AI Support</span></div>
+            </div>
+        </section>
+
+        <section class="telu-home-section">
+            <div class="telu-home-section__header">
+                <div>
+                    <span class="telu-home-section__eyebrow">AI Learning Tools</span>
+                    <h2>Shortcut fitur AI</h2>
+                </div>
+            </div>
+
+            <div class="telu-ai-tools">
+                <article class="telu-ai-card">
+                    <span class="telu-ai-card__icon"><i class="fa fa-comments" aria-hidden="true"></i></span>
+                    <h3>AI Academic Assistant</h3>
+                    <p>Tanyakan konsep akademik dan dapatkan penjelasan instan.</p>
+                    <a href="{{{ chaturl }}}">Ask AI</a>
+                </article>
+                <article class="telu-ai-card">
+                    <span class="telu-ai-card__icon"><i class="fa fa-file-text-o" aria-hidden="true"></i></span>
+                    <h3>AI Material Summarizer</h3>
+                    <p>Ringkas materi pembelajaran menjadi poin penting.</p>
+                    <a href="{{{ summaryurl }}}">Generate Summary</a>
+                </article>
+                <article class="telu-ai-card">
+                    <span class="telu-ai-card__icon"><i class="fa fa-check-square-o" aria-hidden="true"></i></span>
+                    <h3>AI Quiz Generator</h3>
+                    <p>Buat soal otomatis dari materi kuliah.</p>
+                    <a href="{{{ quizurl }}}">Generate Quiz</a>
+                </article>
+            </div>
+        </section>
+
+        <div class="telu-home-grid">
+            <section class="telu-home-section telu-home-maincontent">
+                <div class="telu-home-section__header telu-home-section__header--courses">
+                    <div>
+                        <span class="telu-home-section__eyebrow">Course Catalog</span>
+                        <h2>Available Courses</h2>
+                        <p>Akses course yang tersedia dan lanjutkan proses pembelajaran Anda.</p>
+                    </div>
+                    <form class="telu-home-course-filter" action="{{{ searchurl }}}" method="get" role="search">
+                        <i class="fa fa-search" aria-hidden="true"></i>
+                        <label class="sr-only" for="telu-course-search-input">Search courses</label>
+                        <input id="telu-course-search-input" type="search" name="search" placeholder="Filter courses">
+                    </form>
+                </div>
+
+                <div class="telu-moodle-content">
+                    {{{ maincontent }}}
+                </div>
+            </section>
+
+            <aside class="telu-home-sidebar" aria-label="Learning activity summary">
+                {{{ sidepreblocks }}}
+                <section class="telu-side-card">
+                    <h3>Upcoming Activities</h3>
+                    <p>No upcoming assignments</p>
+                </section>
+                <section class="telu-side-card">
+                    <h3>Recent Activity</h3>
+                    <ul>
+                        <li>Course viewed</li>
+                        <li>Quiz updated</li>
+                    </ul>
+                </section>
+                <section class="telu-side-card telu-side-card--tip">
+                    <h3>System Tips</h3>
+                    <p>Use AI Assistant to understand material faster.</p>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <a class="telu-help-button" href="{{{ chaturl }}}" aria-label="Need help?">
+        <i class="fa fa-question" aria-hidden="true"></i>
+        <span>Need help?</span>
+    </a>
+
+    {{{ output.standard_after_main_region_html }}}
+    {{{ output.standard_end_of_body_html }}}
+</div>
+
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}

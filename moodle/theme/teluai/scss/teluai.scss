@@ -1,0 +1,1706 @@
+// ============================================================================
+// Tel-U AI LMS Theme - Component & Global Styles
+// Injected AFTER Bootstrap + Moodle via the extra_scss callback.
+// ============================================================================
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 1. DESIGN TOKENS (CSS Custom Properties)
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+:root {
+  // Brand
+  --telu-primary:         #ED1C24;
+  --telu-primary-dark:    #B01116;
+  --telu-primary-soft:    #FDE7E8;
+  --telu-primary-softer:  #FFF5F5;
+
+  // Neutrals
+  --telu-gray-900: #111827;
+  --telu-gray-800: #1F2937;
+  --telu-gray-700: #374151;
+  --telu-gray-600: #4B5563;
+  --telu-gray-500: #6B7280;
+  --telu-gray-400: #9CA3AF;
+  --telu-gray-300: #D1D5DB;
+  --telu-gray-200: #E5E7EB;
+  --telu-gray-100: #F3F4F6;
+  --telu-gray-50:  #F9FAFB;
+
+  // Semantic
+  --telu-success:      #16A34A;
+  --telu-success-soft: #F0FDF4;
+  --telu-warning:      #F59E0B;
+  --telu-warning-soft: #FFFBEB;
+  --telu-danger:       #DC2626;
+  --telu-danger-soft:  #FEF2F2;
+  --telu-info:         #2563EB;
+  --telu-info-soft:    #EFF6FF;
+
+  // Surface
+  --telu-bg:           #F8FAFC;
+  --telu-surface:      #FFFFFF;
+  --telu-border:       #E5E7EB;
+  --telu-border-hover: #D1D5DB;
+
+  // Text
+  --telu-text-primary:   #1F2937;
+  --telu-text-secondary: #6B7280;
+  --telu-text-muted:     #9CA3AF;
+  --telu-text-inverse:   #FFFFFF;
+
+  // Radius
+  --telu-radius-xs:   4px;
+  --telu-radius-sm:   8px;
+  --telu-radius-md:   12px;
+  --telu-radius-lg:   16px;
+  --telu-radius-xl:   24px;
+  --telu-radius-full: 9999px;
+
+  // Shadow
+  --telu-shadow-xs: 0 1px 2px rgba(15, 23, 42, 0.04);
+  --telu-shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.06), 0 1px 2px rgba(15, 23, 42, 0.04);
+  --telu-shadow-md: 0 4px 12px rgba(15, 23, 42, 0.08), 0 1px 3px rgba(15, 23, 42, 0.04);
+  --telu-shadow-lg: 0 12px 32px rgba(15, 23, 42, 0.10), 0 2px 6px rgba(15, 23, 42, 0.04);
+  --telu-shadow-xl: 0 20px 48px rgba(15, 23, 42, 0.14);
+
+  // Spacing
+  --telu-space-1: 4px;   --telu-space-2: 8px;
+  --telu-space-3: 12px;  --telu-space-4: 16px;
+  --telu-space-5: 20px;  --telu-space-6: 24px;
+  --telu-space-8: 32px;  --telu-space-10: 40px;
+  --telu-space-12: 48px; --telu-space-16: 64px;
+
+  // Transitions
+  --telu-transition-fast:   150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --telu-transition-normal: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --telu-transition-slow:   350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  // Sidebar
+  --telu-sidebar-width:     260px;
+  --telu-sidebar-collapsed:  64px;
+  --telu-topbar-height:      64px;
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 2. BASE & BODY
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+body {
+  font-family: "Inter", "Plus Jakarta Sans", system-ui, -apple-system,
+               BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background-color: var(--telu-bg);
+  color: var(--telu-text-primary);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+// Accessibility: reduced motion
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 3. TYPOGRAPHY REFINEMENTS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+h1, .h1 { font-weight: 700; color: var(--telu-gray-900); letter-spacing: -0.01em; }
+h2, .h2 { font-weight: 600; color: var(--telu-gray-900); letter-spacing: -0.01em; }
+h3, .h3 { font-weight: 600; color: var(--telu-gray-800); }
+h4, .h4 { font-weight: 600; color: var(--telu-gray-800); }
+h5, .h5 { font-weight: 600; color: var(--telu-gray-700); }
+h6, .h6 { font-weight: 600; color: var(--telu-gray-700); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 0.05em; }
+
+a {
+  color: var(--telu-info);
+  text-decoration: none;
+  transition: color var(--telu-transition-fast);
+  &:hover {
+    color: darken(#2563EB, 12%);
+    text-decoration: underline;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 4. NAVBAR / TOP BAR
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.navbar {
+  background-color: var(--telu-surface) !important;
+  border-bottom: 1px solid var(--telu-border);
+  box-shadow: var(--telu-shadow-xs);
+  min-height: var(--telu-topbar-height);
+
+  .navbar-brand {
+    font-weight: 700;
+    color: var(--telu-primary) !important;
+    font-size: 1.125rem;
+    letter-spacing: -0.01em;
+  }
+}
+
+// Make the top navbar sticky for a modern fixed-header feel.
+#page-wrapper > nav.navbar,
+nav.navbar.fixed-top {
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+}
+
+// User menu dropdown
+.usermenu {
+  .dropdown-menu {
+    border: 1px solid var(--telu-border);
+    border-radius: var(--telu-radius-md);
+    box-shadow: var(--telu-shadow-lg);
+    padding: var(--telu-space-2) 0;
+  }
+  .dropdown-item {
+    padding: var(--telu-space-2) var(--telu-space-4);
+    font-size: 0.875rem;
+    color: var(--telu-text-primary);
+    border-radius: var(--telu-radius-sm);
+    margin: 0 var(--telu-space-1);
+    transition: background var(--telu-transition-fast);
+    &:hover {
+      background: var(--telu-gray-50);
+      color: var(--telu-text-primary);
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 5. SIDEBAR / DRAWERS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.drawers {
+  .drawer {
+    background-color: var(--telu-surface);
+    border-right: 1px solid var(--telu-border);
+    box-shadow: none;
+  }
+}
+
+// Boost drawer navigation items
+[data-region="drawer"] {
+  .list-group-item {
+    border: none;
+    border-radius: var(--telu-radius-sm);
+    padding: var(--telu-space-3) var(--telu-space-4);
+    margin: 2px var(--telu-space-2);
+    font-size: 0.875rem;
+    font-weight: 500;
+    color: var(--telu-gray-700);
+    transition: all var(--telu-transition-fast);
+
+    &:hover {
+      background-color: var(--telu-gray-50);
+      color: var(--telu-text-primary);
+    }
+
+    &.active,
+    &[aria-current="true"] {
+      background-color: var(--telu-primary-soft);
+      color: var(--telu-primary);
+      font-weight: 600;
+      border-left: 3px solid var(--telu-primary);
+    }
+
+    .icon {
+      color: var(--telu-gray-500);
+      margin-right: var(--telu-space-3);
+    }
+    &.active .icon,
+    &[aria-current="true"] .icon {
+      color: var(--telu-primary);
+    }
+  }
+}
+
+// Course index sidebar
+.courseindex {
+  .courseindex-section-title {
+    font-weight: 600;
+    font-size: 0.8125rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    color: var(--telu-text-muted);
+    padding: var(--telu-space-3) var(--telu-space-4);
+  }
+  .courseindex-item {
+    padding: var(--telu-space-2) var(--telu-space-4);
+    border-radius: var(--telu-radius-sm);
+    transition: background var(--telu-transition-fast);
+    &:hover {
+      background-color: var(--telu-gray-50);
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 6. CARDS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.card {
+  border: 1px solid var(--telu-border);
+  border-radius: var(--telu-radius-lg);
+  box-shadow: var(--telu-shadow-sm);
+  background: var(--telu-surface);
+  transition: all var(--telu-transition-normal);
+  overflow: hidden;
+
+  &:hover {
+    box-shadow: var(--telu-shadow-md);
+    border-color: var(--telu-border-hover);
+  }
+
+  .card-header {
+    background: transparent;
+    border-bottom: 1px solid var(--telu-gray-100);
+    padding: var(--telu-space-5) var(--telu-space-6);
+    font-weight: 600;
+  }
+  .card-body {
+    padding: var(--telu-space-6);
+  }
+  .card-footer {
+    background: var(--telu-gray-50);
+    border-top: 1px solid var(--telu-gray-100);
+    padding: var(--telu-space-4) var(--telu-space-6);
+  }
+}
+
+// Course overview cards (Moodle dashboard)
+.card-deck .course-card,
+.dashboard-card {
+  border-radius: var(--telu-radius-lg);
+  overflow: hidden;
+  transition: transform var(--telu-transition-normal), box-shadow var(--telu-transition-normal);
+
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--telu-shadow-lg);
+  }
+
+  .course-card-img,
+  .dashboard-card-img {
+    border-radius: var(--telu-radius-lg) var(--telu-radius-lg) 0 0;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 7. BUTTONS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.btn {
+  font-weight: 600;
+  border-radius: var(--telu-radius-md);
+  padding: 0.5rem 1.25rem;
+  font-size: 0.875rem;
+  transition: all var(--telu-transition-fast);
+  letter-spacing: 0.01em;
+
+  &:focus-visible {
+    outline: 2px solid var(--telu-primary);
+    outline-offset: 2px;
+    box-shadow: none;
+  }
+}
+
+.btn-primary {
+  background-color: var(--telu-primary);
+  border-color: var(--telu-primary);
+  &:hover, &:focus {
+    background-color: var(--telu-primary-dark);
+    border-color: var(--telu-primary-dark);
+    box-shadow: 0 4px 12px rgba(237, 28, 36, 0.3);
+  }
+  &:active {
+    background-color: var(--telu-primary-dark);
+    box-shadow: none;
+  }
+}
+
+.btn-secondary {
+  background-color: var(--telu-gray-100);
+  border-color: var(--telu-border);
+  color: var(--telu-gray-800);
+  &:hover, &:focus {
+    background-color: var(--telu-gray-200);
+    border-color: var(--telu-border-hover);
+    color: var(--telu-gray-900);
+  }
+}
+
+.btn-outline-primary {
+  color: var(--telu-primary);
+  border-color: var(--telu-primary);
+  &:hover {
+    background-color: var(--telu-primary);
+    color: var(--telu-text-inverse);
+    box-shadow: 0 4px 12px rgba(237, 28, 36, 0.25);
+  }
+}
+
+.btn-outline-secondary {
+  color: var(--telu-gray-700);
+  border-color: var(--telu-gray-300);
+  &:hover {
+    background-color: var(--telu-gray-50);
+    border-color: var(--telu-gray-400);
+    color: var(--telu-gray-900);
+  }
+}
+
+.btn-outline-danger {
+  color: var(--telu-danger);
+  border-color: var(--telu-danger);
+  &:hover {
+    background-color: var(--telu-danger);
+    color: var(--telu-text-inverse);
+  }
+}
+
+.btn-info {
+  background-color: var(--telu-info);
+  border-color: var(--telu-info);
+  color: var(--telu-text-inverse);
+  &:hover {
+    background-color: darken(#2563EB, 8%);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+  }
+}
+
+// Icon-only buttons
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--telu-radius-sm);
+  color: var(--telu-gray-600);
+  background: transparent;
+  border: none;
+  &:hover {
+    background: var(--telu-gray-100);
+    color: var(--telu-text-primary);
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 8. FORM CONTROLS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.form-control {
+  border: 1px solid var(--telu-gray-300);
+  border-radius: var(--telu-radius-sm);
+  padding: 0.625rem 1rem;
+  font-size: 0.875rem;
+  color: var(--telu-text-primary);
+  background-color: var(--telu-surface);
+  transition: border-color var(--telu-transition-fast), box-shadow var(--telu-transition-fast);
+  min-height: 44px;
+
+  &::placeholder {
+    color: var(--telu-gray-500);
+  }
+  &:hover {
+    border-color: var(--telu-gray-400);
+  }
+  &:focus {
+    border-color: var(--telu-primary);
+    box-shadow: 0 0 0 3px var(--telu-primary-soft);
+    outline: none;
+  }
+  &.is-invalid {
+    border-color: var(--telu-danger);
+    box-shadow: 0 0 0 3px var(--telu-danger-soft);
+  }
+}
+
+.form-control-lg {
+  min-height: 52px;
+  font-size: 1rem;
+  padding: 0.75rem 1.25rem;
+}
+
+// Labels
+.form-label,
+label:not(.sr-only) {
+  font-weight: 600;
+  font-size: 0.875rem;
+  color: var(--telu-gray-800);
+  margin-bottom: var(--telu-space-2);
+}
+
+// Select
+.custom-select,
+select.form-control {
+  border-radius: var(--telu-radius-sm);
+  min-height: 44px;
+  appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%236B7280' d='M6 8.825l-5-5h10l-5 5z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: right 1rem center;
+  padding-right: 2.5rem;
+}
+
+// Checkbox & Radio custom
+.form-check-input {
+  width: 1.125rem;
+  height: 1.125rem;
+  border: 2px solid var(--telu-gray-300);
+  border-radius: var(--telu-radius-xs);
+  transition: all var(--telu-transition-fast);
+  &:checked {
+    background-color: var(--telu-primary);
+    border-color: var(--telu-primary);
+  }
+  &:focus {
+    box-shadow: 0 0 0 3px var(--telu-primary-soft);
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 9. BADGES
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.badge {
+  font-weight: 600;
+  font-size: 0.6875rem;
+  padding: 0.25em 0.65em;
+  border-radius: var(--telu-radius-full);
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+}
+
+// Semantic badge variants
+.badge-success, .badge-bg-success,
+.bg-success {
+  background-color: var(--telu-success-soft) !important;
+  color: var(--telu-success) !important;
+}
+.badge-warning, .badge-bg-warning,
+.bg-warning {
+  background-color: var(--telu-warning-soft) !important;
+  color: darken(#F59E0B, 15%) !important;
+}
+.badge-danger, .badge-bg-danger,
+.bg-danger {
+  background-color: var(--telu-danger-soft) !important;
+  color: var(--telu-danger) !important;
+}
+.badge-info, .badge-bg-info,
+.bg-info {
+  background-color: var(--telu-info-soft) !important;
+  color: var(--telu-info) !important;
+}
+.badge-primary, .badge-bg-primary,
+.bg-primary {
+  background-color: var(--telu-primary-soft) !important;
+  color: var(--telu-primary) !important;
+}
+
+// AI Generated badge
+.telu-badge-ai {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--telu-space-1);
+  background: var(--telu-info-soft);
+  color: var(--telu-info);
+  padding: 0.25em 0.75em;
+  border-radius: var(--telu-radius-full);
+  font-size: 0.6875rem;
+  font-weight: 600;
+  &::before {
+    content: "---";
+    font-size: 0.625rem;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 10. ALERTS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.alert {
+  border-radius: var(--telu-radius-md);
+  border: 1px solid;
+  padding: var(--telu-space-4) var(--telu-space-5);
+  font-size: 0.875rem;
+
+  .close, .btn-close {
+    opacity: 0.6;
+    &:hover { opacity: 1; }
+  }
+}
+.alert-success {
+  background: var(--telu-success-soft);
+  border-color: rgba(22, 163, 74, 0.2);
+  color: darken(#16A34A, 10%);
+}
+.alert-warning {
+  background: var(--telu-warning-soft);
+  border-color: rgba(245, 158, 11, 0.2);
+  color: darken(#F59E0B, 20%);
+}
+.alert-danger {
+  background: var(--telu-danger-soft);
+  border-color: rgba(220, 38, 38, 0.2);
+  color: darken(#DC2626, 10%);
+}
+.alert-info {
+  background: var(--telu-info-soft);
+  border-color: rgba(37, 99, 235, 0.2);
+  color: darken(#2563EB, 10%);
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 11. TABLES
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.table,
+.generaltable {
+  border-collapse: separate;
+  border-spacing: 0;
+  border: 1px solid var(--telu-border);
+  border-radius: var(--telu-radius-lg);
+  overflow: hidden;
+  background: var(--telu-surface);
+
+  thead th {
+    background: var(--telu-gray-50);
+    font-weight: 600;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--telu-text-secondary);
+    padding: var(--telu-space-3) var(--telu-space-4);
+    border-bottom: 1px solid var(--telu-border);
+    white-space: nowrap;
+  }
+  tbody td {
+    padding: var(--telu-space-4);
+    font-size: 0.875rem;
+    color: var(--telu-text-primary);
+    border-bottom: 1px solid var(--telu-gray-100);
+    vertical-align: middle;
+  }
+  tbody tr:last-child td {
+    border-bottom: none;
+  }
+  tbody tr:hover td {
+    background-color: var(--telu-gray-50);
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 12. MODALS & DROPDOWNS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.modal-content {
+  border: 1px solid var(--telu-border);
+  border-radius: var(--telu-radius-xl);
+  box-shadow: var(--telu-shadow-xl);
+  overflow: hidden;
+}
+.modal-header {
+  border-bottom: 1px solid var(--telu-gray-100);
+  padding: var(--telu-space-5) var(--telu-space-6);
+  .modal-title {
+    font-weight: 600;
+    font-size: 1.125rem;
+  }
+}
+.modal-body {
+  padding: var(--telu-space-6);
+}
+.modal-footer {
+  border-top: 1px solid var(--telu-gray-100);
+  padding: var(--telu-space-4) var(--telu-space-6);
+}
+
+.dropdown-menu {
+  border: 1px solid var(--telu-border);
+  border-radius: var(--telu-radius-md);
+  box-shadow: var(--telu-shadow-lg);
+  padding: var(--telu-space-2) 0;
+  animation: telu-dropdown-in var(--telu-transition-fast) ease-out;
+}
+.dropdown-item {
+  padding: var(--telu-space-2) var(--telu-space-4);
+  font-size: 0.875rem;
+  border-radius: var(--telu-radius-sm);
+  margin: 0 var(--telu-space-1);
+  transition: background var(--telu-transition-fast);
+  &:hover, &:focus {
+    background: var(--telu-gray-50);
+  }
+  &.active, &:active {
+    background: var(--telu-primary-soft);
+    color: var(--telu-primary);
+  }
+}
+
+@keyframes telu-dropdown-in {
+  from {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 13. BREADCRUMBS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.breadcrumb {
+  background: transparent;
+  padding: var(--telu-space-3) 0;
+  margin-bottom: var(--telu-space-4);
+  font-size: 0.8125rem;
+
+  .breadcrumb-item {
+    color: var(--telu-text-secondary);
+    a {
+      color: var(--telu-info);
+      text-decoration: none;
+      &:hover { text-decoration: underline; }
+    }
+    &.active {
+      color: var(--telu-text-primary);
+      font-weight: 600;
+    }
+    + .breadcrumb-item::before {
+      content: "---";
+      color: var(--telu-gray-400);
+      font-weight: 400;
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 14. TABS (NAV-TABS)
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.nav-tabs {
+  border-bottom: 2px solid var(--telu-gray-200);
+
+  .nav-link {
+    color: var(--telu-text-secondary);
+    font-weight: 500;
+    font-size: 0.875rem;
+    padding: var(--telu-space-3) var(--telu-space-4);
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -2px;
+    transition: all var(--telu-transition-fast);
+    border-radius: 0;
+
+    &:hover {
+      color: var(--telu-text-primary);
+      border-bottom-color: var(--telu-gray-300);
+      background: transparent;
+    }
+    &.active {
+      color: var(--telu-primary);
+      font-weight: 600;
+      border-bottom-color: var(--telu-primary);
+      background: transparent;
+    }
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 15. PROGRESS BARS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.progress {
+  height: 8px;
+  border-radius: var(--telu-radius-full);
+  background-color: var(--telu-gray-200);
+  overflow: hidden;
+}
+.progress-bar {
+  background: linear-gradient(135deg, var(--telu-primary), var(--telu-primary-dark));
+  border-radius: var(--telu-radius-full);
+  transition: width var(--telu-transition-slow);
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 16. PAGINATION
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+.pagination {
+  gap: var(--telu-space-1);
+
+  .page-link {
+    border: 1px solid var(--telu-border);
+    border-radius: var(--telu-radius-sm);
+    color: var(--telu-text-secondary);
+    font-size: 0.875rem;
+    font-weight: 500;
+    padding: var(--telu-space-2) var(--telu-space-3);
+    min-width: 36px;
+    text-align: center;
+    transition: all var(--telu-transition-fast);
+
+    &:hover {
+      background: var(--telu-gray-50);
+      border-color: var(--telu-border-hover);
+      color: var(--telu-text-primary);
+    }
+  }
+  .page-item.active .page-link {
+    background: var(--telu-primary);
+    border-color: var(--telu-primary);
+    color: var(--telu-text-inverse);
+    font-weight: 600;
+  }
+  .page-item.disabled .page-link {
+    opacity: 0.5;
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 17. MOODLE-SPECIFIC OVERRIDES
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Page header / activity header area
+#page-header {
+  padding: var(--telu-space-6) 0;
+  .page-header-headings h1 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--telu-gray-900);
+  }
+}
+
+// Main content region
+#region-main {
+  background: var(--telu-surface);
+  border: 1px solid var(--telu-border);
+  border-radius: var(--telu-radius-lg);
+  padding: var(--telu-space-6);
+  box-shadow: var(--telu-shadow-sm);
+}
+
+// Course section activities
+.section .activity {
+  border: 1px solid var(--telu-gray-100);
+  border-radius: var(--telu-radius-md);
+  padding: var(--telu-space-4);
+  margin-bottom: var(--telu-space-3);
+  transition: all var(--telu-transition-fast);
+  background: var(--telu-surface);
+
+  &:hover {
+    border-color: var(--telu-border-hover);
+    box-shadow: var(--telu-shadow-sm);
+  }
+}
+
+// Calendar & events
+.event {
+  border-radius: var(--telu-radius-md);
+}
+
+// Moodle secondary navigation (tabs below header)
+.secondary-navigation {
+  .moremenu .nav-tabs {
+    border-bottom: 2px solid var(--telu-gray-200);
+    .nav-link {
+      border-radius: 0;
+      font-weight: 500;
+      &.active {
+        font-weight: 600;
+      }
+    }
+  }
+}
+
+// Footer
+#page-footer {
+  background: var(--telu-surface);
+  border-top: 1px solid var(--telu-border);
+  padding: var(--telu-space-8) 0;
+  color: var(--telu-text-secondary);
+  font-size: 0.8125rem;
+}
+
+// Block cards (sidebar blocks)
+.block {
+  border: 1px solid var(--telu-border);
+  border-radius: var(--telu-radius-lg);
+  box-shadow: var(--telu-shadow-xs);
+  overflow: hidden;
+
+  .card-body {
+    padding: var(--telu-space-4);
+  }
+  .card-title {
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--telu-gray-800);
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 18. AI ACADEMIC ASSISTANT COMPONENTS (plugin integration)
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Override the existing local_aiacademic styles to match our design system.
+.local_aiacademic_chat_container,
+.local_aiacademic_summarizer_container,
+.local_aiacademic_quiz_container {
+  font-family: "Inter", "Plus Jakarta Sans", system-ui, -apple-system,
+               BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: var(--telu-surface);
+  border: 1px solid var(--telu-border);
+  border-radius: var(--telu-radius-lg);
+  box-shadow: var(--telu-shadow-sm);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  padding: var(--telu-space-6);
+
+  &:hover {
+    box-shadow: var(--telu-shadow-md);
+    border-color: var(--telu-border-hover);
+  }
+
+  // Form controls inside AI containers
+  input, select, textarea {
+    border: 1px solid var(--telu-gray-300) !important;
+    border-radius: var(--telu-radius-sm) !important;
+    padding: 0.625rem 1rem !important;
+    background: var(--telu-surface) !important;
+    font-size: 0.875rem !important;
+    color: var(--telu-text-primary) !important;
+    transition: all var(--telu-transition-fast) !important;
+    min-height: 44px;
+
+    &:focus {
+      border-color: var(--telu-primary) !important;
+      box-shadow: 0 0 0 3px var(--telu-primary-soft) !important;
+      outline: none !important;
+    }
+  }
+
+  // Buttons inside AI containers
+  .btn-primary {
+    background: var(--telu-primary) !important;
+    border-color: var(--telu-primary) !important;
+    border-radius: var(--telu-radius-md) !important;
+    font-weight: 600;
+    &:hover {
+      background: var(--telu-primary-dark) !important;
+      border-color: var(--telu-primary-dark) !important;
+      box-shadow: 0 4px 12px rgba(237, 28, 36, 0.3);
+    }
+  }
+}
+
+// Chat bubbles
+.local_aiacademic_chat_container {
+  .message {
+    &.user .msg_content {
+      background: var(--telu-primary-soft);
+      border-radius: var(--telu-radius-lg) var(--telu-radius-lg) var(--telu-radius-xs) var(--telu-radius-lg);
+      color: var(--telu-text-primary);
+    }
+    &.assistant .msg_content {
+      background: var(--telu-gray-50);
+      border: 1px solid var(--telu-gray-200);
+      border-radius: var(--telu-radius-lg) var(--telu-radius-lg) var(--telu-radius-lg) var(--telu-radius-xs);
+      color: var(--telu-text-primary);
+    }
+  }
+
+  .chat_input_area {
+    border-top: 1px solid var(--telu-border);
+    padding-top: var(--telu-space-4);
+  }
+
+  .typing_indicator {
+    span {
+      background: var(--telu-primary);
+    }
+  }
+
+  .disclaimer_text {
+    color: var(--telu-text-muted);
+    font-size: 0.75rem;
+  }
+}
+
+// Summarizer result cards
+.local_aiacademic_summarizer_container {
+  .summary_section {
+    background: var(--telu-gray-50);
+    border: 1px solid var(--telu-gray-200);
+    border-radius: var(--telu-radius-md);
+    padding: var(--telu-space-5);
+    margin-bottom: var(--telu-space-4);
+  }
+}
+
+// Quiz generator
+.local_aiacademic_quiz_container {
+  .quiz_section {
+    background: var(--telu-gray-50);
+    border: 1px solid var(--telu-gray-200);
+    border-radius: var(--telu-radius-md);
+    padding: var(--telu-space-5);
+  }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 19. RESPONSIVE ADJUSTMENTS
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+@media (max-width: 767.98px) {
+  // Tighter padding on mobile
+  #region-main {
+    padding: var(--telu-space-4);
+    border-radius: var(--telu-radius-md);
+  }
+  .card .card-body {
+    padding: var(--telu-space-4);
+  }
+  #page-header .page-header-headings h1 {
+    font-size: 1.375rem;
+  }
+
+  // AI containers responsive
+  .local_aiacademic_chat_container,
+  .local_aiacademic_summarizer_container,
+  .local_aiacademic_quiz_container {
+    padding: var(--telu-space-4);
+    border-radius: var(--telu-radius-md);
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1023.98px) {
+  #region-main {
+    padding: var(--telu-space-5);
+  }
+}
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// 20. LOGIN PAGE --- Premium Split-Screen Redesign
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// ------ Base: Body & Wrapper ------------------------------------------------------------------------------------------------------------------------------
+body.telu-page-login {
+  background: var(--telu-bg);
+  overflow-x: hidden;
+  min-height: 100vh;
+
+  // Hide default Moodle chrome
+  #page-wrapper { padding: 0; margin: 0; }
+  .navbar, #page-footer, #page-header { display: none !important; }
+}
+
+.telu-login-wrapper {
+  width: 100%;
+  min-height: 100vh;
+}
+
+.telu-login-split {
+  display: flex;
+  min-height: 100vh;
+  width: 100%;
+}
+
+
+// ------ LEFT PANEL: Hero / Branding (55%) ---------------------------------------------------------------------------------------
+.telu-login__hero {
+  flex: 0 0 55%;
+  max-width: 55%;
+  background: linear-gradient(155deg, #8B0D12 0%, #B01116 25%, #ED1C24 55%, #FF4D52 85%, #FF7A7E 100%);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  overflow: hidden;
+  padding: 64px 56px;
+}
+
+// Animated background orbs
+.telu-login__hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.telu-login__hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  animation: telu-orb-float 20s ease-in-out infinite;
+}
+.telu-login__hero-orb--1 {
+  width: 500px;
+  height: 500px;
+  top: -150px;
+  right: -120px;
+  background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%);
+  animation-duration: 25s;
+}
+.telu-login__hero-orb--2 {
+  width: 350px;
+  height: 350px;
+  bottom: -100px;
+  left: -80px;
+  background: radial-gradient(circle, rgba(255,255,255,0.06) 0%, transparent 70%);
+  animation-duration: 20s;
+  animation-delay: -5s;
+}
+.telu-login__hero-orb--3 {
+  width: 200px;
+  height: 200px;
+  top: 40%;
+  right: 10%;
+  background: radial-gradient(circle, rgba(255,255,255,0.05) 0%, transparent 70%);
+  animation-duration: 18s;
+  animation-delay: -10s;
+}
+
+// Subtle grid pattern overlay
+.telu-login__hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px);
+  background-size: 60px 60px;
+  opacity: 0.5;
+}
+
+@keyframes telu-orb-float {
+  0%, 100% { transform: translate(0, 0) scale(1); }
+  25%      { transform: translate(15px, -20px) scale(1.03); }
+  50%      { transform: translate(-10px, 15px) scale(0.97); }
+  75%      { transform: translate(20px, 10px) scale(1.02); }
+}
+
+// Hero content
+.telu-login__hero-content {
+  position: relative;
+  z-index: 1;
+  max-width: 520px;
+  width: 100%;
+}
+
+// Logo
+.telu-login__hero-logo {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 48px;
+}
+.telu-login__hero-logo-mark {
+  flex-shrink: 0;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+}
+.telu-login__hero-logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.telu-login__hero-appname {
+  font-size: 1.5rem;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  line-height: 1.2;
+}
+.telu-login__hero-orgname {
+  font-size: 0.8125rem;
+  font-weight: 400;
+  opacity: 0.75;
+}
+
+// Headline
+.telu-login__hero-headline {
+  font-size: 3rem;
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.025em;
+  margin-bottom: 20px;
+  color: #fff;
+}
+.telu-login__hero-ai-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.18);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  padding: 4px 20px;
+  border-radius: 10px;
+  border: 1px solid rgba(255,255,255,0.25);
+  font-size: inherit;
+  font-weight: 700;
+}
+
+// Description
+.telu-login__hero-desc {
+  font-size: 1.0625rem;
+  line-height: 1.7;
+  opacity: 0.88;
+  margin-bottom: 40px;
+  max-width: 460px;
+}
+
+// Feature cards
+.telu-login__hero-features {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 48px;
+}
+
+.telu-login__hero-feature {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  background: rgba(255,255,255,0.10);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: 16px;
+  padding: 16px 20px;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  &:hover {
+    background: rgba(255,255,255,0.18);
+    border-color: rgba(255,255,255,0.25);
+    transform: translateX(4px);
+  }
+}
+
+.telu-login__hero-feature-icon {
+  width: 42px;
+  height: 42px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.15);
+  border-radius: 12px;
+  flex-shrink: 0;
+  i { font-size: 1rem; }
+}
+
+.telu-login__hero-feature-text {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.telu-login__hero-feature-title {
+  font-size: 0.9375rem;
+  font-weight: 600;
+  line-height: 1.3;
+}
+.telu-login__hero-feature-sub {
+  font-size: 0.8125rem;
+  opacity: 0.7;
+  line-height: 1.3;
+}
+
+// Footer
+.telu-login__hero-footer {
+  font-size: 0.75rem;
+  opacity: 0.5;
+  letter-spacing: 0.01em;
+}
+
+
+// ------ RIGHT PANEL: Login Form (45%) ---------------------------------------------------------------------------------------------------
+.telu-login__form-panel {
+  flex: 0 0 45%;
+  max-width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--telu-bg);
+  padding: 48px 40px;
+  position: relative;
+}
+
+.telu-login__form-wrapper {
+  width: 100%;
+  max-width: 440px;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
+// Mobile header (hidden on desktop)
+.telu-login__mobile-header {
+  display: none;
+  text-align: center;
+  margin-bottom: 32px;
+}
+.telu-login__mobile-logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+.telu-login__mobile-appname {
+  font-size: 1.375rem;
+  font-weight: 700;
+  color: var(--telu-primary);
+  letter-spacing: -0.01em;
+}
+.telu-login__mobile-tagline {
+  font-size: 0.8125rem;
+  color: var(--telu-text-secondary);
+  margin: 0;
+}
+
+// Login Card
+.telu-login__card {
+  background: var(--telu-surface);
+  border: 1px solid var(--telu-border);
+  border-radius: 24px;
+  box-shadow:
+    0 1px 3px rgba(15, 23, 42, 0.04),
+    0 8px 24px rgba(15, 23, 42, 0.06);
+  padding: 40px;
+  margin-bottom: 24px;
+}
+
+.telu-login__card-header {
+  margin-bottom: 32px;
+}
+.telu-login__card-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: var(--telu-gray-900);
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.telu-login__card-subtitle {
+  font-size: 0.9375rem;
+  color: var(--telu-text-secondary);
+  margin: 0;
+  line-height: 1.5;
+}
+
+// ------ Override Moodle Login Form ------------------------------------------------------------------------------------------------------------
+.telu-login__card-body {
+  // Reset Moodle login wrappers
+  .login-wrapper { display: block; }
+  .login-container { width: 100%; max-width: 100%; margin: 0; padding: 0; }
+
+  // Hide Moodle card chrome (we use our own)
+  .loginform {
+    > .card, > .login-card {
+      border: none !important;
+      box-shadow: none !important;
+      background: transparent !important;
+      border-radius: 0 !important;
+      margin: 0 !important;
+      padding: 0 !important;
+    }
+  }
+
+  // Hide Moodle's "Log in to..." heading (we have our own)
+  .login-heading:first-of-type,
+  .login-heading.mb-4,
+  #loginlogo + .login-heading,
+  .loginform > h1,
+  .loginform > .login-heading:first-child {
+    display: none !important;
+  }
+
+  // Logo inside form (if set)
+  .login-logo {
+    display: none; // We use our own branding
+  }
+
+  // Alert messages
+  .alert {
+    border-radius: 12px;
+    font-size: 0.875rem;
+    padding: 14px 18px;
+    margin-bottom: 24px;
+    border: none;
+    &.alert-danger {
+      background: var(--telu-danger-soft);
+      color: #B91C1C;
+    }
+  }
+
+  // Form groups
+  .login-form-username,
+  .login-form-password {
+    margin-bottom: 20px;
+  }
+
+  // Labels
+  .login-form-username label,
+  .login-form-password label {
+    display: block !important;
+    font-weight: 600;
+    font-size: 0.875rem;
+    color: var(--telu-gray-800);
+    margin-bottom: 8px;
+    clip: unset !important;
+    width: auto !important;
+    height: auto !important;
+    overflow: visible !important;
+    position: static !important;
+  }
+
+  // Input fields
+  .form-control,
+  input[type="text"],
+  input[type="password"] {
+    height: 48px;
+    border: 1.5px solid var(--telu-gray-300) !important;
+    border-radius: 12px !important;
+    padding: 12px 16px !important;
+    font-size: 0.9375rem !important;
+    background: var(--telu-surface) !important;
+    color: var(--telu-text-primary) !important;
+    transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+    width: 100% !important;
+    box-shadow: none !important;
+
+    &::placeholder {
+      color: var(--telu-gray-400) !important;
+      font-weight: 400;
+    }
+    &:hover {
+      border-color: var(--telu-gray-400) !important;
+    }
+    &:focus {
+      border-color: var(--telu-primary) !important;
+      box-shadow: 0 0 0 4px rgba(237, 28, 36, 0.1) !important;
+      outline: none !important;
+    }
+  }
+
+  // Submit button
+  .login-form-submit {
+    margin-bottom: 16px;
+    margin-top: 8px;
+  }
+
+  #loginbtn,
+  .login-form-submit .btn-primary {
+    width: 100% !important;
+    height: 48px;
+    background: var(--telu-primary) !important;
+    border: none !important;
+    border-radius: 12px !important;
+    font-size: 1rem !important;
+    font-weight: 600 !important;
+    color: #fff !important;
+    letter-spacing: 0.01em;
+    cursor: pointer;
+    transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative;
+    overflow: hidden;
+
+    &:hover {
+      background: var(--telu-primary-dark) !important;
+      box-shadow: 0 6px 20px rgba(237, 28, 36, 0.3) !important;
+      transform: translateY(-1px);
+    }
+    &:active {
+      transform: translateY(0) !important;
+      box-shadow: 0 2px 8px rgba(237, 28, 36, 0.2) !important;
+    }
+    &:focus-visible {
+      outline: 2px solid var(--telu-primary) !important;
+      outline-offset: 2px;
+    }
+  }
+
+  // Forgot password
+  .login-form-forgotpassword {
+    text-align: center;
+    margin-top: 4px;
+    a {
+      color: var(--telu-primary);
+      font-size: 0.875rem;
+      font-weight: 500;
+      text-decoration: none;
+      transition: color 150ms;
+      &:hover {
+        color: var(--telu-primary-dark);
+        text-decoration: underline;
+      }
+    }
+  }
+
+  // ------ Dividers ------
+  .login-divider {
+    height: 1px;
+    background: var(--telu-gray-200);
+    margin: 24px 0;
+    border: none;
+  }
+
+  // ------ Guest login section ------
+  .loginform > h2.login-heading,
+  .loginform > .login-heading:not(:first-child) {
+    font-size: 0.8125rem !important;
+    font-weight: 500 !important;
+    color: var(--telu-text-secondary) !important;
+    text-transform: none !important;
+    margin-bottom: 12px;
+  }
+
+  #loginguestbtn {
+    background: var(--telu-gray-100) !important;
+    border: 1px solid var(--telu-border) !important;
+    border-radius: 12px !important;
+    color: var(--telu-gray-700) !important;
+    font-size: 0.875rem !important;
+    font-weight: 500 !important;
+    height: 40px;
+    width: 100%;
+    transition: all 150ms !important;
+    &:hover {
+      background: var(--telu-gray-200) !important;
+      border-color: var(--telu-border-hover) !important;
+    }
+  }
+
+  // ------ Instructions / First time ------
+  .login-instructions {
+    font-size: 0.8125rem;
+    color: var(--telu-text-secondary);
+    line-height: 1.6;
+    h2 {
+      font-size: 0.875rem !important;
+      font-weight: 600 !important;
+      color: var(--telu-gray-800) !important;
+      margin-bottom: 8px;
+    }
+  }
+
+  // ------ Signup ------
+  .login-signup {
+    text-align: center;
+    .btn-secondary {
+      background: transparent !important;
+      border: 1.5px solid var(--telu-primary) !important;
+      color: var(--telu-primary) !important;
+      border-radius: 12px !important;
+      font-weight: 600 !important;
+      font-size: 0.875rem !important;
+      height: 40px;
+      padding: 0 24px;
+      transition: all 150ms !important;
+      &:hover {
+        background: var(--telu-primary-softer) !important;
+      }
+    }
+  }
+
+  // ------ Identity providers ------
+  .login-identityproviders {
+    h2 {
+      font-size: 0.875rem !important;
+      color: var(--telu-text-secondary) !important;
+      margin-bottom: 12px;
+    }
+    .login-identityprovider-btn {
+      border: 1px solid var(--telu-border) !important;
+      border-radius: 12px !important;
+      padding: 10px 16px !important;
+      font-size: 0.875rem !important;
+      margin-bottom: 8px;
+      transition: all 150ms !important;
+      &:hover {
+        background: var(--telu-gray-50) !important;
+        border-color: var(--telu-border-hover) !important;
+      }
+    }
+  }
+
+  // ------ Language & Cookies (bottom bar) ------
+  .loginform > .d-flex:last-child {
+    justify-content: center;
+    padding-top: 8px;
+
+    .login-languagemenu {
+      font-size: 0.8125rem;
+    }
+    .divider {
+      height: 16px;
+      opacity: 0.3;
+    }
+    .btn-secondary {
+      background: transparent !important;
+      border: none !important;
+      color: var(--telu-text-muted) !important;
+      font-size: 0.75rem !important;
+      font-weight: 400 !important;
+      padding: 4px 8px !important;
+      text-decoration: underline;
+      opacity: 0.7;
+      &:hover {
+        opacity: 1;
+        color: var(--telu-text-secondary) !important;
+      }
+    }
+  }
+}
+
+// Trust badge
+.telu-login__trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-size: 0.75rem;
+  color: var(--telu-text-muted);
+
+  i { font-size: 0.875rem; color: var(--telu-gray-400); }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// RESPONSIVE
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+// Wide desktop
+@media (min-width: 1440px) {
+  .telu-login__hero { padding: 72px 64px; }
+  .telu-login__hero-headline { font-size: 3.25rem; }
+  .telu-login__hero-content { max-width: 560px; }
+}
+
+// Compact desktop
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .telu-login__hero {
+    padding: 48px 40px;
+  }
+  .telu-login__hero-headline { font-size: 2.5rem; }
+  .telu-login__hero-desc { font-size: 0.9375rem; }
+  .telu-login__form-panel { padding: 40px 32px; }
+  .telu-login__card { padding: 32px; }
+}
+
+// Tablet
+@media (min-width: 768px) and (max-width: 1023px) {
+  .telu-login__hero {
+    flex: 0 0 45%;
+    max-width: 45%;
+    padding: 40px 32px;
+  }
+  .telu-login__hero-headline { font-size: 2rem; }
+  .telu-login__hero-desc { font-size: 0.875rem; margin-bottom: 24px; }
+  .telu-login__hero-logo { margin-bottom: 32px; }
+  .telu-login__hero-features { margin-bottom: 32px; }
+  .telu-login__hero-feature { padding: 12px 16px; }
+  .telu-login__hero-feature-sub { display: none; }
+
+  .telu-login__form-panel {
+    flex: 0 0 55%;
+    max-width: 55%;
+    padding: 32px 24px;
+  }
+  .telu-login__card { padding: 28px; border-radius: 20px; }
+  .telu-login__card-title { font-size: 1.5rem; }
+}
+
+// Mobile
+@media (max-width: 767px) {
+  .telu-login-split {
+    flex-direction: column;
+  }
+
+  // Hide hero panel on mobile
+  .telu-login__hero {
+    display: none;
+  }
+
+  // Show mobile header
+  .telu-login__mobile-header {
+    display: block;
+  }
+
+  .telu-login__form-panel {
+    flex: 1 1 auto;
+    max-width: 100%;
+    min-height: 100vh;
+    padding: 24px 20px;
+    align-items: flex-start;
+    padding-top: 48px;
+  }
+
+  .telu-login__form-wrapper {
+    max-width: 100%;
+  }
+
+  .telu-login__card {
+    padding: 24px;
+    border-radius: 20px;
+    box-shadow: 0 1px 3px rgba(15, 23, 42, 0.04), 0 4px 16px rgba(15, 23, 42, 0.05);
+  }
+
+  .telu-login__card-title { font-size: 1.5rem; }
+  .telu-login__card-subtitle { font-size: 0.875rem; }
+
+  .telu-login__card-body {
+    .form-control,
+    input[type="text"],
+    input[type="password"] {
+      height: 44px;
+      font-size: 0.875rem !important;
+    }
+    #loginbtn,
+    .login-form-submit .btn-primary {
+      height: 44px;
+      font-size: 0.9375rem !important;
+    }
+  }
+}
+
+// Small mobile
+@media (max-width: 374px) {
+  .telu-login__form-panel { padding: 20px 16px; padding-top: 32px; }
+  .telu-login__card { padding: 20px; border-radius: 16px; }
+  .telu-login__card-title { font-size: 1.375rem; }
+  .telu-login__card-header { margin-bottom: 24px; }
+}
+
+
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// ACCESSIBILITY
+// ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+@media (prefers-reduced-motion: reduce) {
+  .telu-login__hero-orb { animation: none !important; }
+}
+
+// High contrast focus rings
+.telu-login__card-body {
+  input:focus-visible {
+    outline: 2px solid var(--telu-primary) !important;
+    outline-offset: 1px;
+  }
+  button:focus-visible,
+  a:focus-visible {
+    outline: 2px solid var(--telu-primary) !important;
+    outline-offset: 2px;
+  }
+}
+

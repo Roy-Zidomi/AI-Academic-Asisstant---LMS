@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" width="48" height="48">
+  <defs>
+    <linearGradient id="teluRedGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#ED1C24" />
+      <stop offset="100%" stop-color="#B01116" />
+    </linearGradient>
+  </defs>
+  <!-- Background Shield -->
+  <path d="M12 16 L24 10 L36 16 V30 L24 36 L12 30 Z" fill="url(#teluRedGradient)" />
+  
+  <!-- Outer glowing ring -->
+  <circle cx="24" cy="22" r="6.5" stroke="rgba(255, 255, 255, 0.4)" stroke-width="1.5" fill="none" />
+  
+  <!-- Center Core AI Core -->
+  <circle cx="24" cy="22" r="3" fill="#FFFFFF" />
+  
+  <!-- Graduation Smile/Network link -->
+  <path d="M18 28.5 C 18 28.5, 21 31, 24 31 C 27 31, 30 28.5, 30 28.5" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none" />
+</svg>

@@ -1,0 +1,224 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<XMLDB PATH="local/aiacademic/db" VERSION="20260701" COMMENT="XMLDB file for Moodle local_aiacademic plugin"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:noNamespaceSchemaLocation="../../../lib/xmldb/xmldb.xsd"
+>
+  <TABLES>
+    <!-- =================================================================== -->
+    <!-- Table: local_aiacademic_chats                                       -->
+    <!-- =================================================================== -->
+    <TABLE NAME="local_aiacademic_chats" COMMENT="AI Academic Assistant chat sessions">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="FK to mdl_user.id"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="FK to mdl_course.id (optional context)"/>
+        <FIELD NAME="title" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false" COMMENT="Title generated from first question"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false" COMMENT="1 = active, 0 = archived"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="fk_courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_userid" UNIQUE="false" FIELDS="userid"/>
+        <INDEX NAME="idx_courseid" UNIQUE="false" FIELDS="courseid"/>
+        <INDEX NAME="idx_userid_status" UNIQUE="false" FIELDS="userid, status"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- =================================================================== -->
+    <!-- Table: local_aiacademic_messages                                    -->
+    <!-- =================================================================== -->
+    <TABLE NAME="local_aiacademic_messages" COMMENT="Individual messages inside AI chat sessions">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="sessionid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false" COMMENT="FK to local_aiacademic_chats.id"/>
+        <FIELD NAME="role" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="user, assistant, system"/>
+        <FIELD NAME="content" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="model_used" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="tokens_used" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="response_time" TYPE="number" LENGTH="10" DECIMALS="4" NOTNULL="false" SEQUENCE="false" COMMENT="In seconds"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_sessionid" TYPE="foreign" FIELDS="sessionid" REFTABLE="local_aiacademic_chats" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_sessionid" UNIQUE="false" FIELDS="sessionid"/>
+        <INDEX NAME="idx_sessionid_time" UNIQUE="false" FIELDS="sessionid, timecreated"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- =================================================================== -->
+    <!-- Table: local_aiacademic_summaries                                   -->
+    <!-- =================================================================== -->
+    <TABLE NAME="local_aiacademic_summaries" COMMENT="AI generated material summaries">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Course module ID of source file"/>
+        <FIELD NAME="source_filename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="source_hash" TYPE="char" LENGTH="64" NOTNULL="false" SEQUENCE="false" COMMENT="SHA-256 for deduplication"/>
+        <FIELD NAME="executive_summary" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="key_points_json" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="concepts_json" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="glossary_json" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="study_guide" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="model_used" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="tokens_used" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="generation_time" TYPE="number" LENGTH="10" DECIMALS="4" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="0 = pending, 1 = completed, 2 = failed"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_sum_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="fk_sum_courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_sum_userid" UNIQUE="false" FIELDS="userid"/>
+        <INDEX NAME="idx_sum_courseid" UNIQUE="false" FIELDS="courseid"/>
+        <INDEX NAME="idx_sum_cmid" UNIQUE="false" FIELDS="cmid"/>
+        <INDEX NAME="idx_sum_hash" UNIQUE="false" FIELDS="source_hash"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- =================================================================== -->
+    <!-- Table: local_aiacademic_genquizzes                                  -->
+    <!-- =================================================================== -->
+    <TABLE NAME="local_aiacademic_genquizzes" COMMENT="AI quiz generation batch records">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="source_filename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="difficulty" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="requested_count" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="generated_count" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="question_types" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="model_used" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="generation_time" TYPE="number" LENGTH="10" DECIMALS="4" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="status" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="0=pending, 1=generated, 2=reviewed, 3=published, 4=failed"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_gq_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+        <KEY NAME="fk_gq_courseid" TYPE="foreign" FIELDS="courseid" REFTABLE="course" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_gq_userid" UNIQUE="false" FIELDS="userid"/>
+        <INDEX NAME="idx_gq_courseid" UNIQUE="false" FIELDS="courseid"/>
+        <INDEX NAME="idx_gq_status" UNIQUE="false" FIELDS="status"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- =================================================================== -->
+    <!-- Table: local_aiacademic_questions                                   -->
+    <!-- =================================================================== -->
+    <TABLE NAME="local_aiacademic_questions" COMMENT="Individual generated questions">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="genquizid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="qtype" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false" COMMENT="multichoice, essay, truefalse"/>
+        <FIELD NAME="question_text" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="options_json" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="correct_answer" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="explanation" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="difficulty" TYPE="char" LENGTH="20" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="review_status" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="0" SEQUENCE="false" COMMENT="0=pending, 1=approved, 2=rejected, 3=edited"/>
+        <FIELD NAME="reviewer_comment" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="moodle_questionid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Imported question ID in question bank"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_gq_batchid" TYPE="foreign" FIELDS="genquizid" REFTABLE="local_aiacademic_genquizzes" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_gq_batchid" UNIQUE="false" FIELDS="genquizid"/>
+        <INDEX NAME="idx_gq_review" UNIQUE="false" FIELDS="genquizid, review_status"/>
+        <INDEX NAME="idx_gq_moodleq" UNIQUE="false" FIELDS="moodle_questionid"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- =================================================================== -->
+    <!-- Table: local_aiacademic_logs                                        -->
+    <!-- =================================================================== -->
+    <TABLE NAME="local_aiacademic_logs" COMMENT="AI service request/response logs">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="feature_type" TYPE="char" LENGTH="30" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="model_used" TYPE="char" LENGTH="100" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="input_tokens" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="output_tokens" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="response_time_ms" TYPE="number" LENGTH="10" DECIMALS="4" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="status" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="error_message" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="ip_address" TYPE="char" LENGTH="45" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="user_agent" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="fk_log_userid" TYPE="foreign" FIELDS="userid" REFTABLE="user" REFFIELDS="id"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_log_userid" UNIQUE="false" FIELDS="userid"/>
+        <INDEX NAME="idx_log_feature" UNIQUE="false" FIELDS="feature_type"/>
+        <INDEX NAME="idx_log_status" UNIQUE="false" FIELDS="status"/>
+        <INDEX NAME="idx_log_timecreated" UNIQUE="false" FIELDS="timecreated"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- =================================================================== -->
+    <!-- Table: local_aiacademic_prompts                                     -->
+    <!-- =================================================================== -->
+    <TABLE NAME="local_aiacademic_prompts" COMMENT="AI Prompt templates">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="feature_type" TYPE="char" LENGTH="30" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="template_name" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="system_prompt" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="context_template" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="user_template" TYPE="text" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="is_active" TYPE="int" LENGTH="4" NOTNULL="true" DEFAULT="1" SEQUENCE="false"/>
+        <FIELD NAME="timecreated" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="uq_template_name" TYPE="unique" FIELDS="template_name"/>
+      </KEYS>
+      <INDEXES>
+        <INDEX NAME="idx_prompt_feature" UNIQUE="false" FIELDS="feature_type"/>
+      </INDEXES>
+    </TABLE>
+
+    <!-- =================================================================== -->
+    <!-- Table: local_aiacademic_config                                      -->
+    <!-- =================================================================== -->
+    <TABLE NAME="local_aiacademic_config" COMMENT="AI Service configurations">
+      <FIELDS>
+        <FIELD NAME="id" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="true"/>
+        <FIELD NAME="config_key" TYPE="char" LENGTH="100" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="config_value" TYPE="text" NOTNULL="true" SEQUENCE="false"/>
+        <FIELD NAME="description" TYPE="char" LENGTH="255" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="timemodified" TYPE="int" LENGTH="10" NOTNULL="true" DEFAULT="0" SEQUENCE="false"/>
+      </FIELDS>
+      <KEYS>
+        <KEY NAME="primary" TYPE="primary" FIELDS="id"/>
+        <KEY NAME="uq_config_key" TYPE="unique" FIELDS="config_key"/>
+      </KEYS>
+    </TABLE>
+  </TABLES>
+</XMLDB>

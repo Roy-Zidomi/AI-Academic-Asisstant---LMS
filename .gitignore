@@ -1,0 +1,65 @@
+# ============================================================================
+# AI-AA LMS — .gitignore
+# ============================================================================
+
+# ---- Environment ----
+.env
+.env.development
+.env.staging
+.env.production
+!.env.example
+
+# ---- Docker Volumes (local data) ----
+docker/volumes/
+
+# ---- SSL Certificates ----
+docker/nginx/ssl/*.pem
+docker/nginx/ssl/*.key
+docker/nginx/ssl/*.crt
+!docker/nginx/ssl/.gitkeep
+
+# ---- IDE ----
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+Thumbs.db
+
+# ---- Python (AI Service) ----
+ai-service/__pycache__/
+ai-service/**/__pycache__/
+ai-service/*.pyc
+ai-service/.pytest_cache/
+ai-service/.mypy_cache/
+ai-service/.ruff_cache/
+ai-service/venv/
+ai-service/.venv/
+ai-service/*.egg-info/
+ai-service/dist/
+ai-service/build/
+ai-service/htmlcov/
+ai-service/.coverage
+
+# ---- Node (Moodle AMD build) ----
+node_modules/
+npm-debug.log*
+
+# ---- Logs ----
+*.log
+logs/
+
+# ---- Backups (local) ----
+backups/
+!backups/.gitkeep
+
+# ---- OS ----
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ---- Docs ----
+docs/
+docs
+
