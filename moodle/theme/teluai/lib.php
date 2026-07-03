@@ -48,8 +48,7 @@ function theme_teluai_get_pre_scss($theme) {
 /**
  * Returns extra SCSS content.
  *
- * Login and frontpage SCSS are scoped to body classes. Other pages remain
- * Boost-based unless an administrator adds custom SCSS in the theme settings.
+ * App, login, and frontpage SCSS are scoped to body classes.
  *
  * @param theme_config $theme The theme config object.
  * @return string Extra SCSS content.
@@ -58,6 +57,11 @@ function theme_teluai_get_extra_scss($theme) {
     global $CFG;
 
     $extra = '';
+
+    $appfile = $CFG->dirroot . '/theme/teluai/scss/app.scss';
+    if (file_exists($appfile)) {
+        $extra .= file_get_contents($appfile) . "\n";
+    }
 
     $loginfile = $CFG->dirroot . '/theme/teluai/scss/login.scss';
     if (file_exists($loginfile)) {

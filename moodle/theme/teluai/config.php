@@ -6,10 +6,17 @@
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+
+if (empty($CFG->lang)) {
+    $CFG->lang = 'en';
+}
+
 require_once(__DIR__ . '/lib.php');
 
 $THEME->name = 'teluai';
 $THEME->sheets = [];
+$THEME->javascripts_footer = ['app'];
 $THEME->editor_sheets = [];
 $THEME->editor_scss = ['editor'];
 $THEME->usefallback = true;
