@@ -50,18 +50,18 @@ $THEME->layouts = [
         'options' => array('nonavbar' => true),
     ),
     'admin' => array(
-        'file' => 'drawers.php',
+        'file' => 'admin.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
     ),
     'mycourses' => array(
-        'file' => 'drawers.php',
+        'file' => 'mycourses.php',
         'regions' => ['side-pre'],
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => true),
     ),
     'mydashboard' => array(
-        'file' => 'drawers.php',
+        'file' => 'dashboard.php',
         'regions' => array('side-pre'),
         'defaultregion' => 'side-pre',
         'options' => array('nonavbar' => true, 'langmenu' => true),

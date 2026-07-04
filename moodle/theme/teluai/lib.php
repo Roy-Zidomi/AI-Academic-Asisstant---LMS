@@ -69,6 +69,21 @@ function theme_teluai_get_extra_scss($theme) {
         $extra .= file_get_contents($homefile) . "\n";
     }
 
+    $dashboardfile = $CFG->dirroot . '/theme/teluai/scss/dashboard.scss';
+    if (file_exists($dashboardfile)) {
+        $extra .= file_get_contents($dashboardfile) . "\n";
+    }
+
+    $mycoursesfile = $CFG->dirroot . '/theme/teluai/scss/mycourses.scss';
+    if (file_exists($mycoursesfile)) {
+        $extra .= file_get_contents($mycoursesfile) . "\n";
+    }
+
+    $adminfile = $CFG->dirroot . '/theme/teluai/scss/admin.scss';
+    if (file_exists($adminfile)) {
+        $extra .= file_get_contents($adminfile) . "\n";
+    }
+
     $configscss = get_config('theme_teluai', 'scss');
     if (!empty($configscss)) {
         $extra .= "\n" . $configscss;

@@ -14,7 +14,7 @@ $bodyattributes = $OUTPUT->body_attributes(['telu-page-home']);
 $navitems = [
     [
         'label' => 'Home',
-        'url' => (new moodle_url('/'))->out(false),
+        'url' => (new moodle_url('/', ['redirect' => 0]))->out(false),
         'active' => true,
     ],
     [
@@ -61,6 +61,8 @@ $templatecontext = [
     'summaryurl' => (new moodle_url('/local/aiacademic/summarizer.php'))->out(false),
     'quizurl' => (new moodle_url('/local/aiacademic/quiz_generator.php'))->out(false),
     'coursesurl' => (new moodle_url('/course/index.php'))->out(false),
+    'homeurl' => (new moodle_url('/', ['redirect' => 0]))->out(false),
+    'telkomurl' => $OUTPUT->image_url('telkom', 'theme')->out(false),
     'usermenu' => $OUTPUT->user_menu(),
     'editswitch' => $editswitch,
     'sidepreblocks' => $sidepreblocks,

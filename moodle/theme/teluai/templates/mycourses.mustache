@@ -1,0 +1,78 @@
+{{!
+    @template theme_teluai/mycourses
+
+    Custom mycourses page for theme_teluai.
+}}
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper" class="telu-home-wrapper">
+    {{{ output.standard_top_of_body_html }}}
+
+    <header class="telu-home-navbar">
+        <div class="telu-home-navbar__inner">
+            <a class="telu-home-brand" href="{{{ homeurl }}}" aria-label="{{sitename}}">
+                <img class="telu-home-brand__logo" src="{{{ telkomurl }}}" alt="Telkom Logo">
+                <span class="telu-home-brand__text">
+                    <strong>AI Academic Assistant LMS</strong>
+                    <small>AI-powered learning</small>
+                </span>
+            </a>
+
+            <nav class="telu-home-nav" aria-label="Primary navigation">
+                {{#navitems}}
+                    <a class="telu-home-nav__link {{#active}}is-active{{/active}}" href="{{{ url }}}">
+                        {{label}}
+                    </a>
+                {{/navitems}}
+            </nav>
+
+            <form class="telu-home-search" action="{{{ searchurl }}}" method="get" role="search">
+                <i class="fa fa-search" aria-hidden="true"></i>
+                <label class="sr-only" for="telu-home-search-input">Search courses, materials, assignments</label>
+                <input id="telu-home-search-input" type="search" name="search" placeholder="Search courses, materials, assignments...">
+            </form>
+
+            <div class="telu-home-actions">
+                <button class="telu-home-iconbtn" type="button" aria-label="Notifications">
+                    <i class="fa fa-bell-o" aria-hidden="true"></i>
+                </button>
+                <button class="telu-home-iconbtn" type="button" aria-label="Messages">
+                    <i class="fa fa-comment-o" aria-hidden="true"></i>
+                </button>
+                {{{ editswitch }}}
+                <div class="telu-home-user">{{{ usermenu }}}</div>
+            </div>
+        </div>
+    </header>
+
+    <main id="page" class="telu-home">
+        <div class="telu-home-grid">
+            <section class="telu-home-section telu-home-maincontent">
+                <div class="telu-moodle-content">
+                    {{{ maincontent }}}
+                </div>
+            </section>
+
+            {{#sidepreblocks}}
+                <aside class="telu-home-sidebar" aria-label="My Courses blocks">
+                    {{{ sidepreblocks }}}
+                </aside>
+            {{/sidepreblocks}}
+        </div>
+    </main>
+
+    {{{ output.standard_after_main_region_html }}}
+    {{{ output.standard_end_of_body_html }}}
+</div>
+
+</body>
+</html>
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}

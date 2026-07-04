@@ -1,0 +1,101 @@
+// Tel-U AI LMS dashboard page styling.
+// Scoped to body.telu-page-dashboard to prevent affecting other Moodle pages.
+
+body.telu-page-dashboard {
+  --telu-primary: #ED1C24;
+  --telu-primary-dark: #B01116;
+  --telu-primary-soft: #FDE7E8;
+  --telu-primary-softer: #FFF5F5;
+
+  // Primary Buttons (e.g. New Event, Search submit)
+  .btn-primary,
+  .btn-outline-primary:hover,
+  .btn-outline-primary:focus,
+  [data-action="new-event-button"],
+  .btn-secondary.active {
+    background-color: var(--telu-primary) !important;
+    border-color: var(--telu-primary) !important;
+    color: #FFFFFF !important;
+    box-shadow: none;
+    transition: all 150ms ease;
+
+    &:hover, &:focus, &:active {
+      background-color: var(--telu-primary-dark) !important;
+      border-color: var(--telu-primary-dark) !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 4px 12px rgba(237, 28, 36, 0.18) !important;
+    }
+  }
+
+  // Outline primary buttons (e.g. Filter buttons)
+  .btn-outline-primary {
+    color: var(--telu-primary) !important;
+    border-color: var(--telu-primary) !important;
+
+    &:hover, &:focus {
+      background-color: var(--telu-primary) !important;
+      color: #FFFFFF !important;
+    }
+  }
+
+  // Text Links
+  a {
+    color: var(--telu-primary);
+
+    &:hover {
+      color: var(--telu-primary-dark);
+      text-decoration: underline;
+    }
+  }
+
+  // Active navigation tab highlights (Bootstrap & Moodle tabs)
+  .nav-tabs .nav-link.active,
+  .nav-link.active[aria-current="true"] {
+    color: var(--telu-primary-dark) !important;
+    border-bottom: 3px solid var(--telu-primary) !important;
+  }
+
+  // Calendar Day styling
+  .calendar-day-today {
+    border: 2px solid var(--telu-primary) !important;
+    
+    // Circle wrapper for the today date
+    .day-number-circle {
+      background-color: var(--telu-primary) !important;
+      color: #FFFFFF !important;
+    }
+  }
+
+  // Custom Event markers in Calendar
+  .calendar_event_course {
+    border-left: 3px solid var(--telu-primary) !important;
+    background-color: var(--telu-primary-softer) !important;
+    color: var(--telu-primary-dark) !important;
+  }
+
+  // Form check / switch inputs (e.g. Edit mode switch)
+  .custom-control-input:checked ~ .custom-control-label::before {
+    border-color: var(--telu-primary) !important;
+    background-color: var(--telu-primary) !important;
+  }
+
+  // Focus rings on inputs
+  .form-control:focus,
+  input[type="text"]:focus,
+  input[type="password"]:focus,
+  select:focus {
+    border-color: var(--telu-primary) !important;
+    box-shadow: 0 0 0 3px rgba(237, 28, 36, 0.12) !important;
+  }
+
+  // Moodle Overview block course progress bar
+  .progress-bar {
+    background-color: var(--telu-primary) !important;
+  }
+
+  // Block titles
+  .block h5.card-title {
+    color: var(--telu-primary-dark);
+    font-weight: 800;
+  }
+}

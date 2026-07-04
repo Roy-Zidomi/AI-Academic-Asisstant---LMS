@@ -1,0 +1,179 @@
+// Tel-U AI LMS My Courses page styling.
+// Scoped to body.telu-page-mycourses to prevent affecting other pages.
+
+body.telu-page-mycourses {
+  --telu-primary: #ED1C24;
+  --telu-primary-dark: #B01116;
+  --telu-primary-soft: #FDE7E8;
+  --telu-primary-softer: #FFF5F5;
+
+  // H1 Page Header
+  #page-header h1 {
+    color: var(--telu-text-primary);
+    font-weight: 800;
+    font-size: 2.25rem;
+    letter-spacing: -0.5px;
+  }
+
+  // Course Overview headings
+  .block h5.card-title {
+    color: var(--telu-primary-dark);
+    font-weight: 800;
+  }
+
+  // Links & Titles
+  a {
+    color: var(--telu-primary);
+    transition: color 150ms ease;
+
+    &:hover {
+      color: var(--telu-primary-dark);
+      text-decoration: underline;
+    }
+  }
+
+  // Standard Button style overrides (e.g. Create new course)
+  .btn-primary,
+  .btn-outline-primary:hover,
+  .btn-outline-primary:focus {
+    background-color: var(--telu-primary) !important;
+    border-color: var(--telu-primary) !important;
+    color: #FFFFFF !important;
+    box-shadow: none;
+    transition: all 150ms ease;
+
+    &:hover, &:focus, &:active {
+      background-color: var(--telu-primary-dark) !important;
+      border-color: var(--telu-primary-dark) !important;
+      color: #FFFFFF !important;
+      box-shadow: 0 4px 12px rgba(237, 28, 36, 0.18) !important;
+    }
+  }
+
+  .btn-outline-primary {
+    color: var(--telu-primary) !important;
+    border-color: var(--telu-primary) !important;
+
+    &:hover, &:focus {
+      background-color: var(--telu-primary) !important;
+      color: #FFFFFF !important;
+    }
+  }
+
+  // Filter and sorting selectors/dropdowns (e.g. "All", "Sort by course name", "Card")
+  .dropdown-toggle,
+  .btn-outline-secondary {
+    border: 1px solid var(--telu-border) !important;
+    background-color: #FFFFFF !important;
+    color: var(--telu-text-secondary) !important;
+    border-radius: 12px !important;
+    padding: 8px 16px !important;
+    font-weight: 600 !important;
+    transition: all 150ms ease;
+
+    &:hover, &:focus {
+      border-color: rgba(237, 28, 36, 0.35) !important;
+      background-color: var(--telu-primary-softer) !important;
+      color: var(--telu-primary-dark) !important;
+    }
+  }
+
+  // Focus borders on search bar and forms
+  .form-control:focus,
+  input[type="text"]:focus,
+  input[type="search"]:focus {
+    border-color: var(--telu-primary) !important;
+    box-shadow: 0 0 0 3px rgba(237, 28, 36, 0.12) !important;
+  }
+
+  // Moodle Course Cards Layout Override
+  .dashboard-card-list {
+    margin-top: 24px;
+  }
+
+  .card.dashboard-card {
+    border: 1px solid var(--telu-border) !important;
+    border-radius: 20px !important;
+    background: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02) !important;
+    overflow: hidden !important;
+    transition: transform 220ms cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 220ms cubic-bezier(0.4, 0, 0.2, 1), 
+                border-color 220ms cubic-bezier(0.4, 0, 0.2, 1) !important;
+
+    // Lift effect on hover
+    &:hover {
+      transform: translateY(-6px) !important;
+      box-shadow: 0 16px 32px rgba(176, 17, 22, 0.08) !important;
+      border-color: rgba(237, 28, 36, 0.25) !important;
+    }
+
+    // Card Header Image
+    .card-img-top {
+      height: 140px !important;
+      object-fit: cover !important;
+      border-top-left-radius: 19px !important;
+      border-top-right-radius: 19px !important;
+      transition: transform 300ms ease;
+    }
+
+    &:hover .card-img-top {
+      transform: scale(1.03);
+    }
+
+    // Card body info
+    .card-body {
+      padding: 20px !important;
+    }
+
+    // Course category tag
+    .muted-text {
+      color: var(--telu-primary) !important;
+      font-weight: 700 !important;
+      text-transform: uppercase;
+      font-size: 0.725rem !important;
+      letter-spacing: 0.5px;
+    }
+
+    // Course Title
+    .coursename {
+      color: var(--telu-text-primary) !important;
+      font-weight: 800 !important;
+      font-size: 1.05rem !important;
+      line-height: 1.4 !important;
+      margin-top: 6px !important;
+      margin-bottom: 12px !important;
+    }
+
+    // Progress Bar wrapper
+    .progress {
+      height: 7px !important;
+      background-color: #E2E8F0 !important;
+      border-radius: 99px !important;
+    }
+
+    // Course progress color (Red)
+    .progress-bar {
+      background-color: var(--telu-primary) !important;
+      border-radius: 99px !important;
+    }
+
+    // Star icon color
+    .ml-auto .fa-star {
+      color: #F59E0B !important;
+    }
+  }
+
+  // Active state tab lines
+  .nav-tabs .nav-link.active,
+  .nav-link.active[aria-current="true"] {
+    color: var(--telu-primary-dark) !important;
+    border-bottom: 3px solid var(--telu-primary) !important;
+  }
+
+  // Edit mode switch background color (Red when checked)
+  .custom-control-input:checked ~ .custom-control-label::before {
+    border-color: var(--telu-primary) !important;
+    background-color: var(--telu-primary) !important;
+  }
+}

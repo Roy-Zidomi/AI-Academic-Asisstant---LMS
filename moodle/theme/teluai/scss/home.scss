@@ -1,6 +1,7 @@
 // AI-AA LMS home/course landing page only.
 
-body.telu-page-home {
+body.telu-page-home,
+body.telu-page-dashboard {
   --telu-primary: #ED1C24;
   --telu-primary-dark: #B01116;
   --telu-primary-soft: #FDE7E8;
@@ -8,7 +9,7 @@ body.telu-page-home {
   --telu-surface: #FFFFFF;
   --telu-border: #E5E7EB;
   --telu-text-primary: #111827;
-  --telu-text-secondary: #6B7280;
+  --telu-text-secondary: #4B5563;
   --telu-text-muted: #9CA3AF;
   --telu-success: #16A34A;
   --telu-warning: #F59E0B;
@@ -26,6 +27,7 @@ body.telu-page-home {
     padding: 0;
   }
 
+  // Menyembunyikan elemen bawaan Moodle yang tidak digunakan pada Frontpage kustom
   .navbar,
   #page-header,
   #page-footer,
@@ -34,6 +36,7 @@ body.telu-page-home {
     display: none !important;
   }
 
+  // Pengaturan tautan (link) secara global
   a {
     color: var(--telu-primary);
 
@@ -43,21 +46,23 @@ body.telu-page-home {
   }
 }
 
-body.telu-page-home .telu-home-navbar {
+// 🏢 NAVBAR / HEADER UTAMA (PUTIH BERSIH)
+.telu-home-wrapper .telu-home-navbar {
   position: sticky;
   top: 0;
   z-index: 1030;
-  background: rgba(255, 255, 255, 0.92);
-  border-bottom: 1px solid rgba(229, 231, 235, 0.9);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.05);
+  background: #FFFFFF; // Background Putih
+  border-bottom: 2px solid rgba(237, 28, 36, 0.08); // Pembatas bawah merah tipis
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.03); // Shadow halus
   backdrop-filter: blur(14px);
 }
 
-body.telu-page-home .telu-home-navbar__inner {
-  display: grid;
-  grid-template-columns: auto auto minmax(220px, 1fr) auto;
+// Kontainer pembungkus elemen di dalam navbar
+.telu-home-wrapper .telu-home-navbar__inner {
+  display: flex;
   align-items: center;
-  gap: 18px;
+  justify-content: space-between; // Menjaga jarak antar bagian agar seimbang
+  gap: 20px;
   width: 100%;
   max-width: 1280px;
   min-height: 72px;
@@ -65,16 +70,27 @@ body.telu-page-home .telu-home-navbar__inner {
   padding: 0 32px;
 }
 
-body.telu-page-home .telu-home-brand {
+// ==========================================
+// 🏷️ LOGO / IDENTITAS BRAND (Kiri)
+// ==========================================
+.telu-home-wrapper .telu-home-brand {
   display: inline-flex;
   align-items: center;
   gap: 12px;
-  min-width: 0;
-  color: var(--telu-text-primary);
+  flex-shrink: 0; // Mencegah logo gepeng/menyusut
+  color: var(--telu-text-primary) !important;
   text-decoration: none;
 }
 
-body.telu-page-home .telu-home-brand__mark {
+// Logo image brand Telkom
+.telu-home-wrapper .telu-home-brand__logo {
+  height: 42px;
+  width: auto;
+  object-fit: contain;
+}
+
+// Kotak ikon logo merah "AI" (jika masih digunakan di tempat lain)
+.telu-home-wrapper .telu-home-brand__mark {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -88,12 +104,13 @@ body.telu-page-home .telu-home-brand__mark {
   font-weight: 800;
 }
 
-body.telu-page-home .telu-home-brand__text {
+// Teks di samping logo
+.telu-home-wrapper .telu-home-brand__text {
   display: grid;
   gap: 1px;
 
   strong {
-    color: var(--telu-text-primary);
+    color: var(--telu-text-primary) !important;
     font-size: 0.9375rem;
     font-weight: 800;
     line-height: 1.15;
@@ -101,42 +118,53 @@ body.telu-page-home .telu-home-brand__text {
   }
 
   small {
-    color: var(--telu-text-secondary);
+    color: var(--telu-text-secondary) !important;
     font-size: 0.75rem;
     font-weight: 600;
     line-height: 1.25;
   }
 }
 
-body.telu-page-home .telu-home-nav {
+// ==========================================
+// 🧭 MENU NAVIGASI UTAMA (Tengah-Kiri)
+// ==========================================
+.telu-home-wrapper .telu-home-nav {
   display: flex;
   align-items: center;
-  gap: 4px;
-  min-width: 0;
+  gap: 6px;
+  flex-shrink: 0; // Mencegah menu bertumpuk saat ruang menyempit
 }
 
-body.telu-page-home .telu-home-nav__link {
+// Styling tombol/tautan menu navigasi
+.telu-home-wrapper .telu-home-nav__link {
   display: inline-flex;
   align-items: center;
   min-height: 40px;
-  padding: 0 12px;
+  padding: 0 16px;
   border-radius: 12px;
   color: var(--telu-text-secondary);
   font-size: 0.875rem;
   font-weight: 700;
   text-decoration: none;
   white-space: nowrap;
-  transition: color 160ms ease, background 160ms ease;
+  transition: all 160ms ease;
 
-  &:hover,
-  &.is-active {
+  // Hover state (Ketika kursor diarahkan ke menu)
+  &:hover {
     background: var(--telu-primary-soft);
-    color: var(--telu-primary-dark);
+    color: var(--telu-primary-dark) !important;
+  }
+
+  // Active state (Tab menu yang sedang dibuka)
+  &.is-active {
+    background: var(--telu-primary);
+    color: #FFFFFF !important;
+    box-shadow: 0 4px 12px rgba(237, 28, 36, 0.15);
   }
 }
 
-body.telu-page-home .telu-home-search,
-body.telu-page-home .telu-home-course-filter {
+.telu-home-wrapper .telu-home-search,
+.telu-home-wrapper .telu-home-course-filter {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -169,15 +197,20 @@ body.telu-page-home .telu-home-course-filter {
   }
 }
 
-body.telu-page-home .telu-home-actions {
+.telu-home-wrapper .telu-home-search {
+  flex: 0 1 280px;
+  min-width: 160px;
+}
+
+.telu-home-wrapper .telu-home-actions {
   display: flex;
   align-items: center;
   justify-content: flex-end;
   gap: 8px;
-  min-width: 0;
+  flex-shrink: 0;
 }
 
-body.telu-page-home .telu-home-iconbtn {
+.telu-home-wrapper .telu-home-iconbtn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -197,27 +230,28 @@ body.telu-page-home .telu-home-iconbtn {
   }
 }
 
-body.telu-page-home .telu-home-user {
+.telu-home-wrapper .telu-home-user {
+
   .usermenu .dropdown-toggle,
   .usermenu .login {
     border-radius: 999px;
   }
 }
 
-body.telu-page-home .telu-home-actions .custom-control,
-body.telu-page-home .telu-home-actions .form-check,
-body.telu-page-home .telu-home-actions form {
+.telu-home-wrapper .telu-home-actions .custom-control,
+.telu-home-wrapper .telu-home-actions .form-check,
+.telu-home-wrapper .telu-home-actions form {
   margin: 0;
 }
 
-body.telu-page-home .telu-home {
+.telu-home-wrapper .telu-home {
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
   padding: 32px;
 }
 
-body.telu-page-home .telu-home-hero {
+.telu-home-wrapper .telu-home-hero {
   position: relative;
   display: grid;
   grid-template-columns: minmax(0, 1fr) 340px;
@@ -226,14 +260,13 @@ body.telu-page-home .telu-home-hero {
   min-height: 360px;
   padding: 48px;
   border-radius: 28px;
-  background:
-    radial-gradient(circle at 86% 18%, rgba(255, 255, 255, 0.22) 0 0, transparent 28%),
-    linear-gradient(135deg, var(--telu-primary) 0%, var(--telu-primary-dark) 100%);
-  box-shadow: 0 28px 70px rgba(176, 17, 22, 0.22);
+  background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('[[pix:theme|bg-1]]') no-repeat center center;
+  box-shadow: inset 0 0 0 1000px rgba(0, 0, 0, 0.4);
+  background-size: cover;
   color: #FFFFFF;
 }
 
-body.telu-page-home .telu-home-hero::before {
+.telu-home-wrapper .telu-home-hero::before {
   content: "";
   position: absolute;
   inset: 0;
@@ -244,29 +277,14 @@ body.telu-page-home .telu-home-hero::before {
   opacity: 0.22;
 }
 
-body.telu-page-home .telu-home-hero__content,
-body.telu-page-home .telu-home-hero__visual,
-body.telu-page-home .telu-home-stats {
+.telu-home-wrapper .telu-home-hero__content,
+.telu-home-wrapper .telu-home-hero__visual,
+.telu-home-wrapper .telu-home-stats {
   position: relative;
   z-index: 1;
 }
 
-body.telu-page-home .telu-home-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  width: fit-content;
-  margin-bottom: 22px;
-  padding: 8px 12px;
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  border-radius: 999px;
-  background: rgba(255, 255, 255, 0.14);
-  color: #FFFFFF;
-  font-size: 0.8125rem;
-  font-weight: 800;
-}
-
-body.telu-page-home .telu-home-hero h1 {
+.telu-home-wrapper .telu-home-hero h1 {
   max-width: 720px;
   margin: 0;
   color: #FFFFFF;
@@ -276,7 +294,7 @@ body.telu-page-home .telu-home-hero h1 {
   letter-spacing: 0;
 }
 
-body.telu-page-home .telu-home-hero p {
+.telu-home-wrapper .telu-home-hero p {
   max-width: 660px;
   margin: 18px 0 0;
   color: rgba(255, 255, 255, 0.86);
@@ -284,14 +302,14 @@ body.telu-page-home .telu-home-hero p {
   line-height: 1.7;
 }
 
-body.telu-page-home .telu-home-hero__cta {
+.telu-home-wrapper .telu-home-hero__cta {
   display: flex;
   flex-wrap: wrap;
   gap: 12px;
   margin-top: 30px;
 }
 
-body.telu-page-home .telu-btn {
+.telu-home-wrapper .telu-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -310,7 +328,7 @@ body.telu-page-home .telu-btn {
   }
 }
 
-body.telu-page-home .telu-btn--primary {
+.telu-home-wrapper .telu-btn--primary {
   background: #FFFFFF;
   color: var(--telu-primary-dark);
   box-shadow: 0 16px 30px rgba(17, 24, 39, 0.18);
@@ -321,7 +339,7 @@ body.telu-page-home .telu-btn--primary {
   }
 }
 
-body.telu-page-home .telu-btn--secondary {
+.telu-home-wrapper .telu-btn--secondary {
   border: 1px solid rgba(255, 255, 255, 0.34);
   background: rgba(255, 255, 255, 0.12);
   color: #FFFFFF;
@@ -332,13 +350,13 @@ body.telu-page-home .telu-btn--secondary {
   }
 }
 
-body.telu-page-home .telu-home-hero__visual {
+.telu-home-wrapper .telu-home-hero__visual {
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-body.telu-page-home .telu-home-hero__glasscard {
+.telu-home-wrapper .telu-home-hero__glasscard {
   display: grid;
   gap: 8px;
   width: 260px;
@@ -369,7 +387,7 @@ body.telu-page-home .telu-home-hero__glasscard {
   }
 }
 
-body.telu-page-home .telu-home-hero__nodes {
+.telu-home-wrapper .telu-home-hero__nodes {
   position: absolute;
   inset: 0;
 
@@ -382,13 +400,28 @@ body.telu-page-home .telu-home-hero__nodes {
     box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.10);
   }
 
-  span:nth-child(1) { top: 18%; right: 16%; }
-  span:nth-child(2) { top: 32%; right: 42%; }
-  span:nth-child(3) { bottom: 22%; right: 12%; }
-  span:nth-child(4) { bottom: 16%; right: 46%; }
+  span:nth-child(1) {
+    top: 18%;
+    right: 16%;
+  }
+
+  span:nth-child(2) {
+    top: 32%;
+    right: 42%;
+  }
+
+  span:nth-child(3) {
+    bottom: 22%;
+    right: 12%;
+  }
+
+  span:nth-child(4) {
+    bottom: 16%;
+    right: 46%;
+  }
 }
 
-body.telu-page-home .telu-home-stats {
+.telu-home-wrapper .telu-home-stats {
   grid-column: 1 / -1;
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
@@ -419,11 +452,11 @@ body.telu-page-home .telu-home-stats {
   }
 }
 
-body.telu-page-home .telu-home-section {
+.telu-home-wrapper .telu-home-section {
   margin-top: 36px;
 }
 
-body.telu-page-home .telu-home-section__header {
+.telu-home-wrapper .telu-home-section__header {
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
@@ -446,7 +479,7 @@ body.telu-page-home .telu-home-section__header {
   }
 }
 
-body.telu-page-home .telu-home-section__eyebrow {
+.telu-home-wrapper .telu-home-section__eyebrow {
   display: block;
   margin-bottom: 7px;
   color: var(--telu-primary);
@@ -456,28 +489,47 @@ body.telu-page-home .telu-home-section__eyebrow {
   letter-spacing: 0;
 }
 
-body.telu-page-home .telu-ai-tools {
+.telu-home-wrapper .telu-ai-tools {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 18px;
 }
 
-body.telu-page-home .telu-ai-card,
-body.telu-page-home .telu-side-card {
+.telu-home-wrapper .telu-ai-card,
+.telu-home-wrapper .telu-side-card {
   border: 1px solid var(--telu-border);
   border-radius: 22px;
   background: var(--telu-surface);
   box-shadow: 0 16px 38px rgba(15, 23, 42, 0.06);
 }
 
-body.telu-page-home .telu-ai-card {
+.telu-home-wrapper .telu-ai-card {
   padding: 24px;
-  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--telu-primary);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  }
 
   &:hover {
-    border-color: rgba(237, 28, 36, 0.24);
-    box-shadow: 0 24px 52px rgba(15, 23, 42, 0.10);
-    transform: translateY(-3px);
+    border-color: rgba(237, 28, 36, 0.2);
+    box-shadow: 0 20px 40px rgba(237, 28, 36, 0.08);
+    transform: translateY(-5px);
+
+    &::before {
+      transform: scaleX(1);
+    }
   }
 
   h3 {
@@ -502,15 +554,16 @@ body.telu-page-home .telu-ai-card {
     font-size: 0.875rem;
     font-weight: 800;
     text-decoration: none;
+    transition: color 150ms ease;
 
     &:hover {
       color: var(--telu-primary-dark);
-      text-decoration: underline;
+      text-decoration: none;
     }
   }
 }
 
-body.telu-page-home .telu-ai-card__icon {
+.telu-home-wrapper .telu-ai-card__icon {
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -522,21 +575,22 @@ body.telu-page-home .telu-ai-card__icon {
   font-size: 1.1rem;
 }
 
-body.telu-page-home .telu-home-grid {
+.telu-home-wrapper .telu-home-grid {
   display: grid;
   grid-template-columns: minmax(0, 1fr) 320px;
   gap: 24px;
   align-items: start;
 }
 
-body.telu-page-home .telu-home-course-filter {
+.telu-home-wrapper .telu-home-course-filter {
   flex: 0 1 270px;
   height: 42px;
   border-radius: 14px;
   background: #FFFFFF;
 }
 
-body.telu-page-home .telu-moodle-content {
+.telu-home-wrapper .telu-moodle-content {
+
   .secondary-navigation,
   .moremenu {
     margin: 0 0 22px;
@@ -599,7 +653,7 @@ body.telu-page-home .telu-moodle-content {
   }
 
   h2,
-  .course_category_tree .category > .info > .categoryname {
+  .course_category_tree .category>.info>.categoryname {
     color: var(--telu-text-primary);
     font-size: 1.25rem;
     font-weight: 800;
@@ -658,13 +712,13 @@ body.telu-page-home .telu-moodle-content {
     }
   }
 
-  .coursebox > .info,
+  .coursebox>.info,
   .coursebox .content {
     padding-right: 24px !important;
     padding-left: 24px !important;
   }
 
-  .coursebox > .info {
+  .coursebox>.info {
     padding-top: 22px !important;
   }
 
@@ -729,13 +783,13 @@ body.telu-page-home .telu-moodle-content {
   }
 }
 
-body.telu-page-home .telu-home-sidebar {
+.telu-home-wrapper .telu-home-sidebar {
   display: grid;
   gap: 16px;
   margin-top: 36px;
 }
 
-body.telu-page-home .telu-side-card {
+.telu-home-wrapper .telu-side-card {
   padding: 22px;
 
   h3 {
@@ -762,12 +816,12 @@ body.telu-page-home .telu-side-card {
   }
 }
 
-body.telu-page-home .telu-side-card--tip {
+.telu-home-wrapper .telu-side-card--tip {
   border-color: rgba(237, 28, 36, 0.18);
   background: linear-gradient(180deg, #FFFFFF, #FFF7F7);
 }
 
-body.telu-page-home .telu-help-button {
+.telu-home-wrapper .telu-help-button {
   position: fixed;
   right: 24px;
   bottom: 24px;
@@ -804,104 +858,104 @@ body.telu-page-home .telu-help-button {
 }
 
 @media (max-width: 1199px) {
-  body.telu-page-home .telu-home-navbar__inner {
+  .telu-home-wrapper .telu-home-navbar__inner {
     grid-template-columns: auto minmax(0, 1fr) auto;
   }
 
-  body.telu-page-home .telu-home-nav {
+  .telu-home-wrapper .telu-home-nav {
     display: none;
   }
 
-  body.telu-page-home .telu-home-hero {
+  .telu-home-wrapper .telu-home-hero {
     grid-template-columns: 1fr;
     padding: 40px;
   }
 
-  body.telu-page-home .telu-home-hero__visual {
+  .telu-home-wrapper .telu-home-hero__visual {
     display: none;
   }
 
-  body.telu-page-home .telu-ai-tools {
+  .telu-home-wrapper .telu-ai-tools {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
-  body.telu-page-home .telu-home-grid {
+  .telu-home-wrapper .telu-home-grid {
     grid-template-columns: 1fr;
   }
 
-  body.telu-page-home .telu-home-sidebar {
+  .telu-home-wrapper .telu-home-sidebar {
     grid-template-columns: repeat(3, minmax(0, 1fr));
   }
 }
 
 @media (max-width: 767px) {
-  body.telu-page-home .telu-home-navbar__inner {
+  .telu-home-wrapper .telu-home-navbar__inner {
     grid-template-columns: auto 1fr auto;
     gap: 10px;
     min-height: 64px;
     padding: 0 16px;
   }
 
-  body.telu-page-home .telu-home-brand__text small,
-  body.telu-page-home .telu-home-search,
-  body.telu-page-home .telu-home-iconbtn,
-  body.telu-page-home .telu-home-actions .editmode-switch-form {
+  .telu-home-wrapper .telu-home-brand__text small,
+  .telu-home-wrapper .telu-home-search,
+  .telu-home-wrapper .telu-home-iconbtn,
+  .telu-home-wrapper .telu-home-actions .editmode-switch-form {
     display: none;
   }
 
-  body.telu-page-home .telu-home-brand__text strong {
+  .telu-home-wrapper .telu-home-brand__text strong {
     max-width: 170px;
     overflow: hidden;
     text-overflow: ellipsis;
   }
 
-  body.telu-page-home .telu-home {
+  .telu-home-wrapper .telu-home {
     padding: 20px 14px 92px;
   }
 
-  body.telu-page-home .telu-home-hero {
+  .telu-home-wrapper .telu-home-hero {
     min-height: 0;
     padding: 28px 22px;
     border-radius: 22px;
   }
 
-  body.telu-page-home .telu-home-hero h1 {
+  .telu-home-wrapper .telu-home-hero h1 {
     font-size: 2rem;
   }
 
-  body.telu-page-home .telu-home-hero p {
+  .telu-home-wrapper .telu-home-hero p {
     font-size: 0.95rem;
   }
 
-  body.telu-page-home .telu-home-hero__cta {
+  .telu-home-wrapper .telu-home-hero__cta {
     flex-direction: column;
   }
 
-  body.telu-page-home .telu-btn {
+  .telu-home-wrapper .telu-btn {
     width: 100%;
   }
 
-  body.telu-page-home .telu-home-stats,
-  body.telu-page-home .telu-ai-tools,
-  body.telu-page-home .telu-moodle-content .courses,
-  body.telu-page-home .telu-moodle-content .frontpage-course-list-all,
-  body.telu-page-home .telu-moodle-content .course_category_tree .courses,
-  body.telu-page-home .telu-home-sidebar {
+  .telu-home-wrapper .telu-home-stats,
+  .telu-home-wrapper .telu-ai-tools,
+  .telu-home-wrapper .telu-moodle-content .courses,
+  .telu-home-wrapper .telu-moodle-content .frontpage-course-list-all,
+  .telu-home-wrapper .telu-moodle-content .course_category_tree .courses,
+  .telu-home-wrapper .telu-home-sidebar {
     grid-template-columns: 1fr;
   }
 
-  body.telu-page-home .telu-home-section__header,
-  body.telu-page-home .telu-home-section__header--courses {
+  .telu-home-wrapper .telu-home-section__header,
+  .telu-home-wrapper .telu-home-section__header--courses {
     align-items: stretch;
     flex-direction: column;
   }
 
-  body.telu-page-home .telu-home-course-filter {
+  .telu-home-wrapper .telu-home-course-filter {
     flex-basis: auto;
     width: 100%;
   }
 
-  body.telu-page-home .telu-help-button {
+  .telu-home-wrapper .telu-help-button {
     right: 16px;
     bottom: 16px;
     width: 52px;
