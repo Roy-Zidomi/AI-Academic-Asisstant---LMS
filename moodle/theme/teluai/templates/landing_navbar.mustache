@@ -1,0 +1,26 @@
+{{!
+    @template theme_teluai/landing_navbar
+}}
+<header class="telu-landing-nav">
+    <div class="telu-container telu-landing-nav__inner">
+        <a class="telu-landing-brand" href="{{{ homeurl }}}" aria-label="AI Academic Assistant LMS home">
+            <img src="{{{ logourl }}}" alt="Telkom University logo">
+            <span>AI-AA LMS</span>
+        </a>
+
+        <button class="telu-landing-nav__toggle" type="button" aria-controls="telu-public-nav" aria-expanded="false">
+            <span class="sr-only">Open navigation</span>
+            <span></span><span></span><span></span>
+        </button>
+
+        <nav id="telu-public-nav" class="telu-landing-nav__links" aria-label="Public navigation">
+            <a href="#home" class="is-active">Home</a>
+            <a href="#about">About</a>
+            <a href="#features">Features</a>
+            <a href="#ai-tools">AI Tools</a>
+            <a href="#how-it-works">How It Works</a>
+            <a href="#technology">Technology</a>
+            <a class="telu-landing-nav__login" href="{{{ loginurl }}}">Login</a>
+        </nav>
+    </div>
+</header>

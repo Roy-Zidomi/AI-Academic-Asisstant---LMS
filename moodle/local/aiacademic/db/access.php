@@ -7,10 +7,11 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    // Student capacity: Chat assistant
+    // Student capacity: Chat assistant.
+    // Course-level context keeps the course navigation and course chat API aligned.
     'local/aiacademic:usechat' => array(
         'captype' => 'read',
-        'contextlevel' => CONTEXT_SYSTEM,
+        'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
             'student' => CAP_ALLOW,
             'teacher' => CAP_ALLOW,

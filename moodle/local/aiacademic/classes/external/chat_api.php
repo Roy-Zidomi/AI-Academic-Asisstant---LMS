@@ -19,6 +19,19 @@ use moodle_exception;
 class chat_api extends external_api {
 
     /**
+     * Requires chat access in either the current course context or the system context.
+     *
+     * @param \context $context
+     */
+    private static function require_chat_capability(\context $context) {
+        if (has_capability('local/aiacademic:usechat', $context)) {
+            return;
+        }
+
+        require_capability('local/aiacademic:usechat', \context_system::instance());
+    }
+
+    /**
      * Parameter description for send_message.
      */
     public static function send_message_parameters() {
@@ -45,7 +58,7 @@ class chat_api extends external_api {
         // Capability check
         $context = ($params['courseid'] > 0) ? \context_course::instance($params['courseid']) : \context_system::instance();
         self::validate_context($context);
-        require_capability('local/aiacademic:usechat', $context);
+        self::require_chat_capability($context);
 
         $sessionid = $params['sessionid'];
         $courseid = $params['courseid'];
@@ -215,7 +228,7 @@ class chat_api extends external_api {
         // Capability check
         $context = ($session->courseid) ? \context_course::instance($session->courseid) : \context_system::instance();
         self::validate_context($context);
-        require_capability('local/aiacademic:usechat', $context);
+        self::require_chat_capability($context);
 
         // Fetch messages
         $messages = $DB->get_records(
@@ -279,7 +292,7 @@ class chat_api extends external_api {
 
         $context = ($params['courseid'] > 0) ? \context_course::instance($params['courseid']) : \context_system::instance();
         self::validate_context($context);
-        require_capability('local/aiacademic:usechat', $context);
+        self::require_chat_capability($context);
 
         $courseid = $params['courseid'];
         $page = max(1, $params['page']);
@@ -372,7 +385,7 @@ class chat_api extends external_api {
         // Capability check
         $context = ($session->courseid) ? \context_course::instance($session->courseid) : \context_system::instance();
         self::validate_context($context);
-        require_capability('local/aiacademic:usechat', $context);
+        self::require_chat_capability($context);
 
         // Soft delete: status = 0
         $session->status = 0;

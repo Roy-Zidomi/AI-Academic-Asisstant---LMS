@@ -1,0 +1,139 @@
+@media (max-width: 1199px) {
+  body.telu-landing-page {
+    .telu-landing-nav__links {
+      gap: 0;
+    }
+
+    .telu-landing-nav__links a {
+      padding-inline: 10px;
+      font-size: 0.84rem;
+    }
+
+    .telu-feature-grid,
+    .telu-card-grid--4 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .telu-tech-grid,
+    .telu-solution-row {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .telu-steps {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+}
+
+@media (max-width: 900px) {
+  body.telu-landing-page {
+    .telu-hero__inner,
+    .telu-split,
+    .telu-final-cta__inner,
+    .telu-footer__inner {
+      grid-template-columns: 1fr;
+    }
+
+    .telu-flow-grid,
+    .telu-experience-grid,
+    .telu-role-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .telu-final-cta__actions,
+    .telu-footer__links {
+      justify-content: flex-start;
+    }
+  }
+}
+
+@media (max-width: 767px) {
+  body.telu-landing-page {
+    .telu-container {
+      width: min(100% - 32px, 1320px);
+    }
+
+    .telu-landing-nav__inner {
+      min-height: 66px;
+    }
+
+    .telu-landing-brand img {
+      max-width: 126px;
+      max-height: 42px;
+    }
+
+    .telu-landing-nav__toggle {
+      display: inline-block;
+    }
+
+    .telu-landing-nav__links {
+      position: absolute;
+      top: 66px;
+      right: 16px;
+      left: 16px;
+      display: none;
+      flex-direction: column;
+      align-items: stretch;
+      padding: 14px;
+      border: 1px solid var(--telu-border);
+      border-radius: 20px;
+      background: #FFFFFF;
+      box-shadow: var(--telu-shadow-lg);
+    }
+
+    .telu-landing-nav.is-open .telu-landing-nav__links {
+      display: flex;
+    }
+
+    .telu-landing-nav__links a,
+    .telu-landing-nav__links .telu-landing-nav__login {
+      justify-content: flex-start;
+      width: 100%;
+      min-height: 44px;
+      margin-left: 0;
+    }
+
+    .telu-hero {
+      padding: 54px 0 70px;
+    }
+
+    .telu-hero__content h1 {
+      font-size: clamp(2.35rem, 11vw, 2.75rem);
+    }
+
+    .telu-section {
+      padding: 58px 0;
+    }
+
+    .telu-feature-grid,
+    .telu-card-grid--4,
+    .telu-flow-grid,
+    .telu-experience-grid,
+    .telu-role-grid,
+    .telu-proof-grid,
+    .telu-tech-grid,
+    .telu-solution-row,
+    .telu-steps {
+      grid-template-columns: 1fr;
+    }
+
+    .telu-btn {
+      width: 100%;
+    }
+
+    .telu-final-cta__inner {
+      padding: 24px;
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  body.telu-landing-page *,
+  body.telu-landing-page *::before,
+  body.telu-landing-page *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+  }
+}

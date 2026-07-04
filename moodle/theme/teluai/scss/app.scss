@@ -331,8 +331,9 @@ body:not(.telu-page-login):not(.telu-page-home) {
 
   .secondary-navigation,
   .moremenu {
+    position: relative;
     margin-bottom: 20px;
-    overflow-x: auto;
+    overflow: visible !important;
     border: 1px solid var(--telu-border);
     border-radius: 18px;
     background: #FFFFFF;
@@ -342,10 +343,55 @@ body:not(.telu-page-login):not(.telu-page-home) {
   .secondary-navigation .navigation,
   .moremenu .nav-tabs,
   .nav-tabs {
-    flex-wrap: nowrap;
-    min-width: max-content;
+    flex-wrap: wrap;
+    width: 100%;
+    min-width: 0;
     border-bottom: 0;
     padding: 0 12px;
+  }
+
+  .secondary-navigation .moremenu,
+  .secondary-navigation .moremenu .nav-tabs,
+  .secondary-navigation .navigation,
+  .moremenu .dropdownmoremenu,
+  .moremenu [data-region="morebutton"] {
+    overflow: visible !important;
+  }
+
+  .moremenu .dropdownmoremenu {
+    position: relative;
+  }
+
+  .moremenu .dropdownmoremenu .dropdown-menu,
+  .secondary-navigation .dropdown-menu {
+    z-index: 1080;
+    margin-top: 8px;
+  }
+
+  .moremenu .dropdownmoremenu.show > .dropdown-menu,
+  .moremenu .dropdown-menu.show {
+    display: block;
+  }
+
+  .telu-ai-source-hidden {
+    display: none !important;
+  }
+
+  .telu-ai-tools-menu {
+    list-style: none;
+
+    > .nav-link {
+      color: var(--telu-primary-dark) !important;
+      font-weight: 800;
+    }
+  }
+
+  .telu-ai-tools-dropdown {
+    min-width: 240px;
+  }
+
+  .telu-ai-tools-dropdown .dropdown-item {
+    color: var(--telu-text-primary);
   }
 
   .secondary-navigation .nav-link,

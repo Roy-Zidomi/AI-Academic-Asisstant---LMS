@@ -68,9 +68,19 @@ function theme_teluai_get_extra_scss($theme) {
         $extra .= file_get_contents($loginfile) . "\n";
     }
 
-    $homefile = $CFG->dirroot . '/theme/teluai/scss/home.scss';
-    if (file_exists($homefile)) {
-        $extra .= file_get_contents($homefile) . "\n";
+    $scssfiles = [
+        '/theme/teluai/scss/home.scss',
+        '/theme/teluai/scss/navbar.scss',
+        '/theme/teluai/scss/components.scss',
+        '/theme/teluai/scss/landing.scss',
+        '/theme/teluai/scss/responsive.scss',
+    ];
+
+    foreach ($scssfiles as $scssfile) {
+        $fullpath = $CFG->dirroot . $scssfile;
+        if (file_exists($fullpath)) {
+            $extra .= file_get_contents($fullpath) . "\n";
+        }
     }
 
     $configscss = get_config('theme_teluai', 'scss');

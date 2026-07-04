@@ -1,0 +1,156 @@
+{{!
+    @template theme_teluai/landing
+    Public landing page for AI Academic Assistant LMS.
+}}
+{{> theme_boost/head }}
+
+<body {{{ bodyattributes }}}>
+{{> core/local/toast/wrapper}}
+
+<div id="page-wrapper" class="telu-landing">
+    {{{ output.standard_top_of_body_html }}}
+    <div class="telu-moodle-frontpage-content" aria-hidden="true" tabindex="-1">
+        {{{ maincontent }}}
+    </div>
+
+    {{> theme_teluai/landing_navbar }}
+
+    <main id="maincontent" class="telu-landing__main">
+        {{> theme_teluai/landing_hero }}
+
+        <section id="about" class="telu-section">
+            <div class="telu-container telu-split">
+                <div>
+                    <span class="telu-eyebrow">About the platform</span>
+                    <h2>What is AI Academic Assistant LMS?</h2>
+                    <p class="telu-lead">
+                        AI Academic Assistant LMS adalah platform pembelajaran berbasis Moodle
+                        yang diintegrasikan dengan Artificial Intelligence untuk membantu proses
+                        belajar mengajar melalui asisten akademik cerdas, peringkas materi,
+                        pembuat quiz otomatis, dan pengalaman belajar berbasis role.
+                    </p>
+                </div>
+                <div class="telu-proof-grid" aria-label="Platform highlights">
+                    <article><strong>Built on Moodle</strong><span>Fondasi LMS open-source yang matang.</span></article>
+                    <article><strong>AI academic support</strong><span>Asisten belajar, summary, dan quiz generation.</span></article>
+                    <article><strong>Role-based</strong><span>Student, lecturer, dan admin mendapat pengalaman berbeda.</span></article>
+                    <article><strong>Learning workflows</strong><span>Materi, assignment, quiz, grading, dan monitoring.</span></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="telu-section telu-section--soft">
+            <div class="telu-container">
+                <div class="telu-section-head">
+                    <span class="telu-eyebrow">Learning challenges</span>
+                    <h2>Academic learning needs smarter support</h2>
+                    <p>Pembelajaran digital membutuhkan bantuan yang lebih personal, produktif, dan mudah dipahami.</p>
+                </div>
+                <div class="telu-card-grid telu-card-grid--4">
+                    <article class="telu-card"><span>01</span><h3>Students need academic assistance</h3><p>Mahasiswa membutuhkan bantuan memahami materi secara mandiri.</p></article>
+                    <article class="telu-card"><span>02</span><h3>Lecturers spend time creating quizzes</h3><p>Pembuatan soal membutuhkan waktu dan proses review.</p></article>
+                    <article class="telu-card"><span>03</span><h3>Materials are often too long</h3><p>Materi panjang perlu diringkas menjadi poin belajar yang jelas.</p></article>
+                    <article class="telu-card"><span>04</span><h3>LMS needs to be more interactive</h3><p>Pengalaman LMS perlu terasa lebih cerdas dan responsif.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="telu-section">
+            <div class="telu-container">
+                <div class="telu-section-head">
+                    <span class="telu-eyebrow">Solution</span>
+                    <h2>One intelligent LMS for teaching, learning, and AI assistance</h2>
+                    <p>AI-AA LMS menggabungkan Moodle dengan kemampuan AI untuk pengalaman pembelajaran yang cerdas, personal, dan produktif.</p>
+                </div>
+                <div class="telu-solution-row">
+                    <article>Centralized LMS</article>
+                    <article>AI Learning Assistant</article>
+                    <article>Automated Quiz Generation</article>
+                    <article>Material Summarization</article>
+                    <article>Role-Based Experience</article>
+                </div>
+            </div>
+        </section>
+
+        {{> theme_teluai/feature_cards }}
+        {{> theme_teluai/ai_tools }}
+        {{> theme_teluai/personalized_experience }}
+        {{> theme_teluai/role_cards }}
+
+        <section id="how-it-works" class="telu-section">
+            <div class="telu-container">
+                <div class="telu-section-head">
+                    <span class="telu-eyebrow">Workflow</span>
+                    <h2>How AI-AA LMS Works</h2>
+                    <p>Login, dashboard berbasis role, aktivitas pembelajaran, bantuan AI, review, dan monitoring berjalan dalam satu alur.</p>
+                </div>
+                <ol class="telu-steps">
+                    <li><strong>User logs in based on role</strong><span>Mahasiswa, dosen, dan admin masuk dengan permission masing-masing.</span></li>
+                    <li><strong>Moodle loads personalized dashboard</strong><span>Course dan fitur tampil sesuai enrollment serta role.</span></li>
+                    <li><strong>Lecturer manages materials</strong><span>Dosen mengunggah materi, assignment, dan quiz.</span></li>
+                    <li><strong>AI tools process content</strong><span>AI membantu chat akademik, summary, dan quiz generation.</span></li>
+                    <li><strong>Students learn and submit work</strong><span>Mahasiswa belajar, bertanya, mengerjakan quiz, dan submit tugas.</span></li>
+                    <li><strong>Lecturer reviews results</strong><span>Konten AI dan submission tetap direview untuk akurasi akademik.</span></li>
+                    <li><strong>Admin monitors governance</strong><span>Admin mengelola user, course, permission, dan usage log.</span></li>
+                </ol>
+            </div>
+        </section>
+
+        <section id="technology" class="telu-section telu-section--soft">
+            <div class="telu-container">
+                <div class="telu-section-head">
+                    <span class="telu-eyebrow">Technology</span>
+                    <h2>Built with modern open-source technologies</h2>
+                </div>
+                <div class="telu-tech-grid" aria-label="Technology stack">
+                    <span>Moodle 5.x</span><span>PHP</span><span>PostgreSQL 17</span><span>Docker</span><span>Docker Compose</span>
+                    <span>Ollama</span><span>Llama3 / Qwen</span><span>Redis</span><span>Nginx</span><span>pgAdmin</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="telu-section">
+            <div class="telu-container">
+                <div class="telu-section-head">
+                    <span class="telu-eyebrow">Security & trust</span>
+                    <h2>Designed with academic security in mind</h2>
+                    <p>Course, assignment, quiz, dan data pembelajaran hanya dapat diakses setelah autentikasi berdasarkan role dan enrollment.</p>
+                </div>
+                <div class="telu-card-grid telu-card-grid--4">
+                    <article class="telu-card"><h3>Secure Authentication</h3><p>Akses LMS dilindungi login Moodle.</p></article>
+                    <article class="telu-card"><h3>Role-Based Access</h3><p>Permission mengikuti model Moodle.</p></article>
+                    <article class="telu-card"><h3>Audit Logging</h3><p>Aktivitas penting dapat dimonitor.</p></article>
+                    <article class="telu-card"><h3>AI Usage Logging</h3><p>Penggunaan AI dapat ditinjau untuk tata kelola.</p></article>
+                </div>
+            </div>
+        </section>
+
+        <section class="telu-final-cta">
+            <div class="telu-container telu-final-cta__inner">
+                <span class="telu-logo-badge"><img src="{{{ logourl }}}" alt="Telkom University logo"></span>
+                <div>
+                    <h2>Start your AI-powered learning journey</h2>
+                    <p>Login untuk mengakses dashboard personal, course sesuai enrollment, AI Assistant, ringkasan materi, dan LMS modern.</p>
+                </div>
+                <div class="telu-final-cta__actions">
+                    <a class="telu-btn telu-btn--light" href="{{{ loginurl }}}">Login to LMS</a>
+                    <a class="telu-btn telu-btn--ghost-light" href="#features">Learn More</a>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    {{> theme_teluai/landing_footer }}
+
+    {{{ output.standard_after_main_region_html }}}
+    {{{ output.standard_end_of_body_html }}}
+</div>
+</body>
+</html>
+
+{{#js}}
+M.util.js_pending('theme_boost/loader');
+require(['theme_boost/loader'], function() {
+    M.util.js_complete('theme_boost/loader');
+});
+{{/js}}

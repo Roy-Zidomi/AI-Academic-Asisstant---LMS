@@ -18,7 +18,9 @@ if ($courseid > 0) {
 } else {
     $context = context_system::instance();
 }
-require_capability('local/aiacademic:usechat', $context);
+if (!has_capability('local/aiacademic:usechat', $context)) {
+    require_capability('local/aiacademic:usechat', context_system::instance());
+}
 
 // Set up page parameters
 $PAGE->set_url(new moodle_url('/local/aiacademic/chat.php', array('courseid' => $courseid)));
