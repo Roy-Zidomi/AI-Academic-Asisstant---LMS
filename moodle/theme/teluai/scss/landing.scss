@@ -1,0 +1,324 @@
+body.telu-landing-page {
+  --telu-primary: #ED1C24;
+  --telu-primary-dark: #B01116;
+  --telu-primary-soft: #FDE7E8;
+  --telu-bg: #F8FAFC;
+  --telu-surface: #FFFFFF;
+  --telu-border: #E5E7EB;
+  --telu-text-primary: #111827;
+  --telu-text-secondary: #6B7280;
+  --telu-text-muted: #9CA3AF;
+  --telu-success: #16A34A;
+  --telu-warning: #F59E0B;
+  --telu-info: #2563EB;
+  --telu-radius-md: 12px;
+  --telu-radius-lg: 20px;
+  --telu-radius-xl: 28px;
+  --telu-shadow-sm: 0 4px 12px rgba(15, 23, 42, 0.06);
+  --telu-shadow-md: 0 12px 32px rgba(15, 23, 42, 0.10);
+  --telu-shadow-lg: 0 24px 60px rgba(15, 23, 42, 0.14);
+
+  min-height: 100vh;
+  background: var(--telu-bg);
+  color: var(--telu-text-primary);
+  font-family: "Inter", "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+
+  .navbar,
+  #page-header,
+  #page-footer,
+  .breadcrumb,
+  .activity-header {
+    display: none !important;
+  }
+
+  a:focus-visible,
+  button:focus-visible {
+    outline: 3px solid rgba(237, 28, 36, 0.34);
+    outline-offset: 3px;
+  }
+}
+
+body.telu-landing-page .telu-landing {
+  min-height: 100vh;
+  background:
+    radial-gradient(circle at 8% 8%, rgba(237, 28, 36, 0.10), transparent 28rem),
+    radial-gradient(circle at 92% 18%, rgba(176, 17, 22, 0.08), transparent 30rem),
+    var(--telu-bg);
+}
+
+// === CRITICAL: Override ALL Boost parent containers ===
+// Boost's default CSS constrains #page-wrapper and its children
+// with flex layouts, overflow:hidden, and fixed heights.
+// This block forces every ancestor back to normal document flow
+// so the landing page sections are visible and scrollable.
+body.telu-landing-page {
+  overflow-x: hidden;
+  overflow-y: auto !important;
+
+  #page-wrapper,
+  #page-wrapper.telu-landing,
+  .telu-landing {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    min-height: 100vh !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    position: relative !important;
+    float: none !important;
+    flex: none !important;
+  }
+
+  #page,
+  #page.drawers,
+  #page-content,
+  #page-content > .row,
+  #region-main-box,
+  #region-main,
+  .main-inner,
+  .drawers,
+  .columns,
+  .container,
+  .container-fluid {
+    display: block !important;
+    width: 100% !important;
+    max-width: none !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    float: none !important;
+    flex: none !important;
+  }
+
+  .telu-landing__main {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  // Ensure all sections are visible and properly laid out
+  .telu-section,
+  .telu-hero,
+  .telu-final-cta,
+  .telu-footer {
+    display: block !important;
+    width: 100% !important;
+    height: auto !important;
+    max-height: none !important;
+    overflow: visible !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+  }
+
+  // Kill any Boost drawers/sidebars on landing page
+  .drawer,
+  .drawer-left,
+  .drawer-right,
+  [data-region="right-hand-drawer"],
+  .courseindex,
+  .block-region {
+    display: none !important;
+  }
+}
+
+
+body.telu-landing-page .telu-moodle-frontpage-content {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border: 0 !important;
+}
+
+body.telu-landing-page .telu-container {
+  width: min(100% - 48px, 1320px);
+  margin-inline: auto;
+}
+
+body.telu-landing-page .telu-section {
+  padding: 88px 0;
+}
+
+body.telu-landing-page .telu-section--soft {
+  background: rgba(255, 255, 255, 0.58);
+}
+
+body.telu-landing-page .telu-section-head {
+  max-width: 760px;
+  margin-bottom: 34px;
+
+  h2 {
+    margin: 0;
+    color: var(--telu-text-primary);
+    font-size: clamp(2rem, 3vw, 2.65rem);
+    font-weight: 900;
+    letter-spacing: 0;
+    line-height: 1.12;
+  }
+
+  p {
+    margin: 14px 0 0;
+    color: var(--telu-text-secondary);
+    font-size: 1rem;
+    line-height: 1.75;
+  }
+}
+
+body.telu-landing-page .telu-eyebrow,
+body.telu-landing-page .telu-hero__badge {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid rgba(237, 28, 36, 0.18);
+  border-radius: 999px;
+  background: var(--telu-primary-soft);
+  color: var(--telu-primary-dark);
+  font-size: 0.8rem;
+  font-weight: 900;
+  text-transform: uppercase;
+}
+
+body.telu-landing-page .telu-hero {
+  padding: 84px 0 96px;
+}
+
+body.telu-landing-page .telu-hero__inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1.02fr) minmax(360px, 0.98fr);
+  align-items: center;
+  gap: 56px;
+}
+
+body.telu-landing-page .telu-hero__content {
+  h1 {
+    margin: 24px 0 18px;
+    color: var(--telu-text-primary);
+    font-size: clamp(3rem, 5vw, 4rem);
+    font-weight: 950;
+    line-height: 1.02;
+    letter-spacing: 0;
+  }
+
+  p {
+    max-width: 720px;
+    margin: 0;
+    color: var(--telu-text-secondary);
+    font-size: 1.08rem;
+    line-height: 1.8;
+  }
+}
+
+body.telu-landing-page .telu-hero__actions,
+body.telu-landing-page .telu-final-cta__actions,
+body.telu-landing-page .telu-centered-action {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+body.telu-landing-page .telu-trust-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin: 26px 0 0;
+  padding: 0;
+  list-style: none;
+
+  li {
+    padding: 9px 12px;
+    border: 1px solid var(--telu-border);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--telu-text-secondary);
+    font-size: 0.87rem;
+    font-weight: 800;
+  }
+}
+
+body.telu-landing-page .telu-hero__visual {
+  position: relative;
+}
+
+body.telu-landing-page .telu-dashboard-mock {
+  display: grid;
+  gap: 16px;
+  padding: 26px;
+  border: 1px solid rgba(255, 255, 255, 0.65);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.72);
+  box-shadow: var(--telu-shadow-lg);
+  backdrop-filter: blur(18px);
+}
+
+body.telu-landing-page .telu-dashboard-mock__top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  span {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+    background: linear-gradient(135deg, var(--telu-primary), var(--telu-primary-dark));
+  }
+
+  strong {
+    margin-right: auto;
+    font-weight: 900;
+  }
+
+  em {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: var(--telu-primary-soft);
+    color: var(--telu-primary-dark);
+    font-size: 0.75rem;
+    font-style: normal;
+    font-weight: 900;
+  }
+}
+
+body.telu-landing-page .telu-mock-card {
+  padding: 18px;
+  border: 1px solid var(--telu-border);
+  border-radius: 20px;
+  background: #FFFFFF;
+  box-shadow: var(--telu-shadow-sm);
+
+  strong {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--telu-text-primary);
+  }
+
+  p,
+  span {
+    margin: 0;
+    color: var(--telu-text-secondary);
+    line-height: 1.6;
+  }
+}
+
+body.telu-landing-page .telu-mock-card--chat {
+  border-color: rgba(237, 28, 36, 0.22);
+  background: linear-gradient(135deg, #FFFFFF, #FFF5F5);
+}
