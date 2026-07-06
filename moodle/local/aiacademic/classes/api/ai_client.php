@@ -8,6 +8,9 @@ namespace local_aiacademic\api;
 
 defined('MOODLE_INTERNAL') || die();
 
+global $CFG;
+require_once($CFG->libdir . '/filelib.php');
+
 class ai_client {
 
     /** @var string Base URL of the AI Service */
@@ -46,7 +49,9 @@ class ai_client {
 
         $url = rtrim($this->baseurl, '/') . '/' . ltrim($endpoint, '/');
         
-        $curl = new \curl();
+        // The AI service is a trusted internal Docker service. Moodle's default curl
+        // security blocks private-network hosts, so this request must opt out.
+        $curl = new \curl(array('ignoresecurity' => true));
         $curl->setHeader(array(
             'Content-Type: application/json',
             'X-API-Key: ' . $this->apikey,
