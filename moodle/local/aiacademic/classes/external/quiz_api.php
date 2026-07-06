@@ -47,7 +47,7 @@ class quiz_api extends external_api {
 
         $coursecontext = \context_course::instance($params['courseid']);
         self::validate_context($coursecontext);
-        require_capability('local/aiacademic:generatequiz', $coursecontext);
+        require_capability('local_aiacademic:generatequiz', $coursecontext);
 
         $courseid = $params['courseid'];
         $cmid = $params['cmid'];
@@ -231,7 +231,7 @@ class quiz_api extends external_api {
 
         $coursecontext = \context_course::instance($batch->courseid);
         self::validate_context($coursecontext);
-        require_capability('local/aiacademic:reviewquiz', $coursecontext);
+        require_capability('local_aiacademic:reviewquiz', $coursecontext);
 
         $action = $params['action'];
         
@@ -305,7 +305,7 @@ class quiz_api extends external_api {
         $batch = $DB->get_record('local_aiacademic_genquizzes', array('id' => $params['genquiz_id']), '*', MUST_EXIST);
         $coursecontext = \context_course::instance($batch->courseid);
         self::validate_context($coursecontext);
-        require_capability('local/aiacademic:publishquiz', $coursecontext);
+        require_capability('local_aiacademic:publishquiz', $coursecontext);
 
         // Fetch all approved/edited questions
         $questions = $DB->get_records_select(
@@ -506,7 +506,7 @@ class quiz_api extends external_api {
         $batch = $DB->get_record('local_aiacademic_genquizzes', array('id' => $params['genquiz_id']), '*', MUST_EXIST);
         $coursecontext = \context_course::instance($batch->courseid);
         self::validate_context($coursecontext);
-        require_capability('local/aiacademic:generatequiz', $coursecontext);
+        require_capability('local_aiacademic:generatequiz', $coursecontext);
 
         $questions = $DB->get_records('local_aiacademic_questions', array('genquizid' => $batch->id));
         $qlist = array();
@@ -561,7 +561,7 @@ class quiz_api extends external_api {
 
         $coursecontext = \context_course::instance($params['courseid']);
         self::validate_context($coursecontext);
-        require_capability('local/aiacademic:generatequiz', $coursecontext);
+        require_capability('local_aiacademic:generatequiz', $coursecontext);
 
         $courseid = $params['courseid'];
         $page = max(1, $params['page']);

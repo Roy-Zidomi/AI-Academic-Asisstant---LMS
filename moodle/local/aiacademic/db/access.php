@@ -8,7 +8,7 @@ defined('MOODLE_INTERNAL') || die();
 $capabilities = array(
 
     // Student capacity: Chat assistant
-    'local/aiacademic:usechat' => array(
+    'local_aiacademic:usechat' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
@@ -20,7 +20,7 @@ $capabilities = array(
     ),
 
     // Summarizer capacity: Student and Teacher can summarize materials
-    'local/aiacademic:summarize' => array(
+    'local_aiacademic:summarize' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -32,7 +32,7 @@ $capabilities = array(
     ),
 
     // Teacher capacity: Generate quiz
-    'local/aiacademic:generatequiz' => array(
+    'local_aiacademic:generatequiz' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -42,7 +42,7 @@ $capabilities = array(
     ),
 
     // Teacher capacity: Review quiz before publishing
-    'local/aiacademic:reviewquiz' => array(
+    'local_aiacademic:reviewquiz' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -52,7 +52,7 @@ $capabilities = array(
     ),
 
     // Teacher capacity: Import generated questions into question bank / course quiz
-    'local/aiacademic:publishquiz' => array(
+    'local_aiacademic:publishquiz' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_COURSE,
         'archetypes' => array(
@@ -62,7 +62,7 @@ $capabilities = array(
     ),
 
     // Admin capacity: View system logs & usage statistics
-    'local/aiacademic:viewlogs' => array(
+    'local_aiacademic:viewlogs' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(
@@ -71,7 +71,7 @@ $capabilities = array(
     ),
 
     // Admin capacity: Configure plugin system prompts and defaults
-    'local/aiacademic:configure' => array(
+    'local_aiacademic:configure' => array(
         'captype' => 'write',
         'contextlevel' => CONTEXT_SYSTEM,
         'archetypes' => array(

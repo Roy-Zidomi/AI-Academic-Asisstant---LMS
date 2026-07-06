@@ -12,7 +12,7 @@ $functions = array(
         'description'   => 'Send a message to AI Academic Assistant',
         'type'          => 'write',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:usechat',
+        'capabilities'  => 'local_aiacademic:usechat',
     ),
     'local_aiacademic_chat_get_history' => array(
         'classname'     => 'local_aiacademic\external\chat_api',
@@ -20,7 +20,7 @@ $functions = array(
         'description'   => 'Get chat message history for a session',
         'type'          => 'read',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:usechat',
+        'capabilities'  => 'local_aiacademic:usechat',
     ),
     'local_aiacademic_chat_get_sessions' => array(
         'classname'     => 'local_aiacademic\external\chat_api',
@@ -28,7 +28,7 @@ $functions = array(
         'description'   => 'Get list of chat sessions',
         'type'          => 'read',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:usechat',
+        'capabilities'  => 'local_aiacademic:usechat',
     ),
     'local_aiacademic_chat_delete_session' => array(
         'classname'     => 'local_aiacademic\external\chat_api',
@@ -36,7 +36,7 @@ $functions = array(
         'description'   => 'Delete a chat session',
         'type'          => 'write',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:usechat',
+        'capabilities'  => 'local_aiacademic:usechat',
     ),
     'local_aiacademic_summary_generate' => array(
         'classname'     => 'local_aiacademic\external\summary_api',
@@ -44,7 +44,7 @@ $functions = array(
         'description'   => 'Generate AI summary from course material',
         'type'          => 'write',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:summarize',
+        'capabilities'  => 'local_aiacademic:summarize',
     ),
     'local_aiacademic_summary_get' => array(
         'classname'     => 'local_aiacademic\external\summary_api',
@@ -52,7 +52,7 @@ $functions = array(
         'description'   => 'Get a generated summary',
         'type'          => 'read',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:summarize',
+        'capabilities'  => 'local_aiacademic:summarize',
     ),
     'local_aiacademic_summary_list' => array(
         'classname'     => 'local_aiacademic\external\summary_api',
@@ -60,7 +60,7 @@ $functions = array(
         'description'   => 'List summaries for a course',
         'type'          => 'read',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:summarize',
+        'capabilities'  => 'local_aiacademic:summarize',
     ),
     'local_aiacademic_quiz_generate' => array(
         'classname'     => 'local_aiacademic\external\quiz_api',
@@ -68,7 +68,7 @@ $functions = array(
         'description'   => 'Generate quiz questions using AI',
         'type'          => 'write',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:generatequiz',
+        'capabilities'  => 'local_aiacademic:generatequiz',
     ),
     'local_aiacademic_quiz_review_question' => array(
         'classname'     => 'local_aiacademic\external\quiz_api',
@@ -76,7 +76,7 @@ $functions = array(
         'description'   => 'Review an AI-generated question',
         'type'          => 'write',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:reviewquiz',
+        'capabilities'  => 'local_aiacademic:reviewquiz',
     ),
     'local_aiacademic_quiz_publish' => array(
         'classname'     => 'local_aiacademic\external\quiz_api',
@@ -84,7 +84,7 @@ $functions = array(
         'description'   => 'Publish approved questions to Moodle',
         'type'          => 'write',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:publishquiz',
+        'capabilities'  => 'local_aiacademic:publishquiz',
     ),
     'local_aiacademic_quiz_get' => array(
         'classname'     => 'local_aiacademic\external\quiz_api',
@@ -92,7 +92,7 @@ $functions = array(
         'description'   => 'Get generated quiz detail',
         'type'          => 'read',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:generatequiz',
+        'capabilities'  => 'local_aiacademic:generatequiz',
     ),
     'local_aiacademic_quiz_list' => array(
         'classname'     => 'local_aiacademic\external\quiz_api',
@@ -100,7 +100,7 @@ $functions = array(
         'description'   => 'List generated quizzes for a course',
         'type'          => 'read',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:generatequiz',
+        'capabilities'  => 'local_aiacademic:generatequiz',
     ),
     'local_aiacademic_logs_get' => array(
         'classname'     => 'local_aiacademic\external\log_api',
@@ -108,7 +108,7 @@ $functions = array(
         'description'   => 'Get AI usage logs (admin)',
         'type'          => 'read',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:viewlogs',
+        'capabilities'  => 'local_aiacademic:viewlogs',
     ),
     'local_aiacademic_logs_stats' => array(
         'classname'     => 'local_aiacademic\external\log_api',
@@ -116,7 +116,7 @@ $functions = array(
         'description'   => 'Get AI usage statistics (admin)',
         'type'          => 'read',
         'ajax'          => true,
-        'capabilities'  => 'local/aiacademic:viewlogs',
+        'capabilities'  => 'local_aiacademic:viewlogs',
     ),
 );
 

@@ -43,7 +43,7 @@ class summary_api extends external_api {
 
         $coursecontext = \context_course::instance($params['courseid']);
         self::validate_context($coursecontext);
-        require_capability('local/aiacademic:summarize', $coursecontext);
+        require_capability('local_aiacademic:summarize', $coursecontext);
 
         $courseid = $params['courseid'];
         $cmid = $params['cmid'];
@@ -230,7 +230,7 @@ class summary_api extends external_api {
 
         $coursecontext = \context_course::instance($summary->courseid);
         self::validate_context($coursecontext);
-        require_capability('local/aiacademic:summarize', $coursecontext);
+        require_capability('local_aiacademic:summarize', $coursecontext);
 
         return array(
             'summary_id' => (int)$summary->id,
@@ -276,7 +276,7 @@ class summary_api extends external_api {
 
         $coursecontext = \context_course::instance($params['courseid']);
         self::validate_context($coursecontext);
-        require_capability('local/aiacademic:summarize', $coursecontext);
+        require_capability('local_aiacademic:summarize', $coursecontext);
 
         $courseid = $params['courseid'];
         $page = max(1, $params['page']);

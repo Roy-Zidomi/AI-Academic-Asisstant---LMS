@@ -14,7 +14,7 @@ $cmid = optional_param('cmid', 0, PARAM_INT);
 
 // Verify course context
 $coursecontext = context_course::instance($courseid);
-require_capability('local/aiacademic:summarize', $coursecontext);
+require_capability('local_aiacademic:summarize', $coursecontext);
 
 // Set up page parameters
 $PAGE->set_url(new moodle_url('/local/aiacademic/summarizer.php', array('courseid' => $courseid, 'cmid' => $cmid)));

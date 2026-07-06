@@ -42,10 +42,11 @@ class ai_client {
      * @throws \moodle_exception If request fails
      */
     protected function post($endpoint, array $payload) {
-        global $USER;
+        global $USER, $CFG;
 
         $url = rtrim($this->baseurl, '/') . '/' . ltrim($endpoint, '/');
         
+        require_once($CFG->libdir . '/filelib.php');
         $curl = new \curl();
         $curl->setHeader(array(
             'Content-Type: application/json',

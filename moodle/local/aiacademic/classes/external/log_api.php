@@ -45,7 +45,7 @@ class log_api extends external_api {
         // Validate administrative access context
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);
-        require_capability('local/aiacademic:viewlogs', $systemcontext);
+        require_capability('local_aiacademic:viewlogs', $systemcontext);
 
         $page = max(1, $params['page']);
         $perpage = max(1, min(100, $params['perpage']));
@@ -136,7 +136,7 @@ class log_api extends external_api {
 
         $systemcontext = \context_system::instance();
         self::validate_context($systemcontext);
-        require_capability('local/aiacademic:viewlogs', $systemcontext);
+        require_capability('local_aiacademic:viewlogs', $systemcontext);
 
         $totalrequests = $DB->count_records('local_aiacademic_logs');
         $successcount = $DB->count_records('local_aiacademic_logs', array('status' => 'success'));

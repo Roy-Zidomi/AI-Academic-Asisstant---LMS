@@ -30,7 +30,7 @@ function local_aiacademic_extend_navigation(global_navigation $navigation) {
 
     // Check capability to use the chat assistant
     $systemcontext = context_system::instance();
-    if (has_capability('local/aiacademic:usechat', $systemcontext)) {
+    if (has_capability('local_aiacademic:usechat', $systemcontext)) {
         // Add link to navigation sidebar
         $navigation->add(
             get_string('ai_assistant_menu', 'local_aiacademic'),
@@ -57,7 +57,7 @@ function local_aiacademic_extend_navigation_course($navigation, $course, $contex
     }
 
     // Add Lecturer features (Quiz generator)
-    if (has_capability('local/aiacademic:generatequiz', $context)) {
+    if (has_capability('local_aiacademic:generatequiz', $context)) {
         $node = navigation_node::create(
             get_string('ai_quiz_generator', 'local_aiacademic'),
             new moodle_url('/local/aiacademic/quiz_generator.php', array('id' => $course->id)),
@@ -69,7 +69,7 @@ function local_aiacademic_extend_navigation_course($navigation, $course, $contex
     }
 
     // Add Student/Lecturer features (Material Summarizer)
-    if (has_capability('local/aiacademic:summarize', $context)) {
+    if (has_capability('local_aiacademic:summarize', $context)) {
         $node = navigation_node::create(
             get_string('ai_material_summarizer', 'local_aiacademic'),
             new moodle_url('/local/aiacademic/summarizer.php', array('courseid' => $course->id)),
@@ -81,7 +81,7 @@ function local_aiacademic_extend_navigation_course($navigation, $course, $contex
     }
 
     // Add AI Chat Assistant feature
-    if (has_capability('local/aiacademic:usechat', $context)) {
+    if (has_capability('local_aiacademic:usechat', $context)) {
         $node = navigation_node::create(
             get_string('ai_assistant_menu', 'local_aiacademic'),
             new moodle_url('/local/aiacademic/chat.php', array('courseid' => $course->id)),

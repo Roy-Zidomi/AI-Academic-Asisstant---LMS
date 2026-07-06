@@ -45,7 +45,7 @@ class chat_api extends external_api {
         // Capability check
         $context = ($params['courseid'] > 0) ? \context_course::instance($params['courseid']) : \context_system::instance();
         self::validate_context($context);
-        require_capability('local/aiacademic:usechat', $context);
+        require_capability('local_aiacademic:usechat', $context);
 
         $sessionid = $params['sessionid'];
         $courseid = $params['courseid'];
@@ -215,7 +215,7 @@ class chat_api extends external_api {
         // Capability check
         $context = ($session->courseid) ? \context_course::instance($session->courseid) : \context_system::instance();
         self::validate_context($context);
-        require_capability('local/aiacademic:usechat', $context);
+        require_capability('local_aiacademic:usechat', $context);
 
         // Fetch messages
         $messages = $DB->get_records(
@@ -279,7 +279,7 @@ class chat_api extends external_api {
 
         $context = ($params['courseid'] > 0) ? \context_course::instance($params['courseid']) : \context_system::instance();
         self::validate_context($context);
-        require_capability('local/aiacademic:usechat', $context);
+        require_capability('local_aiacademic:usechat', $context);
 
         $courseid = $params['courseid'];
         $page = max(1, $params['page']);
@@ -372,7 +372,7 @@ class chat_api extends external_api {
         // Capability check
         $context = ($session->courseid) ? \context_course::instance($session->courseid) : \context_system::instance();
         self::validate_context($context);
-        require_capability('local/aiacademic:usechat', $context);
+        require_capability('local_aiacademic:usechat', $context);
 
         // Soft delete: status = 0
         $session->status = 0;

@@ -14,7 +14,7 @@ $cmid = optional_param('cmid', 0, PARAM_INT);
 
 // Verify course context & capability
 $coursecontext = context_course::instance($courseid);
-require_capability('local/aiacademic:generatequiz', $coursecontext);
+require_capability('local_aiacademic:generatequiz', $coursecontext);
 
 // Set up page parameters
 $PAGE->set_url(new moodle_url('/local/aiacademic/quiz_generator.php', array('id' => $courseid, 'cmid' => $cmid)));
