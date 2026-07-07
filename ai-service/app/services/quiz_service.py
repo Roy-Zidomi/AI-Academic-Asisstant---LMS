@@ -8,6 +8,7 @@ import uuid
 
 import httpx
 import structlog
+from fastapi import HTTPException
 
 from app.config import settings
 from app.core.text_extractor import TextExtractor
@@ -107,6 +108,11 @@ class QuizService:
             request.options.temperature if request.options and request.options.temperature is not None
             else settings.AI_QUIZ_TEMPERATURE
         )
+        max_tokens = (
+            request.options.max_tokens if request.options and request.options.max_tokens
+            else settings.AI_QUIZ_MAX_TOKENS
+        )
+        source_text = text_content[:settings.AI_MAX_INPUT_LENGTH]
 
         # Generate questions per type
         all_questions: list[GeneratedQuestion] = []
@@ -125,31 +131,87 @@ class QuizService:
             prompt = prompt_template.format(
                 num_questions=count, difficulty=difficulty
             )
-            prompt += f"\n\nMaterial Title: {request.material.filename}\n\nMaterial Content:\n{text_content[:10000]}"
+            prompt += f"\n\nMaterial Title: {request.material.filename}\n\nMaterial Content:\n{source_text}"
 
             logger.info("quiz_inference_start", model=model, qtype=qtype,
-                         count=count, user_id=request.user_id)
+                         count=count, user_id=request.user_id,
+                         source_length=len(text_content), prompt_material_length=len(source_text))
 
-            async with httpx.AsyncClient(timeout=settings.AI_TIMEOUT_QUIZ) as client:
-                resp = await client.post(
-                    f"{settings.OLLAMA_BASE_URL}/api/generate",
-                    json={
-                        "model": model,
-                        "prompt": prompt,
-                        "stream": False,
-                        "options": {
-                            "temperature": temperature,
-                            "num_predict": settings.AI_QUIZ_MAX_TOKENS,
+            try:
+                async with httpx.AsyncClient(timeout=settings.AI_TIMEOUT_QUIZ) as client:
+                    resp = await client.post(
+                        f"{settings.OLLAMA_BASE_URL}/api/generate",
+                        json={
+                            "model": model,
+                            "prompt": prompt,
+                            "stream": False,
+                            "options": {
+                                "temperature": temperature,
+                                "num_predict": max_tokens,
+                            },
+                        },
+                    )
+                    resp.raise_for_status()
+                    result = resp.json()
+            except httpx.TimeoutException as exc:
+                logger.warning(
+                    "quiz_ollama_timeout",
+                    model=model,
+                    qtype=qtype,
+                    timeout=settings.AI_TIMEOUT_QUIZ,
+                    user_id=request.user_id,
+                )
+                raise HTTPException(
+                    status_code=504,
+                    detail={
+                        "success": False,
+                        "error": {
+                            "code": "OLLAMA_TIMEOUT",
+                            "message": (
+                                "Ollama timed out while generating quiz questions. "
+                                "Try fewer questions, select fewer question types, or use a smaller/faster model."
+                            ),
                         },
                     },
+                ) from exc
+            except httpx.HTTPError as exc:
+                logger.warning(
+                    "quiz_ollama_request_failed",
+                    model=model,
+                    qtype=qtype,
+                    error=str(exc),
+                    user_id=request.user_id,
                 )
-                resp.raise_for_status()
-                result = resp.json()
+                raise HTTPException(
+                    status_code=502,
+                    detail={
+                        "success": False,
+                        "error": {
+                            "code": "OLLAMA_REQUEST_FAILED",
+                            "message": f"Ollama request failed: {exc}",
+                        },
+                    },
+                ) from exc
 
             raw = result.get("response", "")
             parsed_questions = self._parse_questions(raw, qtype)
             all_questions.extend(parsed_questions)
             type_counts[qtype] = len(parsed_questions)
+
+        if not all_questions:
+            raise HTTPException(
+                status_code=422,
+                detail={
+                    "success": False,
+                    "error": {
+                        "code": "QUIZ_PARSE_EMPTY",
+                        "message": (
+                            "The AI model returned no valid quiz questions. "
+                            "Try fewer questions, use another question type, or regenerate with clearer source material."
+                        ),
+                    },
+                },
+            )
 
         elapsed = time.time() - start_time
 

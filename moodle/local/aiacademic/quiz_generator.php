@@ -57,13 +57,14 @@ $drafts = $DB->get_records_select(
 $draftlist = array();
 foreach ($drafts as $d) {
     $statuslabel = 'Pending';
-    if ($d->status === 1) {
+    $status = (int)$d->status;
+    if ($status === 1) {
         $statuslabel = 'Awaiting Review';
-    } else if ($d->status === 2) {
+    } else if ($status === 2) {
         $statuslabel = 'Reviewed';
-    } else if ($d->status === 3) {
+    } else if ($status === 3) {
         $statuslabel = 'Published';
-    } else if ($d->status === 4) {
+    } else if ($status === 4) {
         $statuslabel = 'Failed';
     }
 
@@ -85,6 +86,8 @@ $templatedata = array(
     'has_materials' => !empty($materials),
     'drafts' => $draftlist,
     'has_drafts' => !empty($draftlist),
+    'quiz_generator_title' => get_string('quiz_generator_title', 'local_aiacademic'),
+    'quiz_difficulty' => get_string('quiz_difficulty', 'local_aiacademic'),
     'difficulty_easy' => get_string('quiz_difficulty_easy', 'local_aiacademic'),
     'difficulty_medium' => get_string('quiz_difficulty_medium', 'local_aiacademic'),
     'difficulty_hard' => get_string('quiz_difficulty_hard', 'local_aiacademic'),
@@ -95,7 +98,19 @@ $templatedata = array(
     'type_tf' => get_string('quiz_type_tf', 'local_aiacademic'),
     'type_essay' => get_string('quiz_type_essay', 'local_aiacademic'),
     'generate_label' => get_string('quiz_generate_btn', 'local_aiacademic'),
-    'generating_label' => get_string('quiz_generating', 'local_aiacademic')
+    'generating_label' => get_string('quiz_generating', 'local_aiacademic'),
+    'quiz_publish_btn' => get_string('quiz_publish_btn', 'local_aiacademic'),
+    'quiz_publish_settings' => get_string('quiz_publish_settings', 'local_aiacademic'),
+    'quiz_name_label' => get_string('quiz_name_label', 'local_aiacademic'),
+    'quiz_open_time_label' => get_string('quiz_open_time_label', 'local_aiacademic'),
+    'quiz_close_time_label' => get_string('quiz_close_time_label', 'local_aiacademic'),
+    'quiz_time_limit_label' => get_string('quiz_time_limit_label', 'local_aiacademic'),
+    'quiz_attempts_label' => get_string('quiz_attempts_label', 'local_aiacademic'),
+    'quiz_grade_label' => get_string('quiz_grade_label', 'local_aiacademic'),
+    'quiz_questions_per_page_label' => get_string('quiz_questions_per_page_label', 'local_aiacademic'),
+    'quiz_shuffle_label' => get_string('quiz_shuffle_label', 'local_aiacademic'),
+    'quiz_visible_label' => get_string('quiz_visible_label', 'local_aiacademic'),
+    'quiz_name_placeholder' => get_string('quiz_name_placeholder', 'local_aiacademic')
 );
 
 // Render template

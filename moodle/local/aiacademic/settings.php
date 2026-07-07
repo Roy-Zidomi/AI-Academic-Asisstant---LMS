@@ -58,7 +58,7 @@ if ($hassiteconfig) {
         'local_aiacademic/connection_timeout',
         get_string('connection_timeout', 'local_aiacademic'),
         get_string('connection_timeout_desc', 'local_aiacademic'),
-        30
+        300
     ));
 
     // Chat rate limiting setting (requests per hour)

@@ -572,6 +572,25 @@
     box-shadow: 0 4px 10px 0 rgba(16, 185, 129, 0.05);
 }
 
+.quiz_publish_settings {
+    background: rgba(248, 250, 252, 0.72);
+    border-radius: var(--ai-radius-md);
+    padding: 18px;
+}
+
+.quiz_publish_settings h4 {
+    font-size: 1.05rem;
+    font-weight: 700;
+    margin-bottom: 16px;
+}
+
+.local_aiacademic_quiz_container .quiz_publish_settings input[type="checkbox"] {
+    padding: 0 !important;
+    width: 16px;
+    height: 16px;
+    margin-top: 0.25rem;
+}
+
 /* ==========================================================================
    4. Animations
    ========================================================================== */

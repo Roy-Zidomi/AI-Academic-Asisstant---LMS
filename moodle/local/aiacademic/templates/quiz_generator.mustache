@@ -104,7 +104,7 @@
                     <i class="fa fa-spinner fa-spin fa-3x text-primary"></i>
                 </div>
                 <h3>{{generating_label}}</h3>
-                <p class="text-muted">Analyzing document text and formatting JSON output per question type. This might take up to 60 seconds.</p>
+                <p class="text-muted">Keep this page open while the AI reads the document and formats questions. Larger PDFs can take several minutes.</p>
             </div>
 
             <!-- Active Draft Review Form -->
@@ -113,10 +113,59 @@
                     <div>
                         <h3 id="review-material-title">Draft Questions</h3>
                         <span id="review-meta-subtitle" class="text-muted">Batch ID: # | 10 Questions</span>
+                        <div class="text-muted small mt-1">
+                            Approved questions will be imported into a Moodle quiz activity in the same topic as the selected source material.
+                        </div>
                     </div>
-                    <button id="btn-publish-all" class="btn btn-success">
-                        <i class="fa fa-cloud-upload"></i> {{quiz_publish_btn}}
+                    <button id="btn-publish-all" class="btn btn-success quiz_publish_button" type="button"
+                            data-active-draft-id="0"
+                            title="Create a Moodle quiz in the same topic as the selected source material"
+                            aria-label="{{quiz_publish_btn}}">
+                        <i class="fa fa-cloud-upload" aria-hidden="true"></i>
+                        <span class="quiz_publish_button_text">{{quiz_publish_btn}}</span>
                     </button>
+                </div>
+
+                <div class="quiz_publish_settings border-bottom pb-3 mb-4">
+                    <h4>{{quiz_publish_settings}}</h4>
+                    <div class="row">
+                        <div class="col-md-12 form-group mb-3">
+                            <label for="quiz-name" class="font-weight-bold">{{quiz_name_label}}</label>
+                            <input type="text" id="quiz-name" class="form-control" maxlength="255" placeholder="{{quiz_name_placeholder}}">
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="quiz-open-time" class="font-weight-bold">{{quiz_open_time_label}}</label>
+                            <input type="datetime-local" id="quiz-open-time" class="form-control">
+                        </div>
+                        <div class="col-md-6 form-group mb-3">
+                            <label for="quiz-close-time" class="font-weight-bold">{{quiz_close_time_label}}</label>
+                            <input type="datetime-local" id="quiz-close-time" class="form-control">
+                        </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="quiz-time-limit" class="font-weight-bold">{{quiz_time_limit_label}}</label>
+                            <input type="number" id="quiz-time-limit" class="form-control" min="0" max="10080" value="0">
+                        </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="quiz-attempts" class="font-weight-bold">{{quiz_attempts_label}}</label>
+                            <input type="number" id="quiz-attempts" class="form-control" min="0" max="10" value="1">
+                        </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="quiz-grade" class="font-weight-bold">{{quiz_grade_label}}</label>
+                            <input type="number" id="quiz-grade" class="form-control" min="1" max="1000" step="0.01" value="10">
+                        </div>
+                        <div class="col-md-3 form-group mb-3">
+                            <label for="quiz-questions-per-page" class="font-weight-bold">{{quiz_questions_per_page_label}}</label>
+                            <input type="number" id="quiz-questions-per-page" class="form-control" min="1" max="50" value="1">
+                        </div>
+                        <div class="col-md-6 form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="quiz-shuffle" checked>
+                            <label class="form-check-label" for="quiz-shuffle">{{quiz_shuffle_label}}</label>
+                        </div>
+                        <div class="col-md-6 form-check mb-2">
+                            <input class="form-check-input" type="checkbox" id="quiz-visible" checked>
+                            <label class="form-check-label" for="quiz-visible">{{quiz_visible_label}}</label>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Questions List Accordion -->

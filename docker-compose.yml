@@ -176,6 +176,7 @@ services:
       AI_DEFAULT_MODEL_CHAT: ${AI_DEFAULT_MODEL_CHAT:-llama3}
       AI_DEFAULT_MODEL_SUMMARY: ${AI_DEFAULT_MODEL_SUMMARY:-llama3}
       AI_DEFAULT_MODEL_QUIZ: ${AI_DEFAULT_MODEL_QUIZ:-llama3}
+      AI_QUIZ_MAX_TOKENS: ${AI_QUIZ_MAX_TOKENS:-2048}
       # PostgreSQL
       DATABASE_URL: postgresql://${POSTGRES_USER:-moodle}:${POSTGRES_PASSWORD:-moodle_secret_change_me}@${MOODLE_DATABASE_HOST:-postgres}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-moodle}
       # Redis
@@ -186,6 +187,9 @@ services:
       AI_RATE_LIMIT_QUIZ: ${AI_RATE_LIMIT_QUIZ:-5}
       AI_MAX_INPUT_LENGTH: ${AI_MAX_INPUT_LENGTH:-2000}
       AI_CHAT_HISTORY_LIMIT: ${AI_CHAT_HISTORY_LIMIT:-5}
+      AI_TIMEOUT_CHAT: ${AI_TIMEOUT_CHAT:-120}
+      AI_TIMEOUT_SUMMARY: ${AI_TIMEOUT_SUMMARY:-300}
+      AI_TIMEOUT_QUIZ: ${AI_TIMEOUT_QUIZ:-300}
       TZ: ${TZ:-Asia/Jakarta}
     ports:
       - "8000:8000"   # Exposed for development

@@ -98,6 +98,8 @@
         <FIELD NAME="userid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="courseid" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="cmid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false"/>
+        <FIELD NAME="moodle_quizid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Created Moodle quiz instance ID"/>
+        <FIELD NAME="moodle_cmid" TYPE="int" LENGTH="10" NOTNULL="false" SEQUENCE="false" COMMENT="Created Moodle quiz course module ID"/>
         <FIELD NAME="source_filename" TYPE="char" LENGTH="255" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="difficulty" TYPE="char" LENGTH="20" NOTNULL="true" SEQUENCE="false"/>
         <FIELD NAME="requested_count" TYPE="int" LENGTH="10" NOTNULL="true" SEQUENCE="false"/>
@@ -116,6 +118,7 @@
       <INDEXES>
         <INDEX NAME="idx_gq_userid" UNIQUE="false" FIELDS="userid"/>
         <INDEX NAME="idx_gq_courseid" UNIQUE="false" FIELDS="courseid"/>
+        <INDEX NAME="idx_gq_moodlequiz" UNIQUE="false" FIELDS="moodle_quizid"/>
         <INDEX NAME="idx_gq_status" UNIQUE="false" FIELDS="status"/>
       </INDEXES>
     </TABLE>

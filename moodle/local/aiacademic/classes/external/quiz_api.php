@@ -1,6 +1,6 @@
 <?php
 // ============================================================================
-// Moodle local_aiacademic — External API for Quiz Generator
+// Moodle local_aiacademic â€” External API for Quiz Generator
 // Handles draft generation, question review, and publishing to Moodle
 // ============================================================================
 
@@ -14,6 +14,7 @@ use external_value;
 use external_single_structure;
 use external_multiple_structure;
 use local_aiacademic\api\ai_client;
+use local_aiacademic\local\quiz_publisher;
 use moodle_exception;
 
 class quiz_api extends external_api {
@@ -98,10 +99,15 @@ class quiz_api extends external_api {
         } catch (\Exception $e) {
             $status = 'error';
             $errormsg = $e->getMessage();
+            if ($e instanceof moodle_exception && !empty($e->debuginfo)) {
+                $errormsg .= ' ' . $e->debuginfo;
+            }
 
             $batch->id = $batchid;
             $batch->status = 4; // failed
             $DB->update_record('local_aiacademic_genquizzes', $batch);
+
+            self::insert_generation_log($status, $errormsg, null, null);
             throw $e;
         }
 
@@ -150,19 +156,7 @@ class quiz_api extends external_api {
         $DB->update_record('local_aiacademic_genquizzes', $batch);
 
         // 5. Log operation
-        $log = new \stdClass();
-        $log->userid = $USER->id;
-        $log->feature_type = 'quiz_generation';
-        $log->model_used = $batch->model_used;
-        $log->input_tokens = 0; // Configured at service side
-        $log->output_tokens = 0;
-        $log->response_time_ms = $batch->generation_time * 1000;
-        $log->status = $status;
-        $log->error_message = $errormsg;
-        $log->ip_address = getremoteaddr();
-        $log->user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? substr($_SERVER['HTTP_USER_AGENT'], 0, 255) : '';
-        $log->timecreated = time();
-        $DB->insert_record('local_aiacademic_logs', $log);
+        self::insert_generation_log($status, $errormsg, $batch->model_used, $batch->generation_time * 1000);
 
         return array(
             'genquiz_id' => $batchid,
@@ -193,6 +187,32 @@ class quiz_api extends external_api {
                 ))
             )
         ));
+    }
+
+    /**
+     * Insert a quiz generation log row for success and failure cases.
+     *
+     * @param string $status success/error
+     * @param string|null $errormsg Error message, if any
+     * @param string|null $model Model name, if available
+     * @param float|null $responsetime Response time in milliseconds, if available
+     */
+    protected static function insert_generation_log($status, $errormsg = null, $model = null, $responsetime = null) {
+        global $DB, $USER;
+
+        $log = new \stdClass();
+        $log->userid = $USER->id;
+        $log->feature_type = 'quiz_generation';
+        $log->model_used = $model;
+        $log->input_tokens = 0;
+        $log->output_tokens = 0;
+        $log->response_time_ms = $responsetime;
+        $log->status = $status;
+        $log->error_message = $errormsg;
+        $log->ip_address = getremoteaddr();
+        $log->user_agent = isset($_SERVER['HTTP_USER_AGENT']) ? substr($_SERVER['HTTP_USER_AGENT'], 0, 255) : '';
+        $log->timecreated = time();
+        $DB->insert_record('local_aiacademic_logs', $log);
     }
 
     /**
@@ -283,23 +303,43 @@ class quiz_api extends external_api {
     public static function publish_parameters() {
         return new external_function_parameters(array(
             'genquiz_id'     => new external_value(PARAM_INT, 'Batch generated quiz ID', VALUE_REQUIRED),
-            'target_type'    => new external_value(PARAM_TEXT, 'questionbank or quiz', VALUE_DEFAULT, 'questionbank'),
+            'target_type'    => new external_value(PARAM_TEXT, 'questionbank, quiz, or sectionquiz', VALUE_DEFAULT, 'questionbank'),
             'target_quiz_id' => new external_value(PARAM_INT, 'Moodle Quiz ID to add questions to (if type=quiz)', VALUE_DEFAULT, 0),
-            'category_name'  => new external_value(PARAM_TEXT, 'Category name in question bank', VALUE_DEFAULT, '')
+            'category_name'  => new external_value(PARAM_TEXT, 'Category name in question bank', VALUE_DEFAULT, ''),
+            'quiz_name'      => new external_value(PARAM_TEXT, 'Quiz activity name when creating a quiz', VALUE_DEFAULT, ''),
+            'timeopen'       => new external_value(PARAM_INT, 'Quiz open timestamp, 0 to disable', VALUE_DEFAULT, 0),
+            'timeclose'      => new external_value(PARAM_INT, 'Quiz close timestamp, 0 to disable', VALUE_DEFAULT, 0),
+            'timelimit'      => new external_value(PARAM_INT, 'Quiz time limit in seconds, 0 to disable', VALUE_DEFAULT, 0),
+            'attempts'       => new external_value(PARAM_INT, 'Attempts allowed, 0 for unlimited', VALUE_DEFAULT, 1),
+            'grade'          => new external_value(PARAM_FLOAT, 'Maximum grade for the quiz', VALUE_DEFAULT, 10),
+            'questionsperpage' => new external_value(PARAM_INT, 'Questions per page', VALUE_DEFAULT, 1),
+            'shuffleanswers' => new external_value(PARAM_BOOL, 'Shuffle answers in supported question types', VALUE_DEFAULT, true),
+            'visible'        => new external_value(PARAM_BOOL, 'Whether the created quiz is visible to students', VALUE_DEFAULT, true)
         ));
     }
 
     /**
      * Import approved questions into Moodle Question Bank.
      */
-    public static function publish($genquiz_id, $target_type = 'questionbank', $target_quiz_id = 0, $category_name = '') {
+    public static function publish($genquiz_id, $target_type = 'questionbank', $target_quiz_id = 0, $category_name = '',
+            $quiz_name = '', $timeopen = 0, $timeclose = 0, $timelimit = 0, $attempts = 1, $grade = 10,
+            $questionsperpage = 1, $shuffleanswers = true, $visible = true) {
         global $DB;
 
         $params = self::validate_parameters(self::publish_parameters(), array(
             'genquiz_id' => $genquiz_id,
             'target_type' => $target_type,
             'target_quiz_id' => $target_quiz_id,
-            'category_name' => $category_name
+            'category_name' => $category_name,
+            'quiz_name' => $quiz_name,
+            'timeopen' => $timeopen,
+            'timeclose' => $timeclose,
+            'timelimit' => $timelimit,
+            'attempts' => $attempts,
+            'grade' => $grade,
+            'questionsperpage' => $questionsperpage,
+            'shuffleanswers' => $shuffleanswers,
+            'visible' => $visible
         ));
 
         $batch = $DB->get_record('local_aiacademic_genquizzes', array('id' => $params['genquiz_id']), '*', MUST_EXIST);
@@ -307,7 +347,6 @@ class quiz_api extends external_api {
         self::validate_context($coursecontext);
         require_capability('local/aiacademic:publishquiz', $coursecontext);
 
-        // Fetch all approved/edited questions
         $questions = $DB->get_records_select(
             'local_aiacademic_questions',
             'genquizid = :genquizid AND (review_status = 1 OR review_status = 3)',
@@ -318,161 +357,66 @@ class quiz_api extends external_api {
             throw new moodle_exception('validation_error', 'local_aiacademic', '', null, 'No approved questions to publish.');
         }
 
-        // Get or create Question Bank category
-        $categoryname = $params['category_name'] ?: 'AI Generated — ' . $batch->source_filename;
-        $category = $DB->get_record('question_categories', array(
-            'contextid' => $coursecontext->id,
-            'name' => $categoryname
-        ));
-
-        if (!$category) {
-            $category = new \stdClass();
-            $category->name = $categoryname;
-            $category->contextid = $coursecontext->id;
-            $category->info = 'AI-generated questions from file ' . $batch->source_filename;
-            $category->infoformat = FORMAT_HTML;
-            $category->stamp = make_unique_id_code();
-            $category->parent = 0;
-            $category->sortorder = 999;
-            $category->id = $DB->insert_record('question_categories', $category);
-        }
-
-        $publishedcount = 0;
-        $moodlequestionids = array();
-
-        foreach ($questions as $q) {
-            // Check if already published
-            if ($q->moodle_questionid) {
-                continue;
-            }
-
-            // Create Moodle core question structure
-            $question = new \stdClass();
-            $question->category = $category->id;
-            $question->name = 'AIQ_' . substr(strip_tags($q->question_text), 0, 30);
-            $question->questiontext = $q->question_text;
-            $question->questiontextformat = FORMAT_HTML;
-            $question->generalfeedback = $q->explanation;
-            $question->generalfeedbackformat = FORMAT_HTML;
-            $question->defaultmark = 1;
-            $question->penalty = 0.3333333;
-            $question->stamp = make_unique_id_code();
-            $question->version = make_unique_id_code();
-            $question->timecreated = time();
-            $question->timemodified = time();
-
-            // Set question type details
-            if ($q->qtype === 'multichoice') {
-                $question->qtype = 'multichoice';
-                $qid = $DB->insert_record('question', $question);
-
-                // Add multichoice specific configurations
-                $mc = new \stdClass();
-                $mc->questionid = $qid;
-                $mc->single = 1; // single answer correct
-                $mc->shuffleanswers = 1;
-                $mc->correctfeedback = 'Correct answer!';
-                $mc->correctfeedbackformat = FORMAT_HTML;
-                $mc->incorrectfeedback = 'Incorrect.';
-                $mc->incorrectfeedbackformat = FORMAT_HTML;
-                $DB->insert_record('qtype_multichoice_options', $mc);
-
-                // Insert answer options
-                $options = json_decode($q->options_json, true) ?: array();
-                foreach ($options as $key => $val) {
-                    $answer = new \stdClass();
-                    $answer->question = $qid;
-                    $answer->answer = $val;
-                    $answer->answerformat = FORMAT_HTML;
-                    // Fraction score (1.0 for correct, 0.0 for wrong)
-                    $answer->fraction = ($key === $q->correct_answer) ? 1.0 : 0.0;
-                    $answer->feedback = ($key === $q->correct_answer) ? 'Correct choice' : 'Wrong choice';
-                    $answer->feedbackformat = FORMAT_HTML;
-                    $DB->insert_record('question_answers', $answer);
+        if ((int)$batch->status === 3 && !empty($batch->moodle_quizid) && !empty($batch->moodle_cmid)) {
+            $moodlequestionids = array();
+            foreach ($questions as $question) {
+                if (!empty($question->moodle_questionid)) {
+                    $moodlequestionids[] = (int)$question->moodle_questionid;
                 }
-
-            } else if ($q->qtype === 'truefalse') {
-                $question->qtype = 'truefalse';
-                $qid = $DB->insert_record('question', $question);
-
-                // Options
-                $tf = new \stdClass();
-                $tf->questionid = $qid;
-                $DB->insert_record('qtype_truefalse_options', $tf);
-
-                // Insert True and False answers
-                // Moodle conventions: True answer is answer record 1, False is 2
-                $answers = array(
-                    'True' => ($q->correct_answer === 'true' || $q->correct_answer === '1') ? 1.0 : 0.0,
-                    'False' => ($q->correct_answer === 'false' || $q->correct_answer === '0') ? 1.0 : 0.0
-                );
-                foreach ($answers as $ans => $frac) {
-                    $answer = new \stdClass();
-                    $answer->question = $qid;
-                    $answer->answer = $ans;
-                    $answer->answerformat = FORMAT_HTML;
-                    $answer->fraction = $frac;
-                    $answer->feedback = '';
-                    $answer->feedbackformat = FORMAT_HTML;
-                    $DB->insert_record('question_answers', $answer);
-                }
-
-            } else if ($q->qtype === 'essay') {
-                $question->qtype = 'essay';
-                $qid = $DB->insert_record('question', $question);
-
-                // Options
-                $essay = new \stdClass();
-                $essay->questionid = $qid;
-                $essay->responseformat = 'editor';
-                $essay->responserequired = 1;
-                $essay->responsefieldlines = 15;
-                $essay->graderinfo = $q->reviewer_comment; // expected guidelines stored here
-                $essay->graderinfoformat = FORMAT_HTML;
-                $DB->insert_record('qtype_essay_options', $essay);
             }
 
-            // Link local question ID to moodle question ID
-            $q->moodle_questionid = $qid;
-            $q->timemodified = time();
-            $DB->update_record('local_aiacademic_questions', $q);
-
-            $moodlequestionids[] = $qid;
-            $publishedcount++;
+            return array(
+                'published' => true,
+                'questions_published' => count($moodlequestionids),
+                'moodle_question_ids' => $moodlequestionids,
+                'quiz_id' => (int)$batch->moodle_quizid,
+                'course_module_id' => (int)$batch->moodle_cmid,
+                'quiz_url' => (new \moodle_url('/mod/quiz/view.php', array('id' => $batch->moodle_cmid)))->out(false)
+            );
         }
 
-        // Add questions to quiz if target is a quiz resource
-        if ($target_type === 'quiz' && $target_quiz_id > 0 && !empty($moodlequestionids)) {
-            // Moodle quiz structure import logic (can use quiz_add_quiz_question)
-            foreach ($moodlequestionids as $qid) {
-                // Insert page placement
-                // Note: Direct database insertion is simple for PoC; production should use quiz core API
-                $qq = new \stdClass();
-                $qq->quizid = $target_quiz_id;
-                $qq->questionid = $qid;
-                $qq->page = 1;
-                $qq->slot = $DB->count_records('quiz_slots', array('quizid' => $target_quiz_id)) + 1;
-                $DB->insert_record('quiz_slots', $qq);
-            }
-            // Update quiz sumgrades
-            $quiz = $DB->get_record('quiz', array('id' => $target_quiz_id));
-            if ($quiz) {
-                $quiz->sumgrades = $DB->count_records('quiz_slots', array('quizid' => $target_quiz_id));
-                $DB->update_record('quiz', $quiz);
-            }
+        if ($params['timeopen'] > 0 && $params['timeclose'] > 0 && $params['timeclose'] <= $params['timeopen']) {
+            throw new moodle_exception('validation_error', 'local_aiacademic', '', null, 'Quiz close time must be later than open time.');
         }
 
-        // Update batch status to published
-        $batch->status = 3; // published
+        $quizsettings = array(
+            'quiz_name' => trim($params['quiz_name']),
+            'timeopen' => max(0, (int)$params['timeopen']),
+            'timeclose' => max(0, (int)$params['timeclose']),
+            'timelimit' => max(0, (int)$params['timelimit']),
+            'attempts' => max(0, (int)$params['attempts']),
+            'grade' => max(1, (float)$params['grade']),
+            'questionsperpage' => max(1, (int)$params['questionsperpage']),
+            'shuffleanswers' => !empty($params['shuffleanswers']) ? 1 : 0,
+            'visible' => !empty($params['visible']) ? 1 : 0
+        );
+
+        $moodlequestionids = quiz_publisher::publish_questions($batch, array_values($questions), $params['category_name']);
+        $publishedcount = count($moodlequestionids);
+        $quizdata = array('quizid' => 0, 'cmid' => 0, 'url' => '');
+
+        if ($params['target_type'] === 'sectionquiz') {
+            $quizdata = quiz_publisher::create_quiz_in_source_section($batch, $moodlequestionids, $quizsettings['quiz_name'], $quizsettings);
+            $batch->moodle_quizid = $quizdata['quizid'];
+            $batch->moodle_cmid = $quizdata['cmid'];
+        } else if ($params['target_type'] === 'quiz' && $params['target_quiz_id'] > 0) {
+            $quizdata = quiz_publisher::add_questions_to_existing_quiz($params['target_quiz_id'], $moodlequestionids, $quizsettings);
+            $batch->moodle_quizid = $quizdata['quizid'];
+            $batch->moodle_cmid = $quizdata['cmid'];
+        }
+
+        $batch->status = 3;
         $DB->update_record('local_aiacademic_genquizzes', $batch);
 
         return array(
             'published' => true,
             'questions_published' => $publishedcount,
-            'moodle_question_ids' => $moodlequestionids
+            'moodle_question_ids' => $moodlequestionids,
+            'quiz_id' => $quizdata['quizid'],
+            'course_module_id' => $quizdata['cmid'],
+            'quiz_url' => $quizdata['url']
         );
     }
-
     /**
      * Return description for publish.
      */
@@ -480,7 +424,10 @@ class quiz_api extends external_api {
         return new external_single_structure(array(
             'published' => new external_value(PARAM_BOOL, 'Publish status'),
             'questions_published' => new external_value(PARAM_INT, 'Number of questions published'),
-            'moodle_question_ids' => new external_multiple_structure(new external_value(PARAM_INT, 'Moodle question ID'))
+            'moodle_question_ids' => new external_multiple_structure(new external_value(PARAM_INT, 'Moodle question ID')),
+            'quiz_id' => new external_value(PARAM_INT, 'Created or updated Moodle quiz ID'),
+            'course_module_id' => new external_value(PARAM_INT, 'Created or updated Moodle course module ID'),
+            'quiz_url' => new external_value(PARAM_RAW, 'URL to the created or updated quiz')
         ));
     }
 
