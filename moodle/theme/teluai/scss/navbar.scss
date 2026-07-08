@@ -55,6 +55,8 @@ body.telu-landing-page .telu-landing-nav__links {
     font-size: 0.9rem;
     font-weight: 700;
     text-decoration: none;
+    -webkit-tap-highlight-color: transparent;
+    outline: 0;
   }
 
   & a::after {
@@ -71,10 +73,33 @@ body.telu-landing-page .telu-landing-nav__links {
     transition: transform 160ms ease;
   }
 
+  & a:visited {
+    color: var(--telu-text-secondary);
+  }
+
   & a:hover,
   & a:focus,
   & a.is-active {
     color: var(--telu-primary-dark);
+    background: transparent;
+    box-shadow: none;
+    outline: 0;
+  }
+
+  & a:active {
+    background: transparent;
+    box-shadow: none;
+    color: var(--telu-primary-dark);
+    outline: 0;
+  }
+
+  & a:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  & a:focus-visible {
+    outline: 3px solid rgba(237, 28, 36, 0.34);
+    outline-offset: 3px;
   }
 
   & a:hover::after,
@@ -101,6 +126,15 @@ body.telu-landing-page .telu-landing-nav__links {
     background: var(--telu-primary-dark);
     color: #FFFFFF;
   }
+
+  & .telu-landing-nav__login:visited {
+    color: #FFFFFF;
+  }
+
+  & .telu-landing-nav__login:active {
+    background: var(--telu-primary-dark);
+    color: #FFFFFF;
+  }
 }
 
 body.telu-landing-page .telu-landing-nav__toggle {
@@ -110,6 +144,25 @@ body.telu-landing-page .telu-landing-nav__toggle {
   border: 1px solid var(--telu-border);
   border-radius: 12px;
   background: #FFFFFF;
+  -webkit-tap-highlight-color: transparent;
+  box-shadow: none;
+  outline: 0;
+
+  &:focus,
+  &:active {
+    background: #FFFFFF;
+    box-shadow: none;
+    outline: 0;
+  }
+
+  &:focus:not(:focus-visible) {
+    outline: 0;
+  }
+
+  &:focus-visible {
+    outline: 3px solid rgba(237, 28, 36, 0.34);
+    outline-offset: 3px;
+  }
 
   & span:not(.sr-only) {
     display: block;
