@@ -110,6 +110,8 @@ services:
       - moodledata_data:/bitnami/moodledata
       # Mount custom plugin to temp directory for startup copy
       - ./moodle/local/aiacademic:/tmp/aiacademic:ro
+      # Mount custom theme so local SCSS/template changes are available in Moodle
+      - ./moodle/theme/teluai:/opt/bitnami/moodle/theme/teluai:ro
 
     ports:
       - "8080:8080"   # Exposed for development; Nginx proxies in production
