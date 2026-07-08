@@ -1,25 +1,21 @@
+/* ==========================================================================
+   Tel-U AI LMS -- Landing page responsive rules (pre-login).
+   Scoped to body.telu-landing-page.
+   ========================================================================== */
+
 @media (max-width: 1199px) {
   body.telu-landing-page {
-    .telu-landing-nav__links {
+    & .telu-landing-nav__links {
       gap: 0;
     }
 
-    .telu-landing-nav__links a {
+    & .telu-landing-nav__links a {
       padding-inline: 10px;
       font-size: 0.84rem;
     }
 
-    .telu-feature-grid,
-    .telu-card-grid--4 {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
-
-    .telu-tech-grid,
-    .telu-solution-row {
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-    }
-
-    .telu-steps {
+    & .telu-feature-grid,
+    & .telu-card-grid--4 {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
   }
@@ -27,21 +23,23 @@
 
 @media (max-width: 900px) {
   body.telu-landing-page {
-    .telu-hero__inner,
-    .telu-split,
-    .telu-final-cta__inner,
-    .telu-footer__inner {
+    & .telu-hero__inner,
+    & .telu-split,
+    & .telu-footer__inner {
       grid-template-columns: 1fr;
     }
 
-    .telu-flow-grid,
-    .telu-experience-grid,
-    .telu-role-grid {
+    & .telu-hero__inner {
+      gap: 44px;
+    }
+
+    & .telu-flow-grid,
+    & .telu-experience-grid,
+    & .telu-role-grid {
       grid-template-columns: repeat(2, minmax(0, 1fr));
     }
 
-    .telu-final-cta__actions,
-    .telu-footer__links {
+    & .telu-footer__links {
       justify-content: flex-start;
     }
   }
@@ -49,24 +47,24 @@
 
 @media (max-width: 767px) {
   body.telu-landing-page {
-    .telu-container {
-      width: min(100% - 32px, 1320px);
+    & .telu-container {
+      width: min(100% - 32px, 1200px);
     }
 
-    .telu-landing-nav__inner {
+    & .telu-landing-nav__inner {
       min-height: 66px;
     }
 
-    .telu-landing-brand img {
+    & .telu-landing-brand img {
       max-width: 126px;
       max-height: 42px;
     }
 
-    .telu-landing-nav__toggle {
+    & .telu-landing-nav__toggle {
       display: inline-block;
     }
 
-    .telu-landing-nav__links {
+    & .telu-landing-nav__links {
       position: absolute;
       top: 66px;
       right: 16px;
@@ -81,48 +79,88 @@
       box-shadow: var(--telu-shadow-lg);
     }
 
-    .telu-landing-nav.is-open .telu-landing-nav__links {
+    & .telu-landing-nav.is-open .telu-landing-nav__links {
       display: flex;
     }
 
-    .telu-landing-nav__links a,
-    .telu-landing-nav__links .telu-landing-nav__login {
+    & .telu-landing-nav__links a,
+    & .telu-landing-nav__links .telu-landing-nav__login {
       justify-content: flex-start;
       width: 100%;
       min-height: 44px;
       margin-left: 0;
     }
 
-    .telu-hero {
-      padding: 54px 0 70px;
+    & .telu-landing-nav__links a::after {
+      display: none;
     }
 
-    .telu-hero__content h1 {
-      font-size: clamp(2.35rem, 11vw, 2.75rem);
+    & .telu-hero {
+      padding: 64px 0 70px;
     }
 
-    .telu-section {
-      padding: 58px 0;
+    & .telu-hero::before {
+      width: 100%;
+      background: rgba(255, 255, 255, 0.72);
+      clip-path: none;
     }
 
-    .telu-feature-grid,
-    .telu-card-grid--4,
-    .telu-flow-grid,
-    .telu-experience-grid,
-    .telu-role-grid,
-    .telu-proof-grid,
-    .telu-tech-grid,
-    .telu-solution-row,
-    .telu-steps {
+    & .telu-hero__content h1 {
+      font-size: clamp(2.6rem, 12vw, 4rem);
+    }
+
+    & .telu-hero__content {
+      padding: 28px 24px 30px 36px;
+      clip-path: none;
+    }
+
+    & .telu-hero__content::before {
+      top: 28px;
+      bottom: 28px;
+      left: 16px;
+      width: 4px;
+    }
+
+    & .telu-hero__content::after {
+      display: none;
+    }
+
+    & .telu-section {
+      padding: 60px 0;
+    }
+
+    & .telu-section-head {
+      margin-bottom: 36px;
+    }
+
+    & .telu-feature-grid,
+    & .telu-card-grid--4,
+    & .telu-flow-grid,
+    & .telu-experience-grid,
+    & .telu-role-grid,
+    & .telu-proof-grid {
       grid-template-columns: 1fr;
     }
 
-    .telu-btn {
+    & .telu-steps li {
+      padding-left: 60px;
+    }
+
+    & .telu-btn {
       width: 100%;
     }
 
-    .telu-final-cta__inner {
-      padding: 24px;
+    & .telu-final-cta__inner {
+      padding: 44px 20px;
+    }
+  }
+}
+
+@media (max-width: 479px) {
+  body.telu-landing-page {
+    & .telu-solution-row article {
+      width: 100%;
+      justify-content: center;
     }
   }
 }
