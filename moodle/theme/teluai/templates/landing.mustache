@@ -1,6 +1,6 @@
 {{!
-    @template theme_teluai/landing
-    Public landing page for AI Academic Assistant LMS.
+    Theme teluai public landing page (shown before login).
+    Public home page for AI-AA LMS.
 }}
 {{> theme_boost/head }}
 
@@ -73,9 +73,9 @@
         </section>
 
         {{> theme_teluai/feature_cards }}
-        {{> theme_teluai/ai_tools }}
-        {{> theme_teluai/personalized_experience }}
         {{> theme_teluai/role_cards }}
+        {{> theme_teluai/personalized_experience }}
+        {{> theme_teluai/ai_tools }}
 
         <section id="how-it-works" class="telu-section">
             <div class="telu-container">
@@ -112,7 +112,7 @@
         <section class="telu-section">
             <div class="telu-container">
                 <div class="telu-section-head">
-                    <span class="telu-eyebrow">Security & trust</span>
+                    <span class="telu-eyebrow">Security &amp; trust</span>
                     <h2>Designed with academic security in mind</h2>
                     <p>Course, assignment, quiz, dan data pembelajaran hanya dapat diakses setelah autentikasi berdasarkan role dan enrollment.</p>
                 </div>
@@ -126,15 +126,15 @@
         </section>
 
         <section class="telu-final-cta">
-            <div class="telu-container telu-final-cta__inner">
-                <span class="telu-logo-badge"><img src="{{{ logourl }}}" alt="Telkom University logo"></span>
-                <div>
+            <div class="telu-container">
+                <div class="telu-final-cta__inner">
+                    <span class="telu-logo-badge"><img src="{{{ logourl }}}" alt="Telkom University logo"></span>
                     <h2>Start your AI-powered learning journey</h2>
                     <p>Login untuk mengakses dashboard personal, course sesuai enrollment, AI Assistant, ringkasan materi, dan LMS modern.</p>
-                </div>
-                <div class="telu-final-cta__actions">
-                    <a class="telu-btn telu-btn--light" href="{{{ loginurl }}}">Login to LMS</a>
-                    <a class="telu-btn telu-btn--ghost-light" href="#features">Learn More</a>
+                    <div class="telu-final-cta__actions">
+                        <a class="telu-btn telu-btn--light" href="{{{ loginurl }}}">Login to LMS</a>
+                        <a class="telu-btn telu-btn--ghost-light" href="#features">Learn More</a>
+                    </div>
                 </div>
             </div>
         </section>
