@@ -1,10 +1,16 @@
+/* ==========================================================================
+   Tel-U AI LMS -- Landing page navbar (pre-login).
+   White sticky bar, red underline links, solid red login button.
+   Scoped to body.telu-landing-page.
+   ========================================================================== */
+
 body.telu-landing-page .telu-landing-nav {
   position: sticky;
   top: 0;
   z-index: 1040;
-  border-bottom: 1px solid rgba(229, 231, 235, 0.9);
-  background: rgba(255, 255, 255, 0.90);
-  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.04);
+  border-bottom: 1px solid var(--telu-border);
+  background: rgba(255, 255, 255, 0.94);
+  box-shadow: 0 10px 30px rgba(139, 13, 18, 0.05);
   backdrop-filter: blur(16px);
 }
 
@@ -25,7 +31,7 @@ body.telu-landing-page .telu-landing-brand {
   text-decoration: none;
   white-space: nowrap;
 
-  img {
+  & img {
     width: auto;
     max-width: 152px;
     max-height: 48px;
@@ -36,40 +42,64 @@ body.telu-landing-page .telu-landing-brand {
 body.telu-landing-page .telu-landing-nav__links {
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 2px;
 
-  a {
+  & a {
+    position: relative;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     min-height: 42px;
-    padding: 0 12px;
-    border-radius: 999px;
+    padding: 0 14px;
     color: var(--telu-text-secondary);
     font-size: 0.9rem;
-    font-weight: 800;
+    font-weight: 700;
     text-decoration: none;
-
-    &:hover,
-    &:focus,
-    &.is-active {
-      background: var(--telu-primary-soft);
-      color: var(--telu-primary-dark);
-    }
   }
 
-  .telu-landing-nav__login {
-    margin-left: 8px;
-    padding: 0 18px;
+  & a::after {
+    content: "";
+    position: absolute;
+    right: 14px;
+    bottom: 5px;
+    left: 14px;
+    height: 2px;
+    border-radius: 999px;
+    background: var(--telu-primary);
+    transform: scaleX(0);
+    transform-origin: center;
+    transition: transform 160ms ease;
+  }
+
+  & a:hover,
+  & a:focus,
+  & a.is-active {
+    color: var(--telu-primary-dark);
+  }
+
+  & a:hover::after,
+  & a:focus::after,
+  & a.is-active::after {
+    transform: scaleX(1);
+  }
+
+  & .telu-landing-nav__login {
+    margin-left: 10px;
+    padding: 0 20px;
+    border-radius: var(--telu-radius-md);
     background: var(--telu-primary);
     color: #FFFFFF;
     box-shadow: 0 12px 22px rgba(237, 28, 36, 0.22);
+  }
 
-    &:hover,
-    &:focus {
-      background: var(--telu-primary-dark);
-      color: #FFFFFF;
-    }
+  & .telu-landing-nav__login::after {
+    display: none;
+  }
+
+  & .telu-landing-nav__login:hover,
+  & .telu-landing-nav__login:focus {
+    background: var(--telu-primary-dark);
+    color: #FFFFFF;
   }
 }
 
@@ -81,12 +111,12 @@ body.telu-landing-page .telu-landing-nav__toggle {
   border-radius: 12px;
   background: #FFFFFF;
 
-  span:not(.sr-only) {
+  & span:not(.sr-only) {
     display: block;
     width: 18px;
     height: 2px;
     margin: 4px auto;
     border-radius: 999px;
-    background: var(--telu-text-primary);
+    background: var(--telu-primary-dark);
   }
 }
