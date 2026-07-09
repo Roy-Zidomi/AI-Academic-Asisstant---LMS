@@ -63,6 +63,12 @@ class quiz_api extends external_api {
 
         // 1. Fetch file content from Moodle storage
         $cm = get_coursemodule_from_id('resource', $cmid, $courseid, false, MUST_EXIST);
+        $modinfo = get_fast_modinfo($courseid);
+        $cminfo = $modinfo->get_cm($cmid);
+        if (!$cminfo->uservisible) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
         $context = \context_module::instance($cmid);
         $fs = get_file_storage();
         $files = $fs->get_area_files($context->id, 'mod_resource', 'content', 0, 'sortorder DESC, id ASC', false);

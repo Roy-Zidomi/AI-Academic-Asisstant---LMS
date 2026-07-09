@@ -51,6 +51,12 @@ class summary_api extends external_api {
 
         // 1. Verify Course Module exists and is a file resource
         $cm = get_coursemodule_from_id('resource', $cmid, $courseid, false, MUST_EXIST);
+        $modinfo = get_fast_modinfo($courseid);
+        $cminfo = $modinfo->get_cm($cmid);
+        if (!$cminfo->uservisible) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
         $resource = $DB->get_record('resource', array('id' => $cm->instance), '*', MUST_EXIST);
 
         // 2. Fetch the file associated with this resource
