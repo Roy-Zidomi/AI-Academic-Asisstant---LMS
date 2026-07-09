@@ -55,11 +55,6 @@ class chat_api extends external_api {
             'message'   => $message
         ));
 
-        // Capability check
-        $context = ($params['courseid'] > 0) ? \context_course::instance($params['courseid']) : \context_system::instance();
-        self::validate_context($context);
-        self::require_chat_capability($context);
-
         $sessionid = $params['sessionid'];
         $courseid = $params['courseid'];
         $message = trim($params['message']);
@@ -68,11 +63,31 @@ class chat_api extends external_api {
             throw new moodle_exception('validation_error', 'local_aiacademic', '', null, 'Message too short.');
         }
 
-        // 1. Manage chat session (create if new)
+        // 1. Validate the requested course context against the chat session.
+        if ($sessionid !== 0) {
+            $session = $DB->get_record('local_aiacademic_chats', array('id' => $sessionid));
+            if (!$session || (int)$session->userid !== (int)$USER->id) {
+                throw new moodle_exception('error_access_denied', 'local_aiacademic');
+            }
+
+            $sessioncourseid = $session->courseid ? (int)$session->courseid : 0;
+            if ($sessioncourseid !== (int)$courseid) {
+                throw new moodle_exception('error_access_denied', 'local_aiacademic');
+            }
+        }
+
+        $effectivecourseid = (int)$courseid;
+
+        // Capability check
+        $context = ($effectivecourseid > 0) ? \context_course::instance($effectivecourseid) : \context_system::instance();
+        self::validate_context($context);
+        self::require_chat_capability($context);
+
+        // 2. Manage chat session (create if new)
         if ($sessionid === 0) {
             $session = new \stdClass();
             $session->userid = $USER->id;
-            $session->courseid = $courseid ?: null;
+            $session->courseid = $effectivecourseid ?: null;
             // Generate title from first 30 characters of message
             $session->title = \core_text::substr($message, 0, 30) . (strlen($message) > 30 ? '...' : '');
             $session->status = 1;
@@ -80,15 +95,9 @@ class chat_api extends external_api {
             $session->timemodified = time();
             $sessionid = $DB->insert_record('local_aiacademic_chats', $session);
             $session->id = $sessionid;
-        } else {
-            // Verify session belongs to user
-            $session = $DB->get_record('local_aiacademic_chats', array('id' => $sessionid, 'userid' => $USER->id));
-            if (!$session) {
-                throw new moodle_exception('error_access_denied', 'local_aiacademic');
-            }
         }
 
-        // 2. Fetch history (last 5 messages) for prompt context
+        // 3. Fetch history (last 5 messages) for prompt context
         $history = array();
         $records = $DB->get_records_select(
             'local_aiacademic_messages',
@@ -108,7 +117,7 @@ class chat_api extends external_api {
             );
         }
 
-        // 3. Save student message
+        // 4. Save student message
         $usermsg = new \stdClass();
         $usermsg->sessionid = $sessionid;
         $usermsg->role = 'user';
@@ -120,14 +129,14 @@ class chat_api extends external_api {
         $session->timemodified = time();
         $DB->update_record('local_aiacademic_chats', $session);
 
-        // 4. Call AI Service via client
+        // 5. Call AI Service via client
         $client = new ai_client();
         $status = 'success';
         $errormsg = null;
         $response = null;
 
         try {
-            $response = $client->send_chat($USER->id, $message, $courseid, $history);
+            $response = $client->send_chat($USER->id, $message, $effectivecourseid, $history);
         } catch (\Exception $e) {
             $status = 'error';
             $errormsg = $e->getMessage();
@@ -144,7 +153,7 @@ class chat_api extends external_api {
             throw $e;
         }
 
-        // 5. Save assistant response
+        // 6. Save assistant response
         $assistantmsg = new \stdClass();
         $assistantmsg->sessionid = $sessionid;
         $assistantmsg->role = 'assistant';
@@ -155,7 +164,7 @@ class chat_api extends external_api {
         $assistantmsg->timecreated = time();
         $DB->insert_record('local_aiacademic_messages', $assistantmsg);
 
-        // 6. Save log
+        // 7. Save log
         $log = new \stdClass();
         $log->userid = $USER->id;
         $log->feature_type = 'chat';
