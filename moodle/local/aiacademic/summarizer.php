@@ -6,18 +6,20 @@
 
 require_once(__DIR__ . '/../../config.php');
 
-// Require login
-require_login();
 
 $courseid = required_param('courseid', PARAM_INT);
 $cmid = optional_param('cmid', 0, PARAM_INT);
+
+// Set up page parameters
+$PAGE->set_url(new moodle_url('/local/aiacademic/summarizer.php', array('courseid' => $courseid, 'cmid' => $cmid)));
+
+// Require course-aware login.
+require_login($courseid);
 
 // Verify course context
 $coursecontext = context_course::instance($courseid);
 require_capability('local/aiacademic:summarize', $coursecontext);
 
-// Set up page parameters
-$PAGE->set_url(new moodle_url('/local/aiacademic/summarizer.php', array('courseid' => $courseid, 'cmid' => $cmid)));
 $PAGE->set_context($coursecontext);
 $PAGE->set_title(get_string('ai_material_summarizer', 'local_aiacademic'));
 $PAGE->set_heading(get_string('ai_material_summarizer', 'local_aiacademic'));
