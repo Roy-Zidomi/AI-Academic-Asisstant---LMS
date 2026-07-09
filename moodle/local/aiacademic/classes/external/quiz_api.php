@@ -20,6 +20,35 @@ use moodle_exception;
 class quiz_api extends external_api {
 
     /**
+     * Require a source course module to be a visible resource in the requested course.
+     */
+    private static function require_visible_resource($courseid, $cmid) {
+        $courseid = (int)$courseid;
+        $cmid = (int)$cmid;
+        if ($courseid <= 0 || $cmid <= 0) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
+        $cm = get_coursemodule_from_id('resource', $cmid, $courseid, false, IGNORE_MISSING);
+        if (!$cm) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
+        $modinfo = get_fast_modinfo($courseid);
+        try {
+            $cminfo = $modinfo->get_cm($cmid);
+        } catch (\Exception $e) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
+        if ((int)$cminfo->course !== $courseid || $cminfo->modname !== 'resource' || !$cminfo->uservisible) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
+        return $cm;
+    }
+
+    /**
      * Parameter description for generate.
      */
     public static function generate_parameters() {
@@ -258,6 +287,7 @@ class quiz_api extends external_api {
         $coursecontext = \context_course::instance($batch->courseid);
         self::validate_context($coursecontext);
         require_capability('local/aiacademic:reviewquiz', $coursecontext);
+        self::require_visible_resource($batch->courseid, $batch->cmid);
 
         $action = $params['action'];
         
@@ -360,6 +390,8 @@ class quiz_api extends external_api {
             require_capability('mod/quiz:addinstance', $coursecontext);
             require_capability('mod/quiz:manage', $coursecontext);
         }
+
+        self::require_visible_resource($batch->courseid, $batch->cmid);
 
         $questions = $DB->get_records_select(
             'local_aiacademic_questions',
@@ -484,6 +516,8 @@ class quiz_api extends external_api {
         self::validate_context($coursecontext);
         require_capability('local/aiacademic:generatequiz', $coursecontext);
 
+        self::require_visible_resource($batch->courseid, $batch->cmid);
+
         $questions = $DB->get_records('local_aiacademic_questions', array('genquizid' => $batch->id));
         $qlist = array();
         foreach ($questions as $q) {
@@ -548,13 +582,19 @@ class quiz_api extends external_api {
             'local_aiacademic_genquizzes',
             array('courseid' => $courseid),
             'timecreated DESC',
-            'id, source_filename, difficulty, requested_count, status, timecreated',
+            'id, cmid, source_filename, difficulty, requested_count, status, timecreated',
             $offset,
             $perpage
         );
 
         $result = array();
         foreach ($quizzes as $q) {
+            try {
+                self::require_visible_resource($courseid, $q->cmid);
+            } catch (moodle_exception $e) {
+                continue;
+            }
+
             $result[] = array(
                 'id' => (int)$q->id,
                 'source_filename' => $q->source_filename,
