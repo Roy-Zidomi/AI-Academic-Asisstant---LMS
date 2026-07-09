@@ -352,6 +352,14 @@ class quiz_api extends external_api {
         $coursecontext = \context_course::instance($batch->courseid);
         self::validate_context($coursecontext);
         require_capability('local/aiacademic:publishquiz', $coursecontext);
+        require_capability('moodle/question:add', $coursecontext);
+        require_capability('moodle/question:managecategory', $coursecontext);
+
+        if ($params['target_type'] === 'sectionquiz') {
+            require_capability('moodle/course:manageactivities', $coursecontext);
+            require_capability('mod/quiz:addinstance', $coursecontext);
+            require_capability('mod/quiz:manage', $coursecontext);
+        }
 
         $questions = $DB->get_records_select(
             'local_aiacademic_questions',
@@ -402,7 +410,14 @@ class quiz_api extends external_api {
             if ((int)$targetquiz->course !== (int)$batch->courseid) {
                 throw new moodle_exception('error_access_denied', 'local_aiacademic');
             }
-            require_capability('local/aiacademic:publishquiz', \context_course::instance($targetquiz->course));
+            $targetcoursecontext = \context_course::instance($targetquiz->course);
+            require_capability('local/aiacademic:publishquiz', $targetcoursecontext);
+
+            $targetcm = get_coursemodule_from_instance('quiz', $targetquiz->id, $targetquiz->course, false, MUST_EXIST);
+            $targetquizcontext = \context_module::instance($targetcm->id);
+            self::validate_context($targetquizcontext);
+            require_capability('moodle/course:manageactivities', $targetquizcontext);
+            require_capability('mod/quiz:manage', $targetquizcontext);
         }
 
         $moodlequestionids = quiz_publisher::publish_questions($batch, array_values($questions), $params['category_name']);
