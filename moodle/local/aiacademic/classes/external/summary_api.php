@@ -19,6 +19,34 @@ use moodle_exception;
 class summary_api extends external_api {
 
     /**
+     * Require a course module to be a visible resource in the requested course.
+     *
+     * @param int $courseid Course ID.
+     * @param int $cmid Course module ID.
+     * @return \stdClass Course module record.
+     * @throws moodle_exception If the resource is missing, from another course, or not visible.
+     */
+    private static function require_visible_resource($courseid, $cmid) {
+        $cm = get_coursemodule_from_id('resource', $cmid, $courseid, false, IGNORE_MISSING);
+        if (!$cm) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
+        $modinfo = get_fast_modinfo($courseid);
+        try {
+            $cminfo = $modinfo->get_cm($cmid);
+        } catch (\Exception $e) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
+        if ((int)$cminfo->course !== (int)$courseid || $cminfo->modname !== 'resource' || !$cminfo->uservisible) {
+            throw new moodle_exception('error_access_denied', 'local_aiacademic');
+        }
+
+        return $cm;
+    }
+
+    /**
      * Parameter description for generate.
      */
     public static function generate_parameters() {
@@ -49,13 +77,8 @@ class summary_api extends external_api {
         $cmid = $params['cmid'];
         $forceregenerate = $params['force_regenerate'];
 
-        // 1. Verify Course Module exists and is a file resource
-        $cm = get_coursemodule_from_id('resource', $cmid, $courseid, false, MUST_EXIST);
-        $modinfo = get_fast_modinfo($courseid);
-        $cminfo = $modinfo->get_cm($cmid);
-        if (!$cminfo->uservisible) {
-            throw new moodle_exception('error_access_denied', 'local_aiacademic');
-        }
+        // 1. Verify Course Module exists and is a visible file resource.
+        $cm = self::require_visible_resource($courseid, $cmid);
 
         $resource = $DB->get_record('resource', array('id' => $cm->instance), '*', MUST_EXIST);
 
@@ -237,6 +260,7 @@ class summary_api extends external_api {
         $coursecontext = \context_course::instance($summary->courseid);
         self::validate_context($coursecontext);
         require_capability('local/aiacademic:summarize', $coursecontext);
+        self::require_visible_resource($summary->courseid, $summary->cmid);
 
         return array(
             'summary_id' => (int)$summary->id,
@@ -300,6 +324,12 @@ class summary_api extends external_api {
 
         $result = array();
         foreach ($summaries as $s) {
+            try {
+                self::require_visible_resource($courseid, $s->cmid);
+            } catch (moodle_exception $e) {
+                continue;
+            }
+
             $result[] = array(
                 'id' => (int)$s->id,
                 'source_filename' => $s->source_filename,
