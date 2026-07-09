@@ -391,6 +391,14 @@ class quiz_api extends external_api {
             'visible' => !empty($params['visible']) ? 1 : 0
         );
 
+        if ($params['target_type'] === 'quiz' && $params['target_quiz_id'] > 0) {
+            $targetquiz = $DB->get_record('quiz', array('id' => $params['target_quiz_id']), '*', MUST_EXIST);
+            if ((int)$targetquiz->course !== (int)$batch->courseid) {
+                throw new moodle_exception('error_access_denied', 'local_aiacademic');
+            }
+            require_capability('local/aiacademic:publishquiz', \context_course::instance($targetquiz->course));
+        }
+
         $moodlequestionids = quiz_publisher::publish_questions($batch, array_values($questions), $params['category_name']);
         $publishedcount = count($moodlequestionids);
         $quizdata = array('quizid' => 0, 'cmid' => 0, 'url' => '');
