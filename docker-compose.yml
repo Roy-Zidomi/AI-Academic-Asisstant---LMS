@@ -26,7 +26,7 @@ services:
       - pgdata:/var/lib/postgresql/data
       - ./docker/postgres/init:/docker-entrypoint-initdb.d:ro
     ports:
-      - "5432:5432"   # Exposed for development; remove in production
+      - "127.0.0.1:5432:5432"   # Exposed for development; localhost only
     networks:
       - ai-aa-lms-network
     healthcheck:
@@ -57,7 +57,7 @@ services:
     volumes:
       - redisdata:/data
     ports:
-      - "6379:6379"   # Exposed for development; remove in production
+      - "127.0.0.1:6379:6379"   # Exposed for development; localhost only
     networks:
       - ai-aa-lms-network
     healthcheck:
@@ -114,7 +114,7 @@ services:
       - ./moodle/theme/teluai:/opt/bitnami/moodle/theme/teluai:ro
 
     ports:
-      - "8080:8080"   # Exposed for development; Nginx proxies in production
+      - "127.0.0.1:8080:8080"   # Exposed for development; localhost only
     depends_on:
       postgres:
         condition: service_healthy
@@ -145,7 +145,7 @@ services:
     volumes:
       - ollama_models:/root/.ollama
     ports:
-      - "11434:11434"   # Exposed for development
+      - "127.0.0.1:11434:11434"   # Exposed for development; localhost only
     networks:
       - ai-aa-lms-network
     healthcheck:
@@ -194,7 +194,7 @@ services:
       AI_TIMEOUT_QUIZ: ${AI_TIMEOUT_QUIZ:-300}
       TZ: ${TZ:-Asia/Jakarta}
     ports:
-      - "8000:8000"   # Exposed for development
+      - "127.0.0.1:8000:8000"   # Exposed for development; localhost only
     depends_on:
       postgres:
         condition: service_healthy
@@ -229,8 +229,8 @@ services:
       - ./docker/nginx/conf.d:/etc/nginx/conf.d:ro
       - ./docker/nginx/ssl:/etc/nginx/ssl:ro
     ports:
-      - "${NGINX_HTTP_PORT:-80}:80"
-      - "${NGINX_HTTPS_PORT:-443}:443"
+      - "127.0.0.1:${NGINX_HTTP_PORT:-80}:80"
+      - "127.0.0.1:${NGINX_HTTPS_PORT:-443}:443"
     depends_on:
       moodle:
         condition: service_started
@@ -263,7 +263,7 @@ services:
       - pgadmin_data:/var/lib/pgadmin
       - ./docker/pgadmin/servers.json:/pgadmin4/servers.json:ro
     ports:
-      - "8081:5050"
+      - "127.0.0.1:8081:5050"
     depends_on:
       postgres:
         condition: service_healthy
