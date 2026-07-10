@@ -887,6 +887,100 @@ body:not(.telu-page-login):not(.telu-page-home) #page-footer {
   }
 }
 
+.pagelayout-mycourses {
+  .block_myoverview {
+    .card-body {
+      padding: 26px;
+    }
+
+    [data-region="filter"] {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-bottom: 14px;
+    }
+
+    .dashboard-card-deck {
+      display: grid !important;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      align-items: stretch;
+      gap: 24px !important;
+      margin: 0 !important;
+    }
+
+    .dashboard-card-deck .dashboard-card {
+      position: relative;
+      display: flex !important;
+      flex-direction: column;
+      width: 100% !important;
+      max-width: 100% !important;
+      min-width: 0 !important;
+      height: 100%;
+      margin: 0 !important;
+      border: 1px solid #E6ECF3;
+      border-radius: 8px;
+      background: #FFFFFF;
+      box-shadow: 0 16px 34px rgba(15, 23, 42, 0.06);
+    }
+
+    .dashboard-card-deck .dashboard-card:hover {
+      border-color: rgba(237, 28, 36, 0.22);
+      box-shadow: 0 22px 44px rgba(15, 23, 42, 0.10);
+      transform: translateY(-3px);
+    }
+
+    .dashboard-card-img {
+      width: 100%;
+      min-height: 0;
+      height: 142px;
+      border-bottom: 1px solid #EEF2F7;
+      background-size: cover !important;
+      background-position: center !important;
+    }
+
+    .dashboard-card .card-body,
+    .dashboard-card .course-info-container {
+      flex: 1 1 auto;
+      min-height: 118px;
+      padding: 20px 22px 22px;
+    }
+
+    .dashboard-card .coursename,
+    .dashboard-card .coursename a {
+      display: -webkit-box;
+      overflow: hidden;
+      color: var(--telu-text-primary) !important;
+      font-size: 1rem;
+      font-weight: 800;
+      line-height: 1.35;
+      text-decoration: none !important;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .dashboard-card .text-muted,
+    .dashboard-card .course-category,
+    .dashboard-card .categoryname {
+      margin-top: 8px;
+      color: var(--telu-text-secondary) !important;
+      font-size: 0.92rem;
+      line-height: 1.45;
+    }
+
+    .dashboard-card-footer {
+      margin-top: auto;
+      padding: 0 22px 20px;
+      border-top: 0;
+      background: transparent;
+    }
+
+    .dashboard-card .dropdown,
+    .dashboard-card .coursemenubtn {
+      margin-left: auto;
+    }
+  }
+}
+
 .pagelayout-course,
 .pagelayout-incourse {
   .course-content .section {
