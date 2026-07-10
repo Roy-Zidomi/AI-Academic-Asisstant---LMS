@@ -103,15 +103,15 @@ services:
     entrypoint: [
       "/bin/bash",
       "-c",
-      "mkdir -p /opt/bitnami/moodle/local/aiacademic && cp -r /tmp/aiacademic/. /opt/bitnami/moodle/local/aiacademic/ && chown -R daemon:daemon /opt/bitnami/moodle/local/aiacademic && chown -R daemon:daemon /bitnami/moodledata && exec /opt/bitnami/scripts/moodle/entrypoint.sh /opt/bitnami/scripts/moodle/run.sh"
+      "mkdir -p /opt/bitnami/moodle/local/aiacademic /opt/bitnami/moodle/theme/teluai && cp -r /tmp/aiacademic/. /opt/bitnami/moodle/local/aiacademic/ && cp -r /tmp/teluai/. /opt/bitnami/moodle/theme/teluai/ && chown -R daemon:daemon /opt/bitnami/moodle/local/aiacademic /opt/bitnami/moodle/theme/teluai && chown -R daemon:daemon /bitnami/moodledata && exec /opt/bitnami/scripts/moodle/entrypoint.sh /opt/bitnami/scripts/moodle/run.sh"
     ]
     volumes:
       - moodledata:/bitnami/moodle
       - moodledata_data:/bitnami/moodledata
       # Mount custom plugin to temp directory for startup copy
       - ./moodle/local/aiacademic:/tmp/aiacademic:ro
-      # Mount custom theme so local SCSS/template changes are available in Moodle
-      - ./moodle/theme/teluai:/opt/bitnami/moodle/theme/teluai:ro
+      # Mount custom theme read-only, then copy it into the writable Moodle volume at startup
+      - ./moodle/theme/teluai:/tmp/teluai:ro
 
     ports:
       - "127.0.0.1:8080:8080"   # Exposed for development; localhost only
